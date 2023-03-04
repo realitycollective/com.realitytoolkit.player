@@ -1,7 +1,7 @@
 {
-  "name": "com.realitytoolkit.UPMTEMPLATE",
-  "displayName": "RealityToolkit.UPMTEMPLATE",
-  "description": "The UPMTEMPLATE framework of the Reality Toolkit by the Reality Collective",
+  "name": "com.realitytoolkit.camera",
+  "displayName": "RealityToolkit.Camera",
+  "description": "The Camera service module of the Reality Toolkit by the Reality Collective. Use this module to set up a camera rig for XR apps and games in no time.",
   "keywords": [
     "VR",
     "AR",
@@ -12,12 +12,12 @@
   "unity": "2020.3",
   "homepage": "https://github.com/realitycollective",
   "bugs": {
-    "url": "https://github.com/realitycollective/realitytoolkit.dev/issues"
+    "url": "https://github.com/realitycollective/realitytoolkit.camera/issues"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/realitycollective/com.realitytoolkit.UPMTEMPLATE"
+    "url": "git+https://github.com/realitycollective/com.realitytoolkit.camera"
   },
   "author": {
     "name": "Reality Collective",
@@ -25,7 +25,8 @@
     "url": "https://github.com/realitycollective"
   },
   "dependencies": {
-    "com.realitytoolkit.core": "1.0.0-pre.1"
+    "com.realitycollective.service-framework": "1.0.0",
+    "com.unity.xr.legacyinputhelpers": "2.1.7"
   },
   "assets": [
     {
