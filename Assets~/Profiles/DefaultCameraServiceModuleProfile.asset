@@ -17,8 +17,6 @@ MonoBehaviour:
   trackingOriginMode: 2
   eyeTextureResolution: 1
   isCameraPersistent: 1
-  cameraRigType:
-    reference: 8e0ee4fc-c8a5-4b10-9fca-ee55b6d421ff
   defaultHeadHeight: 1.6
   bodyAdjustmentAngle: 60
   bodyAdjustmentSpeed: 1

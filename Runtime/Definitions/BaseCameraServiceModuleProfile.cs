@@ -16,7 +16,7 @@ namespace RealityToolkit.CameraService.Definitions
     public class BaseCameraServiceModuleProfile : BaseProfile
     {
         [Header("General")]
-        [SerializeField, Tooltip("The camera rig prefab used by this service module."), Prefab]
+        [SerializeField, Tooltip("The camera rig prefab used by this service module."), Prefab(typeof(ICameraRig))]
         private GameObject rigPrefab = null;
 
         /// <summary>
