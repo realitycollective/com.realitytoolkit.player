@@ -196,11 +196,6 @@ namespace RealityToolkit.CameraService.Modules
             }
 
             ResetRigTransforms();
-
-            if (CameraRig.GameObject.IsNotNull())
-            {
-                CameraRig.GameObject.Destroy();
-            }
         }
 
         #endregion IMixedRealitySerivce Implementation
