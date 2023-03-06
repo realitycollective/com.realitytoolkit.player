@@ -238,13 +238,6 @@ namespace RealityToolkit.CameraService.Modules
                 Debug.Assert(CameraRig != null, $"Failed to set up camera rig required by {GetType().Name}");
             }
 
-            if (!string.Equals(CameraRig.RigTransform.name, CameraService.DefaultXRCameraRigName))
-            {
-                var previousName = CameraRig.RigTransform.name;
-                CameraRig.RigTransform.name = CameraService.DefaultXRCameraRigName;
-                Debug.Log($"Rig object {previousName} was renamed to {CameraService.DefaultXRCameraRigName} by {GetType().Name}.", CameraRig.GameObject);
-            }
-
             if (resetCameraToOrigin)
             {
                 CameraRig.RigTransform.position = Vector3.zero;

@@ -28,9 +28,6 @@ namespace RealityToolkit.CameraService
         public CameraService(string name, uint priority, CameraServiceProfile profile)
             : base(name, priority) { }
 
-        private static readonly List<XRDisplaySubsystem> xrDisplaySubsystems = new List<XRDisplaySubsystem>();
-        public const string DefaultXRCameraRigName = "XRCameraRig";
-
         /// <inheritdoc />
         public override uint Priority => 0;
 
@@ -40,6 +37,7 @@ namespace RealityToolkit.CameraService
         /// <inheritdoc />
         public ICameraServiceModule CameraServiceModule { get; private set; }
 
+        private static readonly List<XRDisplaySubsystem> xrDisplaySubsystems = new List<XRDisplaySubsystem>();
         private static XRDisplaySubsystem displaySubsystem = null;
         /// <inheritdoc />
         public XRDisplaySubsystem DisplaySubsystem
