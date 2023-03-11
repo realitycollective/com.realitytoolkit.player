@@ -101,7 +101,7 @@ namespace RealityToolkit.CameraService
                     if (CameraRig == null)
                     {
                         Debug.LogWarning($"There is an existing main {nameof(Camera)} in the scene but it is not parented under a {nameof(ICameraRig)} object as required by the {GetType().Name} to work." +
-                            $" The existing camera is replaced with the {nameof(ICameraRig)} prefab configured in the {nameof(BaseCameraServiceModuleProfile)} of {GetType().Name}.");
+                            $" The existing camera is replaced with the {nameof(ICameraRig)} prefab configured in the {nameof(CameraServiceProfile)} of {GetType().Name}.");
                         Camera.main.gameObject.Destroy();
                     }
                 }
@@ -112,7 +112,7 @@ namespace RealityToolkit.CameraService
 #if UNITY_EDITOR
                     if (Application.isPlaying)
                     {
-                        CameraRig = UnityEngine.Object.Instantiate(rigPrefab).GetComponent<ICameraRig>();
+                        CameraRig = Object.Instantiate(rigPrefab).GetComponent<ICameraRig>();
                     }
                     else
                     {
@@ -120,7 +120,7 @@ namespace RealityToolkit.CameraService
                         CameraRig = go.GetComponent<ICameraRig>();
                     }
 #else
-                    CameraRig = UnityEngine.Object.Instantiate(rigPrefab).GetComponent<ICameraRig>();
+                    CameraRig = Object.Instantiate(rigPrefab).GetComponent<ICameraRig>();
 #endif
                 }
 
