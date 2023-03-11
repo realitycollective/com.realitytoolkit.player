@@ -12,7 +12,7 @@ namespace RealityToolkit.CameraService.Interfaces
     public interface ICameraServiceModule : IServiceModule
     {
         /// <summary>
-        /// The <see cref="Services.CameraSystem.TrackingType"/> this provider is configured to use.
+        /// The <see cref="Definitions.TrackingType"/> this provider is configured to use.
         /// </summary>
         TrackingType TrackingType { get; }
 
