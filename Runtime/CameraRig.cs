@@ -47,6 +47,27 @@ namespace RealityToolkit.CameraService
         /// <inheritdoc />
         public TrackedPoseDriver CameraPoseDriver => cameraPoseDriver;
 
+        /// <inheritdoc />
+        public virtual bool IsStereoscopic => PlayerCamera.stereoEnabled;
+
+        /// <inheritdoc />
+        public virtual bool IsOpaque
+        {
+            get
+            {
+                if (!ServiceManager.IsActiveAndInitialized ||
+                    !ServiceManager.Instance.TryGetService<ICameraService>(out var cameraService) ||
+                    cameraService.DisplaySubsystem == null)
+                {
+                    // When no device is attached we are assuming the display
+                    // device is the computer's display, which should be opaque.
+                    return true;
+                }
+
+                return cameraService.DisplaySubsystem.displayOpaque;
+            }
+        }
+
         /// <summary>
         /// Called just before any of the update callbacks is called the first time.
         /// </summary>

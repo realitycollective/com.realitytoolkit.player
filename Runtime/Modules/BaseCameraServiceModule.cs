@@ -21,9 +21,8 @@ namespace RealityToolkit.CameraService.Modules
         public BaseCameraServiceModule(string name, uint priority, BaseCameraServiceModuleProfile profile, ICameraService parentService)
             : base(name, priority, profile, parentService)
         {
-            cameraSystem = parentService;
+            cameraService = parentService;
 
-            rigPrefab = profile.RigPrefab;
             eyeTextureResolution = profile.EyeTextureResolution;
             isCameraPersistent = profile.IsCameraPersistent;
             applyQualitySettings = profile.ApplyQualitySettings;
@@ -47,8 +46,7 @@ namespace RealityToolkit.CameraService.Modules
             bodyAdjustmentSpeed = profile.BodyAdjustmentSpeed;
         }
 
-        private readonly ICameraService cameraSystem;
-        private readonly GameObject rigPrefab;
+        private readonly ICameraService cameraService;
         private readonly float eyeTextureResolution;
         private readonly bool isCameraPersistent;
         private readonly bool applyQualitySettings;
@@ -70,32 +68,16 @@ namespace RealityToolkit.CameraService.Modules
         private bool trackingOriginInitializing = false;
 
         /// <inheritdoc />
-        public virtual bool IsOpaque
-        {
-            get
-            {
-                if (cameraSystem.DisplaySubsystem == null)
-                {
-                    // When no device is attached we are assuming the display
-                    // device is the computer's display, which should be opaque.
-                    return true;
-                }
-
-                return cameraSystem.DisplaySubsystem.displayOpaque;
-            }
-        }
-
-        /// <inheritdoc />
-        public virtual bool IsStereoscopic => CameraRig.PlayerCamera.stereoEnabled;
-
-        /// <inheritdoc />
-        public ICameraRig CameraRig { get; private set; }
-
-        /// <inheritdoc />
         public TrackingType TrackingType { get; }
 
         /// <inheritdoc />
         public virtual float HeadHeight => CameraRig.CameraTransform.localPosition.y;
+
+        /// <summary>
+        /// Internal referrence to the <see cref="ICameraService.CameraRig"/>
+        /// for ease of use.
+        /// </summary>
+        private ICameraRig CameraRig => cameraService.CameraRig;
 
         #region IMixedRealitySerivce Implementation
 
@@ -105,8 +87,6 @@ namespace RealityToolkit.CameraService.Modules
         /// <inheritdoc />
         public override void Initialize()
         {
-            EnsureCameraRigSetup(true);
-
             if (!Application.isPlaying)
             {
                 return;
@@ -118,11 +98,11 @@ namespace RealityToolkit.CameraService.Modules
             trackingOriginInitialized = SetupTrackingOrigin();
             trackingOriginInitializing = !trackingOriginInitialized;
 
-            cameraOpaqueLastFrame = IsOpaque;
+            cameraOpaqueLastFrame = CameraRig.IsOpaque;
 
             if (applyQualitySettings)
             {
-                if (IsOpaque)
+                if (CameraRig.IsOpaque)
                 {
                     ApplySettingsForOpaqueDisplay();
                 }
@@ -141,8 +121,6 @@ namespace RealityToolkit.CameraService.Modules
         /// <inheritdoc />
         public override void Start()
         {
-            EnsureCameraRigSetup(false);
-
             if (Application.isPlaying &&
                 isCameraPersistent)
             {
@@ -153,13 +131,13 @@ namespace RealityToolkit.CameraService.Modules
         /// <inheritdoc />
         public override void Update()
         {
-            if (cameraOpaqueLastFrame != IsOpaque)
+            if (cameraOpaqueLastFrame != CameraRig.IsOpaque)
             {
-                cameraOpaqueLastFrame = IsOpaque;
+                cameraOpaqueLastFrame = CameraRig.IsOpaque;
 
                 if (applyQualitySettings)
                 {
-                    if (IsOpaque)
+                    if (CameraRig.IsOpaque)
                     {
                         ApplySettingsForOpaqueDisplay();
                     }
@@ -199,51 +177,6 @@ namespace RealityToolkit.CameraService.Modules
         }
 
         #endregion IMixedRealitySerivce Implementation
-
-        private void EnsureCameraRigSetup(bool resetCameraToOrigin)
-        {
-            // If we don't have a rig reference yet...
-            if (CameraRig == null)
-            {
-                // We first try and lookup an existing rig in the scene...
-                if (Camera.main.IsNotNull())
-                {
-                    CameraRig = Camera.main.transform.root.GetComponentInChildren<ICameraRig>();
-                    if (CameraRig == null)
-                    {
-                        Debug.LogWarning($"There is an existing main {nameof(Camera)} in the scene but it is not parented under a {nameof(ICameraRig)} object as required by the {GetType().Name} to work." +
-                            $" The existing camera is replaced with the {nameof(ICameraRig)} prefab configured in the {nameof(BaseCameraServiceModuleProfile)} of {GetType().Name}.");
-                        Camera.main.gameObject.Destroy();
-                    }
-                }
-
-                // If we still don't have a rig, then and only then we create a new rig instance.
-                if (CameraRig == null)
-                {
-#if UNITY_EDITOR
-                    if (Application.isPlaying)
-                    {
-                        CameraRig = UnityEngine.Object.Instantiate(rigPrefab).GetComponent<ICameraRig>();
-                    }
-                    else
-                    {
-                        var go = UnityEditor.PrefabUtility.InstantiatePrefab(rigPrefab) as GameObject;
-                        CameraRig = go.GetComponent<ICameraRig>();
-                    }
-#else
-                    CameraRig = UnityEngine.Object.Instantiate(rigPrefab).GetComponent<ICameraRig>();
-#endif
-                }
-
-                Debug.Assert(CameraRig != null, $"Failed to set up camera rig required by {GetType().Name}");
-            }
-
-            if (resetCameraToOrigin)
-            {
-                CameraRig.RigTransform.position = Vector3.zero;
-                CameraRig.CameraTransform.position = Vector3.zero;
-            }
-        }
 
         #region Tracking Origin Setup
 
@@ -384,7 +317,7 @@ namespace RealityToolkit.CameraService.Modules
             CameraRig.RigTransform.rotation = Quaternion.identity;
 
             // If the camera is a 2d camera then we can adjust the camera's height to match the head height.
-            CameraRig.CameraTransform.position = IsStereoscopic ? Vector3.zero : new Vector3(0f, HeadHeight, 0f);
+            CameraRig.CameraTransform.position = CameraRig.IsStereoscopic ? Vector3.zero : new Vector3(0f, HeadHeight, 0f);
 
             CameraRig.CameraTransform.rotation = Quaternion.identity;
             CameraRig.BodyTransform.position = Vector3.zero;

@@ -12,21 +12,6 @@ namespace RealityToolkit.CameraService.Interfaces
     public interface ICameraServiceModule : IServiceModule
     {
         /// <summary>
-        /// Is the current camera displaying on an Opaque (AR) device or a VR / immersive device
-        /// </summary>
-        bool IsOpaque { get; }
-
-        /// <summary>
-        /// Is the current camera displaying on a traditional 2d screen or a stereoscopic display?
-        /// </summary>
-        bool IsStereoscopic { get; }
-
-        /// <summary>
-        /// The <see cref="ICameraRig"/> reference for this service module.
-        /// </summary>
-        ICameraRig CameraRig { get; }
-
-        /// <summary>
         /// The <see cref="Services.CameraSystem.TrackingType"/> this provider is configured to use.
         /// </summary>
         TrackingType TrackingType { get; }

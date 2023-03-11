@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Reality Collective. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using RealityCollective.Extensions;
 using RealityCollective.ServiceFramework.Attributes;
 using RealityCollective.ServiceFramework.Definitions.Platforms;
 using RealityCollective.ServiceFramework.Services;
@@ -26,13 +27,18 @@ namespace RealityToolkit.CameraService
         /// <param name="priority">The service initialization priority.</param>
         /// <param name="profile">The service configuration profile.</param>
         public CameraService(string name, uint priority, CameraServiceProfile profile)
-            : base(name, priority) { }
+            : base(name, priority)
+        {
+            rigPrefab = profile.RigPrefab;
+        }
+
+        private readonly GameObject rigPrefab;
 
         /// <inheritdoc />
         public override uint Priority => 0;
 
         /// <inheritdoc />
-        public ICameraRig CameraRig => CameraServiceModule != null ? CameraServiceModule.CameraRig : null;
+        public ICameraRig CameraRig { get; private set; }
 
         /// <inheritdoc />
         public ICameraServiceModule CameraServiceModule { get; private set; }
@@ -73,6 +79,59 @@ namespace RealityToolkit.CameraService
             Debug.Assert(cameraServiceModules.Count > 0, $"There must be an active {nameof(ICameraServiceModule)}. Please check your {nameof(CameraServiceProfile)} configuration.");
             Debug.Assert(cameraServiceModules.Count < 2, $"There should only ever be one active {nameof(ICameraServiceModule)}. Please check your {nameof(CameraServiceProfile)} configuration.");
             CameraServiceModule = cameraServiceModules[0];
+
+            EnsureCameraRigSetup(true);
+        }
+
+        /// <inheritdoc />
+        public override void Start()
+        {
+            EnsureCameraRigSetup(false);
+        }
+
+        private void EnsureCameraRigSetup(bool resetCameraToOrigin)
+        {
+            // If we don't have a rig reference yet...
+            if (CameraRig == null)
+            {
+                // We first try and lookup an existing rig in the scene...
+                if (Camera.main.IsNotNull())
+                {
+                    CameraRig = Camera.main.transform.root.GetComponentInChildren<ICameraRig>();
+                    if (CameraRig == null)
+                    {
+                        Debug.LogWarning($"There is an existing main {nameof(Camera)} in the scene but it is not parented under a {nameof(ICameraRig)} object as required by the {GetType().Name} to work." +
+                            $" The existing camera is replaced with the {nameof(ICameraRig)} prefab configured in the {nameof(BaseCameraServiceModuleProfile)} of {GetType().Name}.");
+                        Camera.main.gameObject.Destroy();
+                    }
+                }
+
+                // If we still don't have a rig, then and only then we create a new rig instance.
+                if (CameraRig == null)
+                {
+#if UNITY_EDITOR
+                    if (Application.isPlaying)
+                    {
+                        CameraRig = UnityEngine.Object.Instantiate(rigPrefab).GetComponent<ICameraRig>();
+                    }
+                    else
+                    {
+                        var go = UnityEditor.PrefabUtility.InstantiatePrefab(rigPrefab) as GameObject;
+                        CameraRig = go.GetComponent<ICameraRig>();
+                    }
+#else
+                    CameraRig = UnityEngine.Object.Instantiate(rigPrefab).GetComponent<ICameraRig>();
+#endif
+                }
+
+                Debug.Assert(CameraRig != null, $"Failed to set up camera rig required by {GetType().Name}");
+            }
+
+            if (resetCameraToOrigin)
+            {
+                CameraRig.RigTransform.position = Vector3.zero;
+                CameraRig.CameraTransform.position = Vector3.zero;
+            }
         }
     }
 }

@@ -39,6 +39,16 @@ namespace RealityToolkit.CameraService.Interfaces
         TrackedPoseDriver CameraPoseDriver { get; }
 
         /// <summary>
+        /// Is the current camera displaying on a traditional 2d screen or a stereoscopic display?
+        /// </summary>
+        bool IsStereoscopic { get; }
+
+        /// <summary>
+        /// Is the current camera displaying on an Opaque (AR) device or a VR / immersive device.
+        /// </summary>
+        bool IsOpaque { get; }
+
+        /// <summary>
         /// The player's body transform, located at the player's feet.
         /// </summary>
         /// <remarks>

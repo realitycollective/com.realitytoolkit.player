@@ -21,3 +21,4 @@ MonoBehaviour:
     platformEntries:
       runtimePlatforms:
       - reference: 9869b29e-43bb-44cc-ae49-eb5c913263f9
+  rigPrefab: {fileID: 6074567058768481976, guid: 0c8960ac56ab6654e99b7dd2600e7480, type: 3}

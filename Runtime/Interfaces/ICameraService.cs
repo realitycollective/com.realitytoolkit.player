@@ -12,12 +12,12 @@ namespace RealityToolkit.CameraService.Interfaces
     public interface ICameraService : IService
     {
         /// <summary>
-        /// The reference to the <see cref="ICameraRig"/> attached to the Main Camera (typically this is the player's camera).
+        /// The active <see cref="ICameraRig"/>.
         /// </summary>
         ICameraRig CameraRig { get; }
 
         /// <summary>
-        /// The active <see cref="ICameraServiceModule"/> managing the <see cref="CameraRig"/>.
+        /// The active <see cref="ICameraServiceModule"/>.
         /// </summary>
         ICameraServiceModule CameraServiceModule { get; }
 
