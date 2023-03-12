@@ -3,8 +3,7 @@
 
 using RealityCollective.Editor.Utilities;
 using RealityCollective.Extensions;
-using RealityToolkit.Editor;
-using RealityToolkit.Editor.Utilities;
+using RealityCollective.ServiceFramework.Editor;
 using System.IO;
 using UnityEditor;
 
@@ -13,21 +12,21 @@ namespace RealityToolkit.CameraService.Editor
     [InitializeOnLoad]
     internal static class CameraPackageInstaller
     {
-        private static readonly string DefaultPath = $"{MixedRealityPreferences.ProfileGenerationPath}Camera";
-        private static readonly string HiddenPath = Path.GetFullPath($"{PathFinderUtility.ResolvePath<IPathFinder>(typeof(CameraPathFinder)).ForwardSlashes()}{Path.DirectorySeparatorChar}{MixedRealityPreferences.HIDDEN_PACKAGE_ASSETS_PATH}");
+        private static readonly string DefaultPath = "/Assets/RealityToolkit.Generated/Camera";
+        private static readonly string HiddenPath = Path.GetFullPath($"{PathFinderUtility.ResolvePath<IPathFinder>(typeof(CameraPathFinder)).ForwardSlashes()}{Path.DirectorySeparatorChar}{"Assets~"}");
 
         static CameraPackageInstaller()
         {
             EditorApplication.delayCall += CheckPackage;
         }
 
-        [MenuItem("Reality Toolkit/Packages/Install Camera Package Assets...", true)]
+        [MenuItem("Reality Collective/Reality Toolkit/Packages/Install Camera Package Assets...", true)]
         private static bool ImportPackageAssetsValidation()
         {
             return !Directory.Exists($"{DefaultPath}{Path.DirectorySeparatorChar}");
         }
 
-        [MenuItem("Reality Toolkit/Packages/Install Camera Package Assets...")]
+        [MenuItem("Reality Collective/Reality Toolkit/Packages/Install Camera Package Assets...")]
         private static void ImportPackageAssets()
         {
             EditorPreferences.Set($"{nameof(CameraPackageInstaller)}.Assets", false);
