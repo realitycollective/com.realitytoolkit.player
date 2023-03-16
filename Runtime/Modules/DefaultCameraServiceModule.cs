@@ -9,11 +9,11 @@ using RealityToolkit.CameraService.Interfaces;
 namespace RealityToolkit.CameraService.Modules
 {
     /// <summary>
-    /// Default and general use <see cref="ICameraServiceModule"/> implementation.
+    /// Default and general use <see cref="ICameraRigServiceModule"/> implementation.
     /// </summary>
     [RuntimePlatform(typeof(AllPlatforms))]
     [System.Runtime.InteropServices.Guid("EA4C0C19-E533-4AE8-91A2-6998CB8905BB")]
-    public class DefaultCameraServiceModule : BaseCameraServiceModule, ICameraServiceModule
+    public class DefaultCameraServiceModule : BaseCameraServiceModule, ICameraRigServiceModule
     {
         /// <inheritdoc />
         public DefaultCameraServiceModule(string name, uint priority, BaseCameraServiceModuleProfile profile, ICameraService parentService)

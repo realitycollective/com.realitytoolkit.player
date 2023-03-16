@@ -41,7 +41,7 @@ namespace RealityToolkit.CameraService
         public ICameraRig CameraRig { get; private set; }
 
         /// <inheritdoc />
-        public ICameraServiceModule CameraServiceModule { get; private set; }
+        public ICameraRigServiceModule CameraRigServiceModule { get; private set; }
 
         private static readonly List<XRDisplaySubsystem> xrDisplaySubsystems = new List<XRDisplaySubsystem>();
         private static XRDisplaySubsystem displaySubsystem = null;
@@ -75,10 +75,10 @@ namespace RealityToolkit.CameraService
         /// <inheritdoc />
         public override void Initialize()
         {
-            var cameraServiceModules = ServiceManager.Instance.GetServices<ICameraServiceModule>();
-            Debug.Assert(cameraServiceModules.Count > 0, $"There must be an active {nameof(ICameraServiceModule)}. Please check your {nameof(CameraServiceProfile)} configuration.");
-            Debug.Assert(cameraServiceModules.Count < 2, $"There should only ever be one active {nameof(ICameraServiceModule)}. Please check your {nameof(CameraServiceProfile)} configuration.");
-            CameraServiceModule = cameraServiceModules[0];
+            var cameraServiceModules = ServiceManager.Instance.GetServices<ICameraRigServiceModule>();
+            Debug.Assert(cameraServiceModules.Count > 0, $"There must be an active {nameof(ICameraRigServiceModule)}. Please check your {nameof(CameraServiceProfile)} configuration.");
+            Debug.Assert(cameraServiceModules.Count < 2, $"There should only ever be one active {nameof(ICameraRigServiceModule)}. Please check your {nameof(CameraServiceProfile)} configuration.");
+            CameraRigServiceModule = cameraServiceModules[0];
 
             EnsureCameraRigSetup(true);
         }

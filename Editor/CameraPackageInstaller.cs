@@ -4,6 +4,7 @@
 using RealityCollective.Editor.Utilities;
 using RealityCollective.Extensions;
 using RealityCollective.ServiceFramework.Editor;
+using RealityCollective.ServiceFramework.Editor.Packages;
 using System.IO;
 using UnityEditor;
 
@@ -37,7 +38,7 @@ namespace RealityToolkit.CameraService.Editor
         {
             if (!EditorPreferences.Get($"{nameof(CameraPackageInstaller)}.Assets", false))
             {
-                EditorPreferences.Set($"{nameof(CameraPackageInstaller)}.Assets", PackageInstaller.TryInstallAssets(HiddenPath, DefaultPath));
+                EditorPreferences.Set($"{nameof(CameraPackageInstaller)}.Assets", AssetsInstaller.TryInstallAssets(HiddenPath, DefaultPath));
             }
         }
     }

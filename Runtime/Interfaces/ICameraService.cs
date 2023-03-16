@@ -17,9 +17,9 @@ namespace RealityToolkit.CameraService.Interfaces
         ICameraRig CameraRig { get; }
 
         /// <summary>
-        /// The active <see cref="ICameraServiceModule"/>.
+        /// The active <see cref="ICameraRigServiceModule"/> operating the <see cref="CameraRig"/>.
         /// </summary>
-        ICameraServiceModule CameraServiceModule { get; }
+        ICameraRigServiceModule CameraRigServiceModule { get; }
 
         /// <summary>
         /// Gets the active <see cref="XRDisplaySubsystem"/> for the currently loaded

@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using RealityCollective.ServiceFramework.Definitions;
-using RealityToolkit.CameraService.Interfaces;
 using System;
 using UnityEngine;
 using UnityEngine.XR;
@@ -10,7 +9,7 @@ using UnityEngine.XR;
 namespace RealityToolkit.CameraService.Definitions
 {
     /// <summary>
-    /// Provides configuration options for <see cref="ICameraServiceModule"/>s.
+    /// Provides configuration options for <see cref="Modules.BaseCameraServiceModule"/>s.
     /// </summary>
     public class BaseCameraServiceModuleProfile : BaseProfile
     {

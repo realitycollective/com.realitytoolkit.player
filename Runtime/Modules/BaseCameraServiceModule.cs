@@ -13,9 +13,9 @@ using UnityEngine.XR;
 namespace RealityToolkit.CameraService.Modules
 {
     /// <summary>
-    /// Base class for <see cref="ICameraServiceModule"/>s to inherit from.
+    /// Base class for <see cref="ICameraRigServiceModule"/>s to inherit from.
     /// </summary>
-    public abstract class BaseCameraServiceModule : BaseServiceModule, ICameraServiceModule
+    public abstract class BaseCameraServiceModule : BaseServiceModule, ICameraRigServiceModule
     {
         /// <inheritdoc />
         public BaseCameraServiceModule(string name, uint priority, BaseCameraServiceModuleProfile profile, ICameraService parentService)

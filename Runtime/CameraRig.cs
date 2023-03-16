@@ -83,7 +83,7 @@ namespace RealityToolkit.CameraService
                 ServiceManager.Instance.TryGetService<ICameraService>(out var cameraService)
                 && CameraPoseDriver.IsNotNull())
             {
-                switch (cameraService.CameraServiceModule.TrackingType)
+                switch (cameraService.CameraRigServiceModule.TrackingType)
                 {
                     case TrackingType.SixDegreesOfFreedom:
                         CameraPoseDriver.trackingType = TrackedPoseDriver.TrackingType.RotationAndPosition;
