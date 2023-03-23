@@ -7,12 +7,12 @@ using UnityEngine;
 namespace RealityToolkit.CameraService.Editor
 {
     /// <summary>
-    /// Dummy scriptable object used to find the relative path of the platform package.
+    /// Dummy scriptable object used to find the relative path of the package.
     /// </summary>
     /// <inheritdoc cref="IPathFinder" />
-    public class CameraPathFinder : ScriptableObject, IPathFinder
+    public class CameraPackagePathFinder : ScriptableObject, IPathFinder
     {
         /// <inheritdoc />
-        public string Location => $"/Editor/{nameof(CameraPathFinder)}.cs";
+        public string Location => $"/Editor/{nameof(CameraPackagePathFinder)}.cs";
     }
 }
