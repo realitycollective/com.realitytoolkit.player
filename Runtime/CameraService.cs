@@ -109,19 +109,26 @@ namespace RealityToolkit.CameraService
                 // If we still don't have a rig, then and only then we create a new rig instance.
                 if (CameraRig == null)
                 {
+                    if (rigPrefab.IsNotNull())
+                    {
 #if UNITY_EDITOR
-                    if (Application.isPlaying)
-                    {
-                        CameraRig = Object.Instantiate(rigPrefab).GetComponent<ICameraRig>();
-                    }
-                    else
-                    {
-                        var go = UnityEditor.PrefabUtility.InstantiatePrefab(rigPrefab) as GameObject;
-                        CameraRig = go.GetComponent<ICameraRig>();
-                    }
+                        if (Application.isPlaying)
+                        {
+                            CameraRig = Object.Instantiate(rigPrefab).GetComponent<ICameraRig>();
+                        }
+                        else
+                        {
+                            var go = UnityEditor.PrefabUtility.InstantiatePrefab(rigPrefab) as GameObject;
+                            CameraRig = go.GetComponent<ICameraRig>();
+                        }
 #else
                     CameraRig = Object.Instantiate(rigPrefab).GetComponent<ICameraRig>();
 #endif
+                    }
+                    else
+                    {
+                        Debug.LogError($"Failed to instantiate camera rig. There is no camera rig prefab configured in the {nameof(CameraServiceProfile)}.");
+                    }
                 }
 
                 Debug.Assert(CameraRig != null, $"Failed to set up camera rig required by {GetType().Name}");
