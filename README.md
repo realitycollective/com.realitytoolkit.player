@@ -9,7 +9,7 @@ The camera service module of the [Reality Toolkit](https://www.realitytoolkit.io
 [![Publish development branch on Merge](https://github.com/realitycollective/com.realitytoolkit.camera/actions/workflows/development-publish.yml/badge.svg)](https://github.com/realitycollective/com.realitytoolkit.camera/actions/workflows/development-publish.yml)
 [![Build and test UPM packages for platforms, all branches except main](https://github.com/realitycollective/com.realitytoolkit.camera/actions/workflows/development-buildandtestupmrelease.yml/badge.svg)](https://github.com/realitycollective/com.realitytoolkit.camera/actions/workflows/development-buildandtestupmrelease.yml)
 
-## What's included?
+## What is included?
 
 - `CameraService` for cross platform camera rig management
 - `DefaultCameraRigServiceModule` as a general use camera service module working on almost any platform
