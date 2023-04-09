@@ -80,7 +80,7 @@ namespace RealityToolkit.CameraService
             }
         }
 
-        private void OnValidate()
+        protected virtual void OnValidate()
         {
             ResetRig();
         }
