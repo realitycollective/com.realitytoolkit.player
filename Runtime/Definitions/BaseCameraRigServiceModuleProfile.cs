@@ -4,14 +4,13 @@
 using RealityCollective.ServiceFramework.Definitions;
 using System;
 using UnityEngine;
-using UnityEngine.XR;
 
 namespace RealityToolkit.CameraService.Definitions
 {
     /// <summary>
-    /// Provides configuration options for <see cref="Modules.BaseCameraServiceModule"/>s.
+    /// Provides configuration options for <see cref="Modules.BaseCameraRigServiceModule"/>s.
     /// </summary>
-    public class BaseCameraServiceModuleProfile : BaseProfile
+    public class BaseCameraRigServiceModuleProfile : BaseProfile
     {
         [Header("General")]
         [SerializeField]
@@ -24,15 +23,6 @@ namespace RealityToolkit.CameraService.Definitions
         public TrackingType TrackingType => trackingType;
 
         [SerializeField]
-        [Tooltip("Sets the type of tracking origin to use for this Rig. Tracking origins identify where 0,0,0 is in the world of tracking.")]
-        private TrackingOriginModeFlags trackingOriginMode = TrackingOriginModeFlags.Unknown;
-
-        /// <summary>
-        /// Gets or sets the type of tracking origin to use for this Rig. Tracking origins identify where 0,0,0 is in the world of tracking. Not all devices support all tracking spaces; if the selected tracking space is not set it will fall back to Stationary.
-        /// </summary>
-        public TrackingOriginModeFlags TrackingOriginMode => trackingOriginMode;
-
-        [SerializeField]
         [Range(1f, 2f)]
         [Tooltip("Rendered eye texture resolution. A value greater than 1 has an impact on performance.")]
         private float eyeTextureResolution = 1f;
@@ -42,44 +32,6 @@ namespace RealityToolkit.CameraService.Definitions
         /// an impact on performance.
         /// </summary>
         public float EyeTextureResolution => eyeTextureResolution;
-
-        [SerializeField]
-        private bool isCameraPersistent = true;
-
-        /// <summary>
-        /// Should the camera be reused in each scene?
-        /// If so, then the camera's root will be flagged so it is not destroyed when the scene is unloaded.
-        /// </summary>
-        public bool IsCameraPersistent => isCameraPersistent;
-
-        [Range(0f, 3f)]
-        [SerializeField]
-        [Tooltip("The default head height the rig will start at if a platform doesn't automatically adjust the height for you.")]
-        private float defaultHeadHeight = 1.6f;
-
-        /// <summary>
-        /// The default head height the rig will start at if a platform doesn't automatically adjust the height for you.
-        /// </summary>
-        public float DefaultHeadHeight => defaultHeadHeight;
-
-        [SerializeField]
-        [Range(0f, 180f)]
-        [Tooltip("This is the angle that will be used to adjust the player's body rotation in relation to their head position.")]
-        private float bodyAdjustmentAngle = 60f;
-
-        /// <summary>
-        /// /// This is the angle that will be used to adjust the player's body rotation in relation to their head position.
-        /// </summary>
-        public float BodyAdjustmentAngle => bodyAdjustmentAngle;
-
-        [SerializeField]
-        [Tooltip("The speed at which the body transform will sync it's rotation with the head transform.")]
-        private float bodyAdjustmentSpeed = 1f;
-
-        /// <summary>
-        /// The speed at which the body transform will sync it's rotation with the head transform.
-        /// </summary>
-        public float BodyAdjustmentSpeed => bodyAdjustmentSpeed;
 
         [SerializeField]
         [Tooltip("Set, if you want XRTK to apply quality settings for the camera.")]

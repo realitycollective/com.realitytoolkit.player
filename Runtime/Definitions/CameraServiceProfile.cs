@@ -13,6 +13,15 @@ namespace RealityToolkit.CameraService.Definitions
     /// </summary>
     public class CameraServiceProfile : BaseServiceProfile<ICameraServiceModule>
     {
+        [SerializeField, Tooltip("Should the camera rig be persistent across scenes?")]
+        private bool isRigPersistent = true;
+
+        /// <summary>
+        /// Should the camera rig be reused in each scene?
+        /// If so, then the rig will be flagged so it is not destroyed when the scene is unloaded.
+        /// </summary>
+        public bool IsRigPersistent => isRigPersistent;
+
         [SerializeField, Tooltip("The camera rig prefab used by this service module."), Prefab(typeof(ICameraRig))]
         private GameObject rigPrefab = null;
 

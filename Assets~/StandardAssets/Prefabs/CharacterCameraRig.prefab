@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 4329863972925498748}
   - component: {fileID: 4084044007747201445}
   m_Layer: 0
-  m_Name: XRCharacterRig
+  m_Name: CharacterCameraRig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -182,13 +182,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d99a1ced1042b5d4ea5e7b6fe3226dd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigTransform: {fileID: 1634786522418503191}
-  playerCamera: {fileID: 1634786521743085553}
-  bodyTransform: {fileID: 2241134180682927356}
-  cameraPoseDriver: {fileID: 5055765067617793142}
+  rigCamera: {fileID: 1634786521743085553}
+  poseDriver: {fileID: 5055765067617793142}
+  trackingOriginMode: 2
+  defaultVerticalOffset: 1.6
   head: {fileID: 1499564935744692026}
-  leftHand: {fileID: 7165203904939652329}
-  rightHand: {fileID: 1727345481674146990}
+  bodyTransform: {fileID: 2241134180682927356}
+  bodyAdjustmentAngle: 60
+  bodyAdjustmentSpeed: 1
 --- !u!54 &4329863972925498748
 Rigidbody:
   m_ObjectHideFlags: 0

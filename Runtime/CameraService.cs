@@ -29,10 +29,12 @@ namespace RealityToolkit.CameraService
         public CameraService(string name, uint priority, CameraServiceProfile profile)
             : base(name, priority)
         {
+            isRigPersistent = profile.IsRigPersistent;
             rigPrefab = profile.RigPrefab;
         }
 
         private readonly GameObject rigPrefab;
+        private readonly bool isRigPersistent;
 
         /// <inheritdoc />
         public override uint Priority => 0;
@@ -138,6 +140,11 @@ namespace RealityToolkit.CameraService
             {
                 CameraRig.RigTransform.position = Vector3.zero;
                 CameraRig.CameraTransform.position = Vector3.zero;
+            }
+
+            if (isRigPersistent)
+            {
+                CameraRig.GameObject.DontDestroyOnLoad();
             }
         }
     }

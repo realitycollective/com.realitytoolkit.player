@@ -2,59 +2,42 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using UnityEngine;
-using UnityEngine.SpatialTracking;
 
 namespace RealityToolkit.CameraService.Interfaces
 {
     /// <summary>
-    /// This interface is to be implemented by a <see cref="MonoBehaviour"/> and attached to the rig root object.
+    /// A basic camera rig.
     /// </summary>
     public interface ICameraRig
     {
         /// <summary>
-        /// The <see cref="GameObject"/> reference for this camera rig.
+        /// The <see cref="UnityEngine.GameObject"/> reference for this <see cref="ICameraRig"/>.
         /// </summary>
         GameObject GameObject { get; }
 
         /// <summary>
-        /// The root rig transform.<para/>
-        /// This transform serves as a virtual representation of the physical space.<para/>
-        /// All physical objects that have digital twins will use this frame of reference to synchronize their transform data.
+        /// The root rig <see cref="Transform"/>.
         /// </summary>
         Transform RigTransform { get; }
 
         /// <summary>
-        /// The player's head transform where the <see cref="Camera"/> is located.
+        /// The <see cref="Transform"/> where the <see cref="Camera"/> component is located.
         /// </summary>
         Transform CameraTransform { get; }
 
         /// <summary>
-        /// The player's <see cref="Camera"/> reference, located at their tracked head position.
+        /// The rig's <see cref="Camera"/> reference.
         /// </summary>
-        Camera PlayerCamera { get; }
+        Camera RigCamera { get; }
 
         /// <summary>
-        /// The <see cref="TrackedPoseDriver"/> attached to the <see cref="CameraTransform"/>.
-        /// </summary>
-        TrackedPoseDriver CameraPoseDriver { get; }
-
-        /// <summary>
-        /// Is the current camera displaying on a traditional 2d screen or a stereoscopic display?
+        /// Is the <see cref="RigCamera"/> camera displaying on a traditional 2d screen or a stereoscopic display?
         /// </summary>
         bool IsStereoscopic { get; }
 
         /// <summary>
-        /// Is the current camera displaying on an Opaque (AR) device or a VR / immersive device.
+        /// Is the <see cref="RigCamera"/> displaying in opaque (VR) or transparent mode (XR)?.
         /// </summary>
         bool IsOpaque { get; }
-
-        /// <summary>
-        /// The player's body transform, located at the player's feet.
-        /// </summary>
-        /// <remarks>
-        /// This <see cref="Transform"/> is synced to the player's head camera X &amp; Z values.
-        /// Y value is set using current <see cref="ICameraRigServiceModule.HeadHeight"/>.
-        /// </remarks>
-        Transform BodyTransform { get; }
     }
 }

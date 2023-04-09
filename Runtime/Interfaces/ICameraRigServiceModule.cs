@@ -14,10 +14,5 @@ namespace RealityToolkit.CameraService.Interfaces
         /// The <see cref="Definitions.TrackingType"/> this provider is configured to use.
         /// </summary>
         TrackingType TrackingType { get; }
-
-        /// <summary>
-        /// The current head height of the player
-        /// </summary>
-        float HeadHeight { get; }
     }
 }
