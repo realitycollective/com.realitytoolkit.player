@@ -11,11 +11,6 @@ namespace RealityToolkit.CameraService.Interfaces
     public interface ICharacterCameraRig : ICameraRig
     {
         /// <summary>
-        /// The <see cref="CharacterController"/> component on the <see cref="ICameraRig"/>.
-        /// </summary>
-        CharacterController Controller { get; }
-
-        /// <summary>
         /// The character's body transform, located at the character's feet.
         /// </summary>
         /// <remarks>

@@ -186,8 +186,10 @@ MonoBehaviour:
   poseDriver: {fileID: 5055765067617793142}
   trackingOriginMode: 2
   defaultVerticalOffset: 1.6
-  head: {fileID: 1499564935744692026}
+  head: {fileID: 367572774002706352}
+  controller: {fileID: 4084044007747201445}
   bodyTransform: {fileID: 2241134180682927356}
+  bodyDiameter: 1
   bodyAdjustmentAngle: 60
   bodyAdjustmentSpeed: 1
 --- !u!54 &4329863972925498748
@@ -217,13 +219,13 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 2
+  m_Height: 1.35
   m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.01
   m_MinMoveDistance: 0
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.675, z: 0}
 --- !u!1 &2544757871231112261
 GameObject:
   m_ObjectHideFlags: 0
