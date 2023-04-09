@@ -14,10 +14,5 @@ namespace RealityToolkit.CameraService.Interfaces
         /// The <see cref="TrackedPoseDriver"/> driving the <see cref="ITrackedCameraRig"/>'s pose.
         /// </summary>
         TrackedPoseDriver PoseDriver { get; }
-
-        /// <summary>
-        /// The current vertical offset of the camera.
-        /// </summary>
-        float VerticalCameraOffset { get; }
     }
 }

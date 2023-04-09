@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using RealityToolkit.CameraService.Interfaces;
-using System;
 using UnityEngine;
 
 namespace RealityToolkit.CameraService
@@ -68,7 +67,7 @@ namespace RealityToolkit.CameraService
             var bodyLocalPosition = BodyTransform.localPosition;
 
             bodyLocalPosition.x = cameraLocalPosition.x;
-            bodyLocalPosition.y = cameraLocalPosition.y - Math.Abs(VerticalCameraOffset);
+            bodyLocalPosition.y = 0f;
             bodyLocalPosition.z = cameraLocalPosition.z;
 
             BodyTransform.localPosition = bodyLocalPosition;

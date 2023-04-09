@@ -33,9 +33,6 @@ namespace RealityToolkit.CameraService
         /// <inheritdoc />
         public TrackedPoseDriver PoseDriver => poseDriver;
 
-        /// <inheritdoc />
-        public virtual float VerticalCameraOffset => CameraTransform.localPosition.y;
-
         protected virtual void Start()
         {
             if (PoseDriver.IsNull())
@@ -81,6 +78,11 @@ namespace RealityToolkit.CameraService
                 trackingOriginInitialized = SetupTrackingOrigin();
                 trackingOriginInitializing = !trackingOriginInitialized;
             }
+        }
+
+        private void OnValidate()
+        {
+            ResetRig();
         }
 
         protected virtual void UpdateCameraHeightOffset(float heightOffset = 0f)
@@ -185,7 +187,7 @@ namespace RealityToolkit.CameraService
         protected override void ResetRig()
         {
             base.ResetRig();
-            CameraTransform.position = IsStereoscopic ? Vector3.zero : new Vector3(0f, VerticalCameraOffset, 0f);
+            CameraTransform.position = IsStereoscopic ? Vector3.zero : new Vector3(0f, defaultVerticalOffset, 0f);
         }
     }
 }
