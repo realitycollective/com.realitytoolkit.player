@@ -13,7 +13,6 @@ namespace RealityToolkit.CameraService
     [SelectionBase]
     [ExecuteInEditMode]
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(CharacterController))]
     [RequireComponent(typeof(Rigidbody))]
     [System.Runtime.InteropServices.Guid("3ddace9b-b75e-46d0-9b62-2b169e0c35d5")]
     public class CharacterCameraRig : TrackedCameraRig, ICharacterCameraRig
