@@ -16,6 +16,8 @@ namespace RealityToolkit.CameraService
     /// A <see cref="ICameraRig"/> tracked via a <see cref="TrackedPoseDriver"/> that receives pose
     /// input from hardware sensors.
     /// </summary>
+    [SelectionBase]
+    [DisallowMultipleComponent]
     public class TrackedCameraRig : CameraRig, ITrackedCameraRig
     {
         [SerializeField]

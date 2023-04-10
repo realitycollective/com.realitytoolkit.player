@@ -48,8 +48,10 @@ namespace RealityToolkit.CameraService
         protected override void Update()
         {
             base.Update();
+
             SyncBody();
             SyncControllerCenter();
+            SyncController();
         }
 
         /// <inheritdoc />
@@ -65,8 +67,10 @@ namespace RealityToolkit.CameraService
         protected override void ResetRig()
         {
             base.ResetRig();
+
             SyncBody();
             SyncControllerCenter();
+            SyncController();
         }
 
         /// <inheritdoc />
@@ -98,13 +102,21 @@ namespace RealityToolkit.CameraService
 
         private void SyncControllerCenter()
         {
-            var bodyPosition = BodyTransform.localPosition;
-            var headHeight = head.radius;
-            var bodyHeight = head.transform.localPosition.y - headHeight;
-
             controller.radius = bodyDiameter / 2f;
-            controller.height = bodyHeight;
-            controller.center = new Vector3(bodyPosition.x, bodyPosition.y + (controller.height / 2f), bodyPosition.z);
+            controller.height = head.transform.localPosition.y - head.radius;
+            controller.center = new Vector3(0f, controller.height / 2f, 0f);
+        }
+
+        private void SyncController()
+        {
+            if (!controller.enabled)
+            {
+                return;
+            }
+
+            var headOffset = CameraTransform.localPosition;
+            headOffset.y = 0f;
+            controller.Move(headOffset);
         }
     }
 }

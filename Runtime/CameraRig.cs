@@ -12,6 +12,7 @@ namespace RealityToolkit.CameraService
     /// The default <see cref="ICameraRig"/> implmentation.
     /// Use it as it is or use it as starting point for customization.
     /// </summary>
+    [SelectionBase]
     [DisallowMultipleComponent]
     [System.Runtime.InteropServices.Guid("8E0EE4FC-C8A5-4B10-9FCA-EE55B6D421FF")]
     public class CameraRig : MonoBehaviour, ICameraRig
