@@ -62,5 +62,11 @@ namespace RealityToolkit.CameraService
             CameraTransform.position = Vector3.zero;
             CameraTransform.rotation = Quaternion.identity;
         }
+
+        /// <inheritdoc />
+        public virtual void Move(Vector3 direction, float speed = 1f)
+        {
+            RigTransform.Translate(direction * Time.deltaTime * speed);
+        }
     }
 }

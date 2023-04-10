@@ -10,6 +10,7 @@ namespace RealityToolkit.CameraService
     /// Default <see cref="ICharacterCameraRig"/> implementation.
     /// </summary>
     [SelectionBase]
+    [ExecuteInEditMode]
     [DisallowMultipleComponent]
     [RequireComponent(typeof(CharacterController))]
     [RequireComponent(typeof(Rigidbody))]
@@ -42,6 +43,7 @@ namespace RealityToolkit.CameraService
         /// <inheritdoc />
         public Transform BodyTransform => bodyTransform;
 
+        /// <inheritdoc />
         protected override void Update()
         {
             base.Update();
@@ -57,11 +59,18 @@ namespace RealityToolkit.CameraService
             Gizmos.color = prevoiusColor;
         }
 
+        /// <inheritdoc />
         protected override void ResetRig()
         {
             base.ResetRig();
             SyncBody();
             SyncControllerCenter();
+        }
+
+        /// <inheritdoc />
+        public override void Move(Vector3 direction, float speed = 1)
+        {
+            controller.Move(direction * Time.deltaTime * speed);
         }
 
         private void SyncBody()

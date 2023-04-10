@@ -39,5 +39,12 @@ namespace RealityToolkit.CameraService.Interfaces
         /// Is the <see cref="RigCamera"/> displaying in opaque (VR) or transparent mode (XR)?.
         /// </summary>
         bool IsOpaque { get; }
+
+        /// <summary>
+        /// Moves the rig in <paramref name="direction"/>.
+        /// </summary>
+        /// <param name="direction">The direction <see cref="Vector3"/>.</param>
+        /// <param name="speed">The speed multiplier for the movement. Defaults to <c>1f</c>.</param>
+        void Move(Vector3 direction, float speed = 1f);
     }
 }
