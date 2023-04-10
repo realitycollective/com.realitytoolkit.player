@@ -66,7 +66,7 @@ namespace RealityToolkit.CameraService
         /// <inheritdoc />
         public virtual void Move(Vector3 direction, float speed = 1f)
         {
-            RigTransform.Translate(direction * Time.deltaTime * speed);
+            RigTransform.Translate(speed * Time.deltaTime * direction);
         }
     }
 }

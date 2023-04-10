@@ -8,6 +8,7 @@ namespace RealityToolkit.CameraService
 {
     /// <summary>
     /// Default <see cref="ICharacterCameraRig"/> implementation.
+    /// A player / character rig that supports collisions and has an estimated body pose.
     /// </summary>
     [SelectionBase]
     [ExecuteInEditMode]
@@ -51,6 +52,7 @@ namespace RealityToolkit.CameraService
             SyncControllerCenter();
         }
 
+        /// <inheritdoc />
         protected virtual void OnDrawGizmosSelected()
         {
             var prevoiusColor = Gizmos.color;
@@ -70,7 +72,7 @@ namespace RealityToolkit.CameraService
         /// <inheritdoc />
         public override void Move(Vector3 direction, float speed = 1)
         {
-            controller.Move(direction * Time.deltaTime * speed);
+            controller.Move(speed * Time.deltaTime * direction);
         }
 
         private void SyncBody()

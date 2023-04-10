@@ -12,6 +12,10 @@ using UnityEngine.XR;
 
 namespace RealityToolkit.CameraService
 {
+    /// <summary>
+    /// A <see cref="ICameraRig"/> tracked via a <see cref="TrackedPoseDriver"/> that receives pose
+    /// input from hardware sensors.
+    /// </summary>
     public class TrackedCameraRig : CameraRig, ITrackedCameraRig
     {
         [SerializeField]
@@ -33,6 +37,7 @@ namespace RealityToolkit.CameraService
         /// <inheritdoc />
         public TrackedPoseDriver PoseDriver => poseDriver;
 
+        /// <inheritdoc />
         protected virtual void Start()
         {
             if (PoseDriver.IsNull())
@@ -68,6 +73,7 @@ namespace RealityToolkit.CameraService
             trackingOriginInitializing = !trackingOriginInitialized;
         }
 
+        /// <inheritdoc />
         protected virtual void Update()
         {
             // We keep trying to initialize the tracking origin,
@@ -80,6 +86,7 @@ namespace RealityToolkit.CameraService
             }
         }
 
+        /// <inheritdoc />
         protected virtual void OnValidate()
         {
             ResetRig();
@@ -184,6 +191,7 @@ namespace RealityToolkit.CameraService
             ResetRig();
         }
 
+        /// <inheritdoc />
         protected override void ResetRig()
         {
             base.ResetRig();
