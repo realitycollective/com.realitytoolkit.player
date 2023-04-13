@@ -51,6 +51,12 @@ namespace RealityToolkit.CameraService
         }
 
         /// <inheritdoc />
+        protected virtual void LateUpdate()
+        {
+            CheckCameraBounds();
+        }
+
+        /// <inheritdoc />
         protected virtual void OnDrawGizmosSelected()
         {
             var prevoiusColor = Gizmos.color;
@@ -74,13 +80,12 @@ namespace RealityToolkit.CameraService
 
         private void UpdateRig()
         {
-            SyncBody();
-            SyncControllerCenter();
-            SyncController();
-            CheckCameraBounds();
+            UpdateBody();
+            UpdateBodyControllerCenter();
+            UpdateBodyController();
         }
 
-        private void SyncBody()
+        private void UpdateBody()
         {
             var cameraLocalPosition = CameraTransform.localPosition;
             var bodyLocalPosition = BodyTransform.localPosition;
@@ -101,7 +106,7 @@ namespace RealityToolkit.CameraService
             }
         }
 
-        private void SyncControllerCenter()
+        private void UpdateBodyControllerCenter()
         {
             controller.radius = bodyDiameter / 2f;
             controller.height = Mathf.Max(0f, head.transform.localPosition.y - head.radius);
@@ -110,7 +115,7 @@ namespace RealityToolkit.CameraService
             controller.stepOffset = .1f * controller.height;
         }
 
-        private void SyncController()
+        private void UpdateBodyController()
         {
             if (!controller.enabled || !Application.isPlaying)
             {
