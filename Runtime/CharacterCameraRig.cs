@@ -86,6 +86,15 @@ namespace RealityToolkit.CameraService
 
         private void UpdateBody()
         {
+            if (Application.isPlaying && !controller.enabled)
+            {
+                // If the body is disabled, e.g. because the camera
+                // is out of bounds, do not update it. If we are in edit-mode
+                // we want to update it no matter what to keep it in sync with inspector
+                // changes.
+                return;
+            }
+
             var cameraLocalPosition = CameraTransform.localPosition;
             var bodyLocalPosition = BodyTransform.localPosition;
 
