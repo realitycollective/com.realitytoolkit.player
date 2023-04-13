@@ -11,7 +11,6 @@ namespace RealityToolkit.CameraService
     /// A player / character rig that supports collisions and has an estimated body pose.
     /// </summary>
     [SelectionBase]
-    [ExecuteInEditMode]
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Rigidbody))]
     [System.Runtime.InteropServices.Guid("3ddace9b-b75e-46d0-9b62-2b169e0c35d5")]
@@ -108,6 +107,15 @@ namespace RealityToolkit.CameraService
 
         private void UpdateBodyControllerCenter()
         {
+            if (Application.isPlaying && !controller.enabled)
+            {
+                // If the controller is disabled, e.g. because the camera
+                // is out of bounds, do not update it. If we are in edit-mode
+                // we want to update it no matter what to keep it in sync with inspector
+                // changes.
+                return;
+            }
+
             controller.radius = bodyDiameter / 2f;
             controller.height = Mathf.Max(0f, head.transform.localPosition.y - head.radius);
             controller.center = new Vector3(0f, controller.height / 2f, 0f);
