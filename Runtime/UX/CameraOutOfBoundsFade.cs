@@ -16,27 +16,31 @@ namespace RealityToolkit.CameraService.UX
     public class CameraOutOfBoundsFade : MonoBehaviour
     {
         private CameraFade cameraFade;
-
         private ICameraService cameraService;
-        /// <summary>
-        /// Lazy loaded reference to the active <see cref="ICameraService"/>.
-        /// </summary>
-        private ICameraService CameraService => cameraService ??= ServiceManager.Instance.GetService<ICameraService>();
 
-        private void OnEnable()
+        private async void OnEnable()
         {
             cameraFade = GetComponent<CameraFade>();
 
-            CameraService.CameraOutOfBounds += CameraService_CameraOutOfBounds;
-            CameraService.CameraBackInBounds += CameraService_CameraBackInBounds;
+            try
+            {
+                await ServiceManager.WaitUntilInitializedAsync();
+                cameraService = await ServiceManager.Instance.GetServiceAsync<ICameraService>();
+                cameraService.CameraOutOfBounds += CameraService_CameraOutOfBounds;
+                cameraService.CameraBackInBounds += CameraService_CameraBackInBounds;
+            }
+            catch
+            {
+                Debug.LogError($"{nameof(CameraOutOfBoundsFade)} was not able to register to {nameof(ICameraService)} events.");
+            }
         }
 
         private void OnDisable()
         {
-            if (CameraService != null)
+            if (cameraService != null)
             {
-                CameraService.CameraOutOfBounds -= CameraService_CameraOutOfBounds;
-                CameraService.CameraBackInBounds -= CameraService_CameraBackInBounds;
+                cameraService.CameraOutOfBounds -= CameraService_CameraOutOfBounds;
+                cameraService.CameraBackInBounds -= CameraService_CameraBackInBounds;
             }
         }
 

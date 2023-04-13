@@ -37,6 +37,7 @@ namespace RealityToolkit.CameraService.UX
             fadeRenderer = gameObject.AddComponent<MeshRenderer>();
             fadeRenderer.material = fadeMaterial;
             fadeRenderer.receiveShadows = false;
+            fadeRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             fadeRenderer.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.Off;
             fadeRenderer.reflectionProbeUsage = UnityEngine.Rendering.ReflectionProbeUsage.Off;
 
