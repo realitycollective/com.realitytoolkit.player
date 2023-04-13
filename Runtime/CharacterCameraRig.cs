@@ -102,13 +102,15 @@ namespace RealityToolkit.CameraService
         private void SyncControllerCenter()
         {
             controller.radius = bodyDiameter / 2f;
-            controller.height = head.transform.localPosition.y - head.radius;
+            controller.height = Mathf.Max(0f, head.transform.localPosition.y - head.radius);
             controller.center = new Vector3(0f, controller.height / 2f, 0f);
+            controller.skinWidth = .1f * controller.radius;
+            controller.stepOffset = .1f * controller.height;
         }
 
         private void SyncController()
         {
-            if (!controller.enabled)
+            if (!controller.enabled || !Application.isPlaying)
             {
                 return;
             }

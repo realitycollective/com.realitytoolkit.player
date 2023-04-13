@@ -75,6 +75,9 @@ namespace RealityToolkit.CameraService
         }
 
         /// <inheritdoc />
+        public event CameraOutOfBoundsDelegate CameraOutOfBounds;
+
+        /// <inheritdoc />
         public override void Initialize()
         {
             var cameraServiceModules = ServiceManager.Instance.GetServices<ICameraRigServiceModule>();
@@ -147,5 +150,8 @@ namespace RealityToolkit.CameraService
                 CameraRig.GameObject.DontDestroyOnLoad();
             }
         }
+
+        /// <inheritdoc />
+        public void RaiseCameraOutOfBounds(Vector3 returnToBoundsDirection) => CameraOutOfBounds?.Invoke(returnToBoundsDirection);
     }
 }
