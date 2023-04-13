@@ -129,7 +129,15 @@ namespace RealityToolkit.CameraService
 
         private void CheckCameraBounds()
         {
+            var headToBodyOffset = Vector3.Distance(CameraTransform.position, BodyTransform.position);
+            if (headToBodyOffset > controller.radius)
+            {
+                controller.enabled = false;
+                CameraService.RaiseCameraOutOfBounds((BodyTransform.position - CameraTransform.position).normalized);
+                return;
+            }
 
+            controller.enabled = true;
         }
     }
 }
