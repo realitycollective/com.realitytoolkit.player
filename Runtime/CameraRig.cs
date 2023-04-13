@@ -58,10 +58,8 @@ namespace RealityToolkit.CameraService
         /// </summary>
         protected virtual void ResetRig()
         {
-            RigTransform.position = Vector3.zero;
-            RigTransform.rotation = Quaternion.identity;
-            CameraTransform.position = Vector3.zero;
-            CameraTransform.rotation = Quaternion.identity;
+            RigTransform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+            CameraTransform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
         }
 
         /// <inheritdoc />
