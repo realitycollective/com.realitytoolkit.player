@@ -77,6 +77,24 @@ namespace RealityToolkit.CameraService.UX
             StartCoroutine(Fade(0f, 1f));
         }
 
+        /// <summary>
+        /// Sets the fade alpha value on the camera.
+        /// </summary>
+        /// <param name="alpha">The fade intensity.</param>
+        public void SetFade(float alpha)
+        {
+            alpha = Mathf.Clamp01(alpha);
+
+            var color = fadeColor;
+            color.a = alpha;
+            isFading = color.a > 0;
+
+            var material = fadeRenderer.material;
+            material.color = color;
+            fadeRenderer.material = material;
+            fadeRenderer.enabled = isFading;
+        }
+
         private Mesh CreateMesh()
         {
             var mesh = new Mesh();
@@ -134,23 +152,11 @@ namespace RealityToolkit.CameraService.UX
             {
                 elapsedTime += Time.deltaTime;
                 var frameAlpha = Mathf.Lerp(startAlpha, endAlpha, Mathf.Clamp01(elapsedTime / fadeDuration));
-                SetAlpha(frameAlpha);
+                SetFade(frameAlpha);
                 yield return new WaitForEndOfFrame();
             }
 
-            SetAlpha(endAlpha);
-        }
-
-        private void SetAlpha(float alpha)
-        {
-            var color = fadeColor;
-            color.a = alpha;
-            isFading = color.a > 0;
-
-            var material = fadeRenderer.material;
-            material.color = color;
-            fadeRenderer.material = material;
-            fadeRenderer.enabled = isFading;
+            SetFade(endAlpha);
         }
     }
 }
