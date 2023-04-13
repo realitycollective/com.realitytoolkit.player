@@ -159,6 +159,6 @@ namespace RealityToolkit.CameraService
         public void RaiseCameraOutOfBounds(float severity, Vector3 returnToBoundsDirection) => CameraOutOfBounds?.Invoke(severity, returnToBoundsDirection);
 
         /// <inheritdoc />
-        public void RaiseCameraBackIndBounds() => CameraBackInBounds?.Invoke();
+        public void RaiseCameraBackInBounds() => CameraBackInBounds?.Invoke();
     }
 }

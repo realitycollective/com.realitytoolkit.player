@@ -155,11 +155,13 @@ namespace RealityToolkit.CameraService
             if (headToBodyOffset > controller.radius)
             {
                 controller.enabled = false;
-                CameraService.RaiseCameraOutOfBounds((bodyPosition - headPosition).normalized);
-                return;
+                CameraService.RaiseCameraOutOfBounds(0f, (bodyPosition - headPosition).normalized);
             }
-
-            controller.enabled = true;
+            else if (!controller.enabled)
+            {
+                controller.enabled = true;
+                CameraService.RaiseCameraBackInBounds();
+            }
         }
     }
 }

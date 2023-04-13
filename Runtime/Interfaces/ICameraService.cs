@@ -60,6 +60,6 @@ namespace RealityToolkit.CameraService.Interfaces
         /// <summary>
         /// Raises the <see cref="CameraBackInBounds"/> event to subscirbed delegates.
         /// </summary>
-        void RaiseCameraBackIndBounds();
+        void RaiseCameraBackInBounds();
     }
 }
