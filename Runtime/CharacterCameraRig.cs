@@ -47,10 +47,7 @@ namespace RealityToolkit.CameraService
         protected override void Update()
         {
             base.Update();
-
-            SyncBody();
-            SyncControllerCenter();
-            SyncController();
+            UpdateRig();
         }
 
         /// <inheritdoc />
@@ -66,16 +63,21 @@ namespace RealityToolkit.CameraService
         protected override void ResetRig()
         {
             base.ResetRig();
-
-            SyncBody();
-            SyncControllerCenter();
-            SyncController();
+            UpdateRig();
         }
 
         /// <inheritdoc />
         public override void Move(Vector3 direction, float speed = 1)
         {
             controller.Move(speed * Time.deltaTime * direction);
+        }
+
+        private void UpdateRig()
+        {
+            SyncBody();
+            SyncControllerCenter();
+            SyncController();
+            CheckCameraBounds();
         }
 
         private void SyncBody()
@@ -118,6 +120,11 @@ namespace RealityToolkit.CameraService
             var headOffset = CameraTransform.localPosition;
             headOffset.y = 0f;
             controller.Move(headOffset);
+        }
+
+        private void CheckCameraBounds()
+        {
+
         }
     }
 }
