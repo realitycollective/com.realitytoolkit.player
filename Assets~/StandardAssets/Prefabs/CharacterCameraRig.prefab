@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 5055765067617793142}
   - component: {fileID: 367572774002706352}
   - component: {fileID: 1499564935744692026}
+  - component: {fileID: 824352232160900368}
+  - component: {fileID: 235926544177973505}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: MainCamera
@@ -133,6 +135,34 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &824352232160900368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1634786521743085562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6dc87fe8192d9a47870256489e5599d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeColor: {r: 0, g: 0, b: 0, a: 1}
+  fadeDuration: 1
+  fadeMaterial: {fileID: 2100000, guid: 07dd1e2b91abe4540acf4291073f26b7, type: 2}
+  fadeOnStart: 1
+--- !u!114 &235926544177973505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1634786521743085562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7713bdf19ad4e0c4d9508dbf06a9ace2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1634786522418503189
 GameObject:
   m_ObjectHideFlags: 0
