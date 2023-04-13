@@ -7,6 +7,7 @@ using RealityCollective.ServiceFramework.Definitions.Platforms;
 using RealityCollective.ServiceFramework.Services;
 using RealityToolkit.CameraService.Definitions;
 using RealityToolkit.CameraService.Interfaces;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
@@ -78,6 +79,9 @@ namespace RealityToolkit.CameraService
         public event CameraOutOfBoundsDelegate CameraOutOfBounds;
 
         /// <inheritdoc />
+        public event Action CameraBackInBounds;
+
+        /// <inheritdoc />
         public override void Initialize()
         {
             var cameraServiceModules = ServiceManager.Instance.GetServices<ICameraRigServiceModule>();
@@ -119,7 +123,7 @@ namespace RealityToolkit.CameraService
 #if UNITY_EDITOR
                         if (Application.isPlaying)
                         {
-                            CameraRig = Object.Instantiate(rigPrefab).GetComponent<ICameraRig>();
+                            CameraRig = UnityEngine.Object.Instantiate(rigPrefab).GetComponent<ICameraRig>();
                         }
                         else
                         {
@@ -152,6 +156,9 @@ namespace RealityToolkit.CameraService
         }
 
         /// <inheritdoc />
-        public void RaiseCameraOutOfBounds(Vector3 returnToBoundsDirection) => CameraOutOfBounds?.Invoke(returnToBoundsDirection);
+        public void RaiseCameraOutOfBounds(float severity, Vector3 returnToBoundsDirection) => CameraOutOfBounds?.Invoke(severity, returnToBoundsDirection);
+
+        /// <inheritdoc />
+        public void RaiseCameraBackIndBounds() => CameraBackInBounds?.Invoke();
     }
 }
