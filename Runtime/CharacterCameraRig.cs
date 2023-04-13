@@ -39,6 +39,14 @@ namespace RealityToolkit.CameraService
         [Tooltip("The speed at which the body transform will sync it's rotation with the head transform.")]
         private float bodyAdjustmentSpeed = 1f;
 
+        [SerializeField, Tooltip("The lower threshold to consider the camera getting out of bounds.")]
+        [Range(.01f, .1f)]
+        private float cameraOutOfBoundsLowerThreshold = .01f;
+
+        [SerializeField, Tooltip("The upper threshold to consider the camera fully out of bounds.")]
+        [Range(.11f, 1f)]
+        private float cameraOutOfBoundsUpperThreshold = .11f;
+
         /// <inheritdoc />
         public Transform BodyTransform => bodyTransform;
 
@@ -152,10 +160,23 @@ namespace RealityToolkit.CameraService
             bodyPosition.y = 0f;
 
             var headToBodyOffset = Vector3.Distance(headPosition, bodyPosition);
-            if (headToBodyOffset > controller.radius)
+            var severity = 0f;
+
+            if (headToBodyOffset >= cameraOutOfBoundsUpperThreshold)
+            {
+                severity = 1f;
+            }
+            else if (headToBodyOffset >= cameraOutOfBoundsLowerThreshold)
+            {
+                var range = cameraOutOfBoundsUpperThreshold - cameraOutOfBoundsLowerThreshold;
+                var value = headToBodyOffset - cameraOutOfBoundsLowerThreshold;
+                severity = value / range;
+            }
+
+            if (severity > 0f)
             {
                 controller.enabled = false;
-                CameraService.RaiseCameraOutOfBounds(0f, (bodyPosition - headPosition).normalized);
+                CameraService.RaiseCameraOutOfBounds(severity, (bodyPosition - headPosition).normalized);
             }
             else if (!controller.enabled)
             {
