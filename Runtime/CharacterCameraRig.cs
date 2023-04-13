@@ -40,12 +40,12 @@ namespace RealityToolkit.CameraService
         private float bodyAdjustmentSpeed = 1f;
 
         [SerializeField, Tooltip("The lower threshold to consider the camera getting out of bounds.")]
-        [Range(.01f, .1f)]
-        private float cameraOutOfBoundsLowerThreshold = .01f;
+        [Range(.1f, .2f)]
+        private float cameraOutOfBoundsLowerThreshold = .1f;
 
         [SerializeField, Tooltip("The upper threshold to consider the camera fully out of bounds.")]
-        [Range(.11f, 1f)]
-        private float cameraOutOfBoundsUpperThreshold = .11f;
+        [Range(.21f, 1f)]
+        private float cameraOutOfBoundsUpperThreshold = .21f;
 
         /// <inheritdoc />
         public Transform BodyTransform => bodyTransform;
