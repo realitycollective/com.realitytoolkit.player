@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using RealityCollective.Extensions;
-using RealityCollective.ServiceFramework.Services;
 using RealityToolkit.CameraService.Definitions;
 using RealityToolkit.CameraService.Interfaces;
 using System.Collections.Generic;
@@ -48,11 +47,9 @@ namespace RealityToolkit.CameraService
                 poseDriver.UseRelativeTransform = false;
             }
 
-            if (ServiceManager.Instance != null &&
-                ServiceManager.Instance.TryGetService<ICameraService>(out var cameraService)
-                && PoseDriver.IsNotNull())
+            if (PoseDriver.IsNotNull())
             {
-                switch (cameraService.CameraRigServiceModule.TrackingType)
+                switch (CameraService.CameraRigServiceModule.TrackingType)
                 {
                     case TrackingType.SixDegreesOfFreedom:
                         PoseDriver.trackingType = TrackedPoseDriver.TrackingType.RotationAndPosition;

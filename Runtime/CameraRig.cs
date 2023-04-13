@@ -40,18 +40,22 @@ namespace RealityToolkit.CameraService
         {
             get
             {
-                if (!ServiceManager.IsActiveAndInitialized ||
-                    !ServiceManager.Instance.TryGetService<ICameraService>(out var cameraService) ||
-                    cameraService.DisplaySubsystem == null)
+                if (CameraService.DisplaySubsystem == null)
                 {
                     // When no device is attached we are assuming the display
                     // device is the computer's display, which should be opaque.
                     return true;
                 }
 
-                return cameraService.DisplaySubsystem.displayOpaque;
+                return CameraService.DisplaySubsystem.displayOpaque;
             }
         }
+
+        private ICameraService cameraService;
+        /// <summary>
+        /// Lazy loaded reference to the active <see cref="ICameraService"/>.
+        /// </summary>
+        protected ICameraService CameraService => cameraService ??= ServiceManager.Instance.GetService<ICameraService>();
 
         /// <summary>
         /// Resets the <see cref="ICameraRig.RigTransform"/>, <see cref="ICameraRig.CameraTransform"/>.
