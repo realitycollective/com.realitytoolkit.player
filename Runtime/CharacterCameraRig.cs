@@ -39,16 +39,10 @@ namespace RealityToolkit.CameraService
         [Tooltip("The speed at which the body transform will sync it's rotation with the head transform.")]
         private float bodyAdjustmentSpeed = 1f;
 
-        [SerializeField, Tooltip("The lower threshold to consider the camera getting out of bounds.")]
-        [Range(.1f, .2f)]
-        private float cameraOutOfBoundsLowerThreshold = .1f;
-
-        [SerializeField, Tooltip("The upper threshold to consider the camera fully out of bounds.")]
-        [Range(.21f, 1f)]
-        private float cameraOutOfBoundsUpperThreshold = .21f;
-
         /// <inheritdoc />
         public Transform BodyTransform => bodyTransform;
+
+        private bool wasOutOfBounds;
 
         /// <inheritdoc />
         protected override void Update()
@@ -154,6 +148,9 @@ namespace RealityToolkit.CameraService
 
         private void CheckCameraBounds()
         {
+            const float lowerThresholdFactor = .1f;
+            const float controllerKeepAliveSeverity = .5f;
+
             var headPosition = CameraTransform.position;
             headPosition.y = 0f;
             var bodyPosition = BodyTransform.position;
@@ -161,6 +158,8 @@ namespace RealityToolkit.CameraService
 
             var headToBodyOffset = Vector3.Distance(headPosition, bodyPosition);
             var severity = 0f;
+            var cameraOutOfBoundsLowerThreshold = lowerThresholdFactor * controller.radius;
+            var cameraOutOfBoundsUpperThreshold = controller.radius;
 
             if (headToBodyOffset >= cameraOutOfBoundsUpperThreshold)
             {
@@ -175,14 +174,16 @@ namespace RealityToolkit.CameraService
 
             if (severity > 0f)
             {
-                controller.enabled = false;
+                controller.enabled = severity <= controllerKeepAliveSeverity;
                 CameraService.RaiseCameraOutOfBounds(severity, (bodyPosition - headPosition).normalized);
             }
-            else if (!controller.enabled)
+            else if (severity <= 0f && wasOutOfBounds)
             {
                 controller.enabled = true;
                 CameraService.RaiseCameraBackInBounds();
             }
+
+            wasOutOfBounds = severity > 0f;
         }
     }
 }
