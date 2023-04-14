@@ -148,7 +148,7 @@ namespace RealityToolkit.CameraService
 
         private void CheckCameraBounds()
         {
-            const float lowerThresholdFactor = .1f;
+            const float lowerThresholdFactor = .2f;
             const float controllerKeepAliveSeverity = .5f;
 
             var headPosition = CameraTransform.position;
