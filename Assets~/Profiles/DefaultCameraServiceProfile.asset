@@ -15,7 +15,7 @@ MonoBehaviour:
   configurations:
   - instancedType:
       reference: ea4c0c19-e533-4ae8-91a2-6998cb8905bb
-    name: Default Camera Service Module
+    name: Default Camera Rig Service Module
     priority: 0
     profile: {fileID: 11400000, guid: c02516a14adf1ff45b2e6feaefd1d090, type: 2}
     platformEntries:

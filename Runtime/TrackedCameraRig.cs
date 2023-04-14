@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using RealityCollective.Extensions;
+using RealityCollective.ServiceFramework.Services;
 using RealityToolkit.CameraService.Definitions;
 using RealityToolkit.CameraService.Interfaces;
 using System.Collections.Generic;
@@ -39,7 +40,7 @@ namespace RealityToolkit.CameraService
         public TrackedPoseDriver PoseDriver => poseDriver;
 
         /// <inheritdoc />
-        protected virtual void Start()
+        protected virtual async void Start()
         {
             if (PoseDriver.IsNull())
             {
@@ -49,6 +50,8 @@ namespace RealityToolkit.CameraService
 
             if (PoseDriver.IsNotNull())
             {
+                await ServiceManager.WaitUntilInitializedAsync();
+
                 switch (CameraService.CameraRigServiceModule.TrackingType)
                 {
                     case TrackingType.SixDegreesOfFreedom:
