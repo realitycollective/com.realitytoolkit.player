@@ -26,6 +26,14 @@ namespace RealityToolkit.CameraService
         /// <inheritdoc />
         public Transform RigTransform => transform;
 
+#if RTK_LOCOMOTION
+        /// <inheritdoc />
+        public Transform MoveTransform => RigTransform;
+
+        /// <inheritdoc />
+        public Transform OrientationTransform => CameraTransform;
+#endif
+
         /// <inheritdoc />
         public Camera RigCamera => rigCamera;
 
