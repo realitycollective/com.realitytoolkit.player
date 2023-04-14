@@ -9,6 +9,9 @@ namespace RealityToolkit.CameraService.Interfaces
     /// A basic camera rig.
     /// </summary>
     public interface ICameraRig
+#if RTK_LOCOMOTION
+        : Locomotion.Interfaces.ILocomotionTarget
+#endif
     {
         /// <summary>
         /// The <see cref="UnityEngine.GameObject"/> reference for this <see cref="ICameraRig"/>.
