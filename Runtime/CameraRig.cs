@@ -16,6 +16,9 @@ namespace RealityToolkit.CameraService
     [DisallowMultipleComponent]
     [System.Runtime.InteropServices.Guid("8E0EE4FC-C8A5-4B10-9FCA-EE55B6D421FF")]
     public class CameraRig : MonoBehaviour, ICameraRig
+#if RTK_LOCOMOTION
+        , Locomotion.Interfaces.ILocomotionTarget
+#endif
     {
         [SerializeField, Tooltip("The camera component on the rig.")]
         private Camera rigCamera = null;
