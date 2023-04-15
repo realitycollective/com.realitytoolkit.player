@@ -4,6 +4,7 @@
 using RealityCollective.Extensions;
 using RealityCollective.ServiceFramework.Services;
 using RealityToolkit.CameraService.Interfaces;
+using RealityToolkit.Locomotion.Interfaces;
 using UnityEngine;
 
 namespace RealityToolkit.CameraService
@@ -67,6 +68,17 @@ namespace RealityToolkit.CameraService
         /// Lazy loaded reference to the active <see cref="ICameraService"/>.
         /// </summary>
         protected ICameraService CameraService => cameraService ??= ServiceManager.Instance.GetService<ICameraService>();
+
+#if RTK_LOCOMOTION
+        private async void Awake()
+        {
+            await ServiceManager.WaitUntilInitializedAsync();
+            if (ServiceManager.Instance.TryGetService<ILocomotionService>(out var locomotionService))
+            {
+                locomotionService.LocomotionTarget = this;
+            }
+        }
+#endif
 
         /// <summary>
         /// Resets the <see cref="ICameraRig.RigTransform"/>, <see cref="ICameraRig.CameraTransform"/>.
