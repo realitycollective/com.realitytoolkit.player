@@ -4,7 +4,6 @@
 using RealityCollective.Extensions;
 using RealityCollective.ServiceFramework.Services;
 using RealityToolkit.CameraService.Interfaces;
-using RealityToolkit.Locomotion.Interfaces;
 using UnityEngine;
 
 namespace RealityToolkit.CameraService
@@ -73,7 +72,7 @@ namespace RealityToolkit.CameraService
         private async void Awake()
         {
             await ServiceManager.WaitUntilInitializedAsync();
-            if (ServiceManager.Instance.TryGetService<ILocomotionService>(out var locomotionService))
+            if (ServiceManager.Instance.TryGetService<Locomotion.Interfaces.ILocomotionService>(out var locomotionService))
             {
                 locomotionService.LocomotionTarget = this;
             }
