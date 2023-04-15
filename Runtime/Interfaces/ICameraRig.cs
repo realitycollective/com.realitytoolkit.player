@@ -11,11 +11,6 @@ namespace RealityToolkit.CameraService.Interfaces
     public interface ICameraRig
     {
         /// <summary>
-        /// The <see cref="UnityEngine.GameObject"/> reference for this <see cref="ICameraRig"/>.
-        /// </summary>
-        GameObject GameObject { get; }
-
-        /// <summary>
         /// The root rig <see cref="Transform"/>.
         /// </summary>
         Transform RigTransform { get; }
@@ -41,7 +36,22 @@ namespace RealityToolkit.CameraService.Interfaces
         bool IsOpaque { get; }
 
         /// <summary>
-        /// Moves the rig in <paramref name="direction"/>.
+        /// Rotates the <see cref="ICameraRig"/> at its current position
+        /// around <paramref name="axis"/> by <paramref name="angle"/>.
+        /// </summary>
+        /// <param name="axis">Axis to rotate around.</param>
+        /// <param name="angle">Angle to rotate.</param>
+        void RotateAround(Vector3 axis, float angle);
+
+        /// <summary>
+        /// Moves the <see cref="ICameraRig"/> in <paramref name="direction"/> on the (X,Z) plane.
+        /// </summary>
+        /// <param name="direction">The direction <see cref="Vector2"/>.</param>
+        /// <param name="speed">The speed multiplier for the movement. Defaults to <c>1f</c>.</param>
+        void Move(Vector2 direction, float speed = 1f);
+
+        /// <summary>
+        /// Moves the <see cref="ICameraRig"/> in <paramref name="direction"/>.
         /// </summary>
         /// <param name="direction">The direction <see cref="Vector3"/>.</param>
         /// <param name="speed">The speed multiplier for the movement. Defaults to <c>1f</c>.</param>

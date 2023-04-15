@@ -3,6 +3,7 @@
 
 using RealityCollective.Extensions;
 using RealityCollective.ServiceFramework.Services;
+using RealityToolkit.CameraService.Definitions;
 using RealityToolkit.CameraService.Interfaces;
 using UnityEngine;
 
@@ -23,19 +24,13 @@ namespace RealityToolkit.CameraService
         [SerializeField, Tooltip("The camera component on the rig.")]
         private Camera rigCamera = null;
 
+#if RTK_LOCOMOTION
         /// <inheritdoc />
-        public GameObject GameObject => gameObject;
+        public Pose Pose => new Pose(RigTransform.position, RigTransform.rotation);
+#endif
 
         /// <inheritdoc />
         public Transform RigTransform => transform;
-
-#if RTK_LOCOMOTION
-        /// <inheritdoc />
-        public Transform MoveTransform => RigTransform;
-
-        /// <inheritdoc />
-        public Transform OrientationTransform => CameraTransform;
-#endif
 
         /// <inheritdoc />
         public Camera RigCamera => rigCamera;
@@ -69,15 +64,40 @@ namespace RealityToolkit.CameraService
         protected ICameraService CameraService => cameraService ??= ServiceManager.Instance.GetService<ICameraService>();
 
 #if RTK_LOCOMOTION
-        private async void Awake()
+        /// <inheritdoc />
+        public virtual void SetPositionAndRotation(Vector3 position, Quaternion rotation)
+            => SetPositionAndRotation(position, rotation.eulerAngles);
+
+        /// <inheritdoc />
+        public virtual void SetPositionAndRotation(Vector3 position, Vector3 rotation)
+        {
+            var height = position.y;
+            position -= CameraTransform.position - RigTransform.position;
+            position.y = height;
+
+            RigTransform.position = position;
+            RotateAround(Vector3.up, rotation.y - CameraTransform.eulerAngles.y);
+        }
+#endif
+
+        /// <inheritdoc />
+        protected virtual async void Start()
         {
             await ServiceManager.WaitUntilInitializedAsync();
+
+#if RTK_LOCOMOTION
             if (ServiceManager.Instance.TryGetService<Locomotion.Interfaces.ILocomotionService>(out var locomotionService))
             {
                 locomotionService.LocomotionTarget = this;
             }
-        }
 #endif
+
+            if (ServiceManager.Instance.TryGetServiceProfile<ICameraService, CameraServiceProfile>(out var profile) &&
+                profile.IsRigPersistent)
+            {
+                RigTransform.gameObject.DontDestroyOnLoad();
+            }
+        }
 
         /// <summary>
         /// Resets the <see cref="ICameraRig.RigTransform"/>, <see cref="ICameraRig.CameraTransform"/>.
@@ -89,9 +109,27 @@ namespace RealityToolkit.CameraService
         }
 
         /// <inheritdoc />
+        public virtual void RotateAround(Vector3 axis, float angle)
+        {
+            RigTransform.RotateAround(CameraTransform.position, axis, angle);
+        }
+
+        /// <inheritdoc />
+        public virtual void Move(Vector2 direction, float speed = 1f)
+        => Move(new Vector3(direction.x, 0f, direction.y));
+
+        /// <inheritdoc />
         public virtual void Move(Vector3 direction, float speed = 1f)
         {
-            RigTransform.Translate(speed * Time.deltaTime * direction);
+            var forwardDirection = CameraTransform.forward;
+            forwardDirection.y = 0f;
+
+            var rightDirection = CameraTransform.right;
+            rightDirection.y = 0f;
+
+            var combinedDirection = (forwardDirection * direction.z + rightDirection * direction.x).normalized;
+
+            RigTransform.Translate(speed * Time.deltaTime * combinedDirection);
         }
     }
 }

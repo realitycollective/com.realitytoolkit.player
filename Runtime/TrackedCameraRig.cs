@@ -40,8 +40,10 @@ namespace RealityToolkit.CameraService
         public TrackedPoseDriver PoseDriver => poseDriver;
 
         /// <inheritdoc />
-        protected virtual async void Start()
+        protected override async void Start()
         {
+            base.Start();
+
             if (PoseDriver.IsNull())
             {
                 poseDriver = RigCamera.gameObject.EnsureComponent<TrackedPoseDriver>();
