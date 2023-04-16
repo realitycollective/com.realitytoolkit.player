@@ -25,12 +25,10 @@ namespace RealityToolkit.CameraService.Modules
 
             TrackingType = profile.TrackingType;
 
-            nearClipPlaneOpaqueDisplay = profile.NearClipPlaneOpaqueDisplay;
             cameraClearFlagsOpaqueDisplay = profile.CameraClearFlagsOpaqueDisplay;
             backgroundColorOpaqueDisplay = profile.BackgroundColorOpaqueDisplay;
             opaqueQualityLevel = profile.OpaqueQualityLevel;
 
-            nearClipPlaneTransparentDisplay = profile.NearClipPlaneTransparentDisplay;
             cameraClearFlagsTransparentDisplay = profile.CameraClearFlagsTransparentDisplay;
             backgroundColorTransparentDisplay = profile.BackgroundColorTransparentDisplay;
             transparentQualityLevel = profile.TransparentQualityLevel;
@@ -39,11 +37,9 @@ namespace RealityToolkit.CameraService.Modules
         private readonly ICameraService cameraService;
         private readonly float eyeTextureResolution;
         private readonly bool applyQualitySettings;
-        private readonly float nearClipPlaneTransparentDisplay;
         private readonly CameraClearFlags cameraClearFlagsTransparentDisplay;
         private readonly Color backgroundColorTransparentDisplay;
         private readonly int transparentQualityLevel;
-        private readonly float nearClipPlaneOpaqueDisplay;
         private readonly CameraClearFlags cameraClearFlagsOpaqueDisplay;
         private readonly Color backgroundColorOpaqueDisplay;
         private readonly int opaqueQualityLevel;
@@ -116,7 +112,6 @@ namespace RealityToolkit.CameraService.Modules
         protected virtual void ApplySettingsForOpaqueDisplay()
         {
             CameraRig.RigCamera.clearFlags = cameraClearFlagsOpaqueDisplay;
-            CameraRig.RigCamera.nearClipPlane = nearClipPlaneOpaqueDisplay;
             CameraRig.RigCamera.backgroundColor = backgroundColorOpaqueDisplay;
             QualitySettings.SetQualityLevel(opaqueQualityLevel, false);
         }
@@ -128,7 +123,6 @@ namespace RealityToolkit.CameraService.Modules
         {
             CameraRig.RigCamera.clearFlags = cameraClearFlagsTransparentDisplay;
             CameraRig.RigCamera.backgroundColor = backgroundColorTransparentDisplay;
-            CameraRig.RigCamera.nearClipPlane = nearClipPlaneTransparentDisplay;
             QualitySettings.SetQualityLevel(transparentQualityLevel, false);
         }
     }

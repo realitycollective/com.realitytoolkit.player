@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using RealityCollective.ServiceFramework.Definitions;
-using System;
 using UnityEngine;
 
 namespace RealityToolkit.CameraService.Definitions
@@ -43,28 +42,6 @@ namespace RealityToolkit.CameraService.Definitions
         public bool ApplyQualitySettings => applyQualitySettings;
 
         [Header("Opaque Display Settings")]
-        [Min(0.0001f)]
-        [SerializeField]
-        [Tooltip("The near clipping plane distance for an opaque display.")]
-        private float nearClipPlaneOpaqueDisplay = 0.1f;
-
-        /// <summary>
-        /// The near clipping plane distance for an opaque display.
-        /// </summary>
-        public float NearClipPlaneOpaqueDisplay
-        {
-            get => nearClipPlaneOpaqueDisplay;
-            internal set
-            {
-                if (value <= 0)
-                {
-                    throw new ArgumentException("Value must be greater than zero!");
-                }
-
-                nearClipPlaneOpaqueDisplay = value;
-            }
-        }
-
         [SerializeField]
         [Tooltip("Values for Camera.clearFlags, determining what to clear when rendering a Camera for an opaque display.")]
         private CameraClearFlags cameraClearFlagsOpaqueDisplay = CameraClearFlags.Skybox;
@@ -93,28 +70,6 @@ namespace RealityToolkit.CameraService.Definitions
         public int OpaqueQualityLevel => opaqueQualityLevel;
 
         [Header("Transparent Display Settings")]
-        [Min(0.0001f)]
-        [SerializeField]
-        [Tooltip("The near clipping plane distance for a transparent display.")]
-        private float nearClipPlaneTransparentDisplay = 0.85f;
-
-        /// <summary>
-        /// The near clipping plane distance for a transparent display.
-        /// </summary>
-        public float NearClipPlaneTransparentDisplay
-        {
-            get => nearClipPlaneTransparentDisplay;
-            internal set
-            {
-                if (value <= 0)
-                {
-                    throw new ArgumentException("Value must be greater than zero!");
-                }
-
-                nearClipPlaneTransparentDisplay = value;
-            }
-        }
-
         [SerializeField]
         [Tooltip("Values for Camera.clearFlags, determining what to clear when rendering a Camera for an opaque display.")]
         private CameraClearFlags cameraClearFlagsTransparentDisplay = CameraClearFlags.SolidColor;
