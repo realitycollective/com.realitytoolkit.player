@@ -97,7 +97,7 @@ namespace RealityToolkit.CameraService
 
             var combinedDirection = (forwardDirection * direction.z + rightDirection * direction.x).normalized;
 
-            RigTransform.Translate(speed * Time.deltaTime * combinedDirection);
+            RigTransform.Translate(speed * Time.deltaTime * combinedDirection, Space.World);
         }
     }
 }
