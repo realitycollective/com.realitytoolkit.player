@@ -19,6 +19,9 @@ namespace RealityToolkit.CameraService
     [SelectionBase]
     [DisallowMultipleComponent]
     public class TrackedCameraRig : CameraRig, ITrackedCameraRig
+#if RTK_LOCOMOTION
+        , Locomotion.Interfaces.ILocomotionTarget
+#endif
     {
         [SerializeField]
         private TrackedPoseDriver poseDriver = null;
@@ -39,10 +42,17 @@ namespace RealityToolkit.CameraService
         /// <inheritdoc />
         public TrackedPoseDriver PoseDriver => poseDriver;
 
+#if RTK_LOCOMOTION
+        /// <inheritdoc />
+        public Pose Pose => new Pose(RigTransform.position, RigTransform.rotation);
+#endif
+
         /// <inheritdoc />
         protected override async void Start()
         {
             base.Start();
+
+            await ServiceManager.WaitUntilInitializedAsync();
 
             if (PoseDriver.IsNull())
             {
@@ -52,8 +62,6 @@ namespace RealityToolkit.CameraService
 
             if (PoseDriver.IsNotNull())
             {
-                await ServiceManager.WaitUntilInitializedAsync();
-
                 switch (CameraService.CameraRigServiceModule.TrackingType)
                 {
                     case TrackingType.SixDegreesOfFreedom:
@@ -75,6 +83,13 @@ namespace RealityToolkit.CameraService
             // we set a flag to keep trying.
             trackingOriginInitialized = SetupTrackingOrigin();
             trackingOriginInitializing = !trackingOriginInitialized;
+
+#if RTK_LOCOMOTION
+            if (ServiceManager.Instance.TryGetService<Locomotion.Interfaces.ILocomotionService>(out var locomotionService))
+            {
+                locomotionService.LocomotionTarget = this;
+            }
+#endif
         }
 
         /// <inheritdoc />
@@ -103,6 +118,23 @@ namespace RealityToolkit.CameraService
                 heightOffset,
                 CameraTransform.localPosition.z);
         }
+
+#if RTK_LOCOMOTION
+        /// <inheritdoc />
+        public virtual void SetPositionAndRotation(Vector3 position, Quaternion rotation)
+            => SetPositionAndRotation(position, rotation.eulerAngles);
+
+        /// <inheritdoc />
+        public virtual void SetPositionAndRotation(Vector3 position, Vector3 rotation)
+        {
+            var height = position.y;
+            position -= CameraTransform.position - RigTransform.position;
+            position.y = height;
+
+            RigTransform.position = position;
+            RotateAround(Vector3.up, rotation.y - CameraTransform.eulerAngles.y);
+        }
+#endif
 
         private bool SetupTrackingOrigin()
         {

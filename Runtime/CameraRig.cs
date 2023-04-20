@@ -17,17 +17,9 @@ namespace RealityToolkit.CameraService
     [DisallowMultipleComponent]
     [System.Runtime.InteropServices.Guid("8E0EE4FC-C8A5-4B10-9FCA-EE55B6D421FF")]
     public class CameraRig : MonoBehaviour, ICameraRig
-#if RTK_LOCOMOTION
-        , Locomotion.Interfaces.ILocomotionTarget
-#endif
     {
         [SerializeField, Tooltip("The camera component on the rig.")]
         private Camera rigCamera = null;
-
-#if RTK_LOCOMOTION
-        /// <inheritdoc />
-        public Pose Pose => new Pose(RigTransform.position, RigTransform.rotation);
-#endif
 
         /// <inheritdoc />
         public Transform RigTransform => transform;
@@ -63,34 +55,10 @@ namespace RealityToolkit.CameraService
         /// </summary>
         protected ICameraService CameraService => cameraService ??= ServiceManager.Instance.GetService<ICameraService>();
 
-#if RTK_LOCOMOTION
-        /// <inheritdoc />
-        public virtual void SetPositionAndRotation(Vector3 position, Quaternion rotation)
-            => SetPositionAndRotation(position, rotation.eulerAngles);
-
-        /// <inheritdoc />
-        public virtual void SetPositionAndRotation(Vector3 position, Vector3 rotation)
-        {
-            var height = position.y;
-            position -= CameraTransform.position - RigTransform.position;
-            position.y = height;
-
-            RigTransform.position = position;
-            RotateAround(Vector3.up, rotation.y - CameraTransform.eulerAngles.y);
-        }
-#endif
-
         /// <inheritdoc />
         protected virtual async void Start()
         {
             await ServiceManager.WaitUntilInitializedAsync();
-
-#if RTK_LOCOMOTION
-            if (ServiceManager.Instance.TryGetService<Locomotion.Interfaces.ILocomotionService>(out var locomotionService))
-            {
-                locomotionService.LocomotionTarget = this;
-            }
-#endif
 
             if (ServiceManager.Instance.TryGetServiceProfile<ICameraService, CameraServiceProfile>(out var profile) &&
                 profile.IsRigPersistent)
