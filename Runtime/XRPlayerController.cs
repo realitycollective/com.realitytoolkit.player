@@ -14,6 +14,7 @@ namespace RealityToolkit.CameraService
     [SelectionBase]
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(CharacterController))]
     [System.Runtime.InteropServices.Guid("3ddace9b-b75e-46d0-9b62-2b169e0c35d5")]
     public class XRPlayerController : TrackedCameraRig, IPlayerCameraRig
     {
@@ -109,16 +110,20 @@ namespace RealityToolkit.CameraService
 
         private void UpdateControllerPosition()
         {
-            if (!controller.enabled || !Application.isPlaying)
-            {
-                return;
-            }
+            //if (!controller.enabled || !Application.isPlaying)
+            //{
+            //    return;
+            //}
 
-            var direction = CameraTransform.position - controller.transform.position;
-            direction.y = 0f;
-            controller.Move(100f * direction.normalized);
+            //var direction = CameraTransform.position - controller.transform.position;
+            //direction.y = 0f;
+            //controller.Move(100f * direction.normalized);
         }
 
+        /// <summary>
+        /// Uses the head / camera's forward orientation to estimate the orientation
+        /// of the body / torso of the player.
+        /// </summary>
         private void UpdateBodyEstimation()
         {
             var bodyForward = BodyTransform.forward;
