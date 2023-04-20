@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using RealityToolkit.CameraService.Interfaces;
+using RealityToolkit.CameraService.UX;
 using UnityEngine;
 
 namespace RealityToolkit.CameraService
@@ -63,6 +64,15 @@ namespace RealityToolkit.CameraService
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(head.transform.position, head.radius);
             Gizmos.color = prevoiusColor;
+        }
+
+        /// <inheritdoc />
+        protected virtual void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.TryGetComponent<CameraBoundsCollider>(out _))
+            {
+
+            }
         }
 
         /// <inheritdoc />
