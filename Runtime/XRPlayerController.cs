@@ -14,12 +14,11 @@ namespace RealityToolkit.CameraService
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Rigidbody))]
     [System.Runtime.InteropServices.Guid("3ddace9b-b75e-46d0-9b62-2b169e0c35d5")]
-    public class CharacterCameraRig : TrackedCameraRig, ICharacterCameraRig
+    public class XRPlayerController : TrackedCameraRig, ICharacterCameraRig
     {
         [SerializeField, Tooltip("The head collider is used to offset the body/character collider.")]
         private SphereCollider head = null;
 
-        [Header("Body Estimation")]
         [SerializeField, Tooltip("The main character collider.")]
         private CharacterController controller;
 
@@ -81,22 +80,43 @@ namespace RealityToolkit.CameraService
 
         private void UpdateRig()
         {
-            UpdateBody();
-            UpdateBodyControllerCenter();
-            UpdateBodyController();
+            UpdateControllerBounds();
+            UpdateControllerPosition();
+            UpdateBodyEstimation();
         }
 
-        private void UpdateBody()
+        private void UpdateControllerBounds()
         {
             if (Application.isPlaying && !controller.enabled)
             {
-                // If the body is disabled, e.g. because the camera
+                // If the controller is disabled, e.g. because the camera
                 // is out of bounds, do not update it. If we are in edit-mode
                 // we want to update it no matter what to keep it in sync with inspector
                 // changes.
                 return;
             }
 
+            controller.radius = bodyDiameter / 2f;
+            controller.height = Mathf.Max(0f, head.transform.localPosition.y - head.radius);
+            controller.center = new Vector3(0f, controller.height / 2f, 0f);
+            controller.skinWidth = .1f * controller.radius;
+            controller.stepOffset = .1f * controller.height;
+        }
+
+        private void UpdateControllerPosition()
+        {
+            if (!controller.enabled || !Application.isPlaying)
+            {
+                return;
+            }
+
+            var direction = CameraTransform.position - controller.transform.position;
+            direction.y = 0f;
+            controller.Move(100f * direction.normalized);
+        }
+
+        private void UpdateBodyEstimation()
+        {
             var cameraLocalPosition = CameraTransform.localPosition;
             var bodyLocalPosition = BodyTransform.localPosition;
 
@@ -116,40 +136,9 @@ namespace RealityToolkit.CameraService
             }
         }
 
-        private void UpdateBodyControllerCenter()
-        {
-            if (Application.isPlaying && !controller.enabled)
-            {
-                // If the controller is disabled, e.g. because the camera
-                // is out of bounds, do not update it. If we are in edit-mode
-                // we want to update it no matter what to keep it in sync with inspector
-                // changes.
-                return;
-            }
-
-            controller.radius = bodyDiameter / 2f;
-            controller.height = Mathf.Max(0f, head.transform.localPosition.y - head.radius);
-            controller.center = new Vector3(0f, controller.height / 2f, 0f);
-            controller.skinWidth = .1f * controller.radius;
-            controller.stepOffset = .1f * controller.height;
-        }
-
-        private void UpdateBodyController()
-        {
-            if (!controller.enabled || !Application.isPlaying)
-            {
-                return;
-            }
-
-            var headOffset = CameraTransform.localPosition;
-            headOffset.y = 0f;
-            controller.Move(headOffset);
-        }
-
         private void CheckCameraBounds()
         {
             const float lowerThresholdFactor = .2f;
-            const float controllerKeepAliveSeverity = .5f;
 
             var headPosition = CameraTransform.position;
             headPosition.y = 0f;
@@ -174,12 +163,10 @@ namespace RealityToolkit.CameraService
 
             if (severity > 0f)
             {
-                controller.enabled = severity <= controllerKeepAliveSeverity;
                 CameraService.RaiseCameraOutOfBounds(severity, (bodyPosition - headPosition).normalized);
             }
             else if (severity <= 0f && wasOutOfBounds)
             {
-                controller.enabled = true;
                 CameraService.RaiseCameraBackInBounds();
             }
 
