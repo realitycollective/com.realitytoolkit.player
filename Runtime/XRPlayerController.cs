@@ -14,7 +14,7 @@ namespace RealityToolkit.CameraService
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Rigidbody))]
     [System.Runtime.InteropServices.Guid("3ddace9b-b75e-46d0-9b62-2b169e0c35d5")]
-    public class XRPlayerController : TrackedCameraRig, ICharacterCameraRig
+    public class XRPlayerController : TrackedCameraRig, IPlayerCameraRig
     {
         [SerializeField, Tooltip("The head collider is used to offset the body/character collider.")]
         private SphereCollider head = null;
