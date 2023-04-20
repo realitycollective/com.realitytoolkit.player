@@ -80,7 +80,17 @@ namespace RealityToolkit.CameraService
         /// <inheritdoc />
         public override void Move(Vector3 direction, float speed = 1)
         {
-            controller.Move(speed * Time.deltaTime * direction);
+            direction = controller.transform.TransformDirection(direction);
+
+            var forwardDirection = CameraTransform.forward;
+            forwardDirection.y = 0f;
+
+            var rightDirection = CameraTransform.right;
+            rightDirection.y = 0f;
+
+            var combinedDirection = (forwardDirection * direction.z + rightDirection * direction.x).normalized;
+
+            controller.Move(speed * Time.deltaTime * combinedDirection);
         }
 
         private void UpdateRig()
