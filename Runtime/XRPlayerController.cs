@@ -31,13 +31,12 @@ namespace RealityToolkit.CameraService
         private float bodyDiameter = 1f;
 
         [SerializeField]
-        [Range(0f, 180f)]
-        [Tooltip("This is the angle that will be used to adjust the player's body rotation in relation to their head position.")]
-        private float bodyAdjustmentAngle = 60f;
+        [Tooltip("Threshold angle between head and body at which to start updating the body orientation to fit head rotation.")]
+        private float startRotateBodyAngle = 45f;
 
-        [SerializeField, Range(1f, 100f)]
-        [Tooltip("The speed at which the body transform will sync it's rotation with the head transform.")]
-        private float bodyAdjustmentSpeed = 1f;
+        [SerializeField]
+        [Tooltip("The body orientation change animation speed.")]
+        private float angleRotateBodySpeed = 20f;
 
         /// <inheritdoc />
         public Transform BodyTransform => bodyTransform;
@@ -49,12 +48,7 @@ namespace RealityToolkit.CameraService
         {
             base.Update();
             UpdateRig();
-        }
-
-        /// <inheritdoc />
-        protected virtual void LateUpdate()
-        {
-            CheckCameraBounds();
+            //CheckCameraBounds();
         }
 
         /// <inheritdoc />
@@ -127,22 +121,22 @@ namespace RealityToolkit.CameraService
 
         private void UpdateBodyEstimation()
         {
-            var cameraLocalPosition = CameraTransform.localPosition;
-            var bodyLocalPosition = BodyTransform.localPosition;
+            var bodyForward = BodyTransform.forward;
+            var headForward = CameraTransform.forward;
+            headForward = new Vector3(headForward.x, 0f, headForward.z);
 
-            bodyLocalPosition.x = cameraLocalPosition.x;
-            bodyLocalPosition.y = 0f;
-            bodyLocalPosition.z = cameraLocalPosition.z;
+            var angle = Vector3.SignedAngle(bodyForward, headForward, Vector3.up);
+            var delta = Mathf.Abs(angle) - startRotateBodyAngle;
 
-            BodyTransform.localPosition = bodyLocalPosition;
-
-            var bodyRotation = BodyTransform.rotation;
-            var headRotation = CameraTransform.rotation;
-            var currentAngle = Mathf.Abs(Quaternion.Angle(bodyRotation, headRotation));
-
-            if (currentAngle > bodyAdjustmentAngle)
+            if (angle > startRotateBodyAngle)
             {
-                BodyTransform.rotation = Quaternion.Slerp(bodyRotation, headRotation, Time.deltaTime * bodyAdjustmentSpeed);
+                var step = Vector3.up * Time.deltaTime * angleRotateBodySpeed * delta;
+                BodyTransform.Rotate(step, Space.World);
+            }
+            else if (angle < -startRotateBodyAngle)
+            {
+                var step = Vector3.up * Time.deltaTime * angleRotateBodySpeed * -delta;
+                BodyTransform.Rotate(step, Space.World);
             }
         }
 
