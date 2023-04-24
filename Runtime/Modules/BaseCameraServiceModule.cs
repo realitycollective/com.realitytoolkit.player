@@ -79,7 +79,7 @@ namespace RealityToolkit.CameraService.Modules
         /// </summary>
         private ICameraRig CameraRig => cameraService.CameraRig;
 
-        #region IMixedRealitySerivce Implementation
+        #region ISerivce Implementation
 
         /// <inheritdoc />
         public override uint Priority => 0;
@@ -176,7 +176,7 @@ namespace RealityToolkit.CameraService.Modules
             ResetRigTransforms();
         }
 
-        #endregion IMixedRealitySerivce Implementation
+        #endregion ISerivce Implementation
 
         #region Tracking Origin Setup
 
