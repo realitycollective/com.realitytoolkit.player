@@ -112,7 +112,7 @@ namespace RealityToolkit.CameraService
             }
 
             controller.radius = bodyDiameter / 2f;
-            controller.height = Mathf.Max(0f, head.transform.localPosition.y - head.radius);
+            controller.height = Mathf.Max(bodyDiameter, head.transform.localPosition.y - head.radius);
             controller.center = new Vector3(0f, controller.height / 2f, 0f);
             controller.skinWidth = .1f * controller.radius;
             controller.stepOffset = .1f * controller.height;
