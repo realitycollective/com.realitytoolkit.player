@@ -96,7 +96,6 @@ namespace RealityToolkit.CameraService
         private void UpdateRig()
         {
             UpdateControllerBounds();
-            UpdateControllerPosition();
             UpdateBodyEstimation();
         }
 
@@ -112,22 +111,15 @@ namespace RealityToolkit.CameraService
             }
 
             controller.radius = bodyDiameter / 2f;
-            controller.height = Mathf.Max(bodyDiameter, head.transform.localPosition.y - head.radius);
-            controller.center = new Vector3(0f, controller.height / 2f, 0f);
             controller.skinWidth = .1f * controller.radius;
+
+            var height = Mathf.Max(bodyDiameter, head.transform.localPosition.y - head.radius);
+            controller.height = height;
             controller.stepOffset = .2f * controller.height;
-        }
 
-        private void UpdateControllerPosition()
-        {
-            //if (!controller.enabled || !Application.isPlaying)
-            //{
-            //    return;
-            //}
-
-            //var direction = CameraTransform.position - controller.transform.position;
-            //direction.y = 0f;
-            //controller.Move(100f * direction.normalized);
+            var center = CameraTransform.localPosition;
+            center.y = height / 2f + controller.skinWidth;
+            controller.center = center;
         }
 
         /// <summary>
