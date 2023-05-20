@@ -22,6 +22,14 @@ namespace RealityToolkit.CameraService.Definitions
         /// </summary>
         public bool IsRigPersistent => isRigPersistent;
 
+        [SerializeField, Tooltip("Should the camera rig be reset to scene origin on launch?")]
+        private bool resetCameraToOrigin = false;
+
+        /// <summary>
+        /// Should the camera rig be reset to scene origin on launch?
+        /// </summary>
+        public bool ResetCameraToOrigin => resetCameraToOrigin;
+
         [SerializeField, Tooltip("The camera rig prefab used by this service module."), Prefab(typeof(ICameraRig))]
         private GameObject rigPrefab = null;
 

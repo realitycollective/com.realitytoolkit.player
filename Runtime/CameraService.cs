@@ -31,9 +31,11 @@ namespace RealityToolkit.CameraService
             : base(name, priority)
         {
             rigPrefab = profile.RigPrefab;
+            resetCameraToOrigin = profile.ResetCameraToOrigin;
         }
 
         private readonly GameObject rigPrefab;
+        private readonly bool resetCameraToOrigin;
 
         /// <inheritdoc />
         public override uint Priority => 0;
@@ -87,16 +89,16 @@ namespace RealityToolkit.CameraService
             Debug.Assert(cameraServiceModules.Count < 2, $"There should only ever be one active {nameof(ICameraRigServiceModule)}. Please check your {nameof(CameraServiceProfile)} configuration.");
             CameraRigServiceModule = cameraServiceModules[0];
 
-            EnsureCameraRigSetup(true);
+            EnsureCameraRigSetup();
         }
 
         /// <inheritdoc />
         public override void Start()
         {
-            EnsureCameraRigSetup(false);
+            EnsureCameraRigSetup();
         }
 
-        private void EnsureCameraRigSetup(bool resetCameraToOrigin)
+        private void EnsureCameraRigSetup()
         {
             // If we don't have a rig reference yet...
             if (CameraRig == null)
