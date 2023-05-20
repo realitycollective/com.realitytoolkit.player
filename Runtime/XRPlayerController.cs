@@ -24,6 +24,7 @@ namespace RealityToolkit.CameraService
         [SerializeField, Tooltip("The main character collider.")]
         private CharacterController controller;
 
+        [Header("Body Estimation")]
         [SerializeField, Tooltip("The transform defining the body position.")]
         private Transform bodyTransform = null;
 
@@ -39,17 +40,29 @@ namespace RealityToolkit.CameraService
         [Tooltip("The body orientation change animation speed.")]
         private float angleRotateBodySpeed = 20f;
 
+        [SerializeField, Header("Gravity")]
+        [Tooltip("Controls when gravity begins to take effect.")]
+        private GravityMode gravityMode;
+
+        /// <inheritdoc />
+        public GravityMode GravityMode
+        {
+            get => gravityMode;
+            set => gravityMode = value;
+        }
+
         /// <inheritdoc />
         public Transform BodyTransform => bodyTransform;
 
         private bool wasOutOfBounds;
+        private Vector3 verticalVelocity;
+        private Vector3 motionInput;
 
         /// <inheritdoc />
         protected override void Update()
         {
             base.Update();
             UpdateRig();
-            //CheckCameraBounds();
         }
 
         /// <inheritdoc />
@@ -90,13 +103,21 @@ namespace RealityToolkit.CameraService
 
             var combinedDirection = (forwardDirection * direction.z + rightDirection * direction.x).normalized;
 
-            controller.Move(speed * Time.deltaTime * combinedDirection);
+            motionInput = speed * combinedDirection;
         }
 
         private void UpdateRig()
         {
             UpdateControllerBounds();
+
+            if (!Application.isPlaying)
+            {
+                return;
+            }
+
             UpdateBodyEstimation();
+            UpdateGravity();
+            ApplyMovement();
         }
 
         private void UpdateControllerBounds()
@@ -120,6 +141,32 @@ namespace RealityToolkit.CameraService
             var center = CameraTransform.localPosition;
             center.y = height / 2f + controller.skinWidth;
             controller.center = center;
+        }
+
+        private void UpdateGravity()
+        {
+            switch (gravityMode)
+            {
+                case GravityMode.OnMove:
+                case GravityMode.Immediately:
+                    {
+                        if (controller.isGrounded ||
+                            (motionInput == Vector3.zero && gravityMode == GravityMode.OnMove && verticalVelocity == Vector3.zero))
+                        {
+                            verticalVelocity = Vector3.zero;
+                            return;
+                        }
+
+                        verticalVelocity = Physics.gravity;
+                    }
+                    break;
+                case GravityMode.Disabled:
+                    verticalVelocity = Vector3.zero;
+                    return;
+                default:
+                    Debug.LogError($"{nameof(RealityToolkit.CameraService.GravityMode)}.{gravityMode} not supported.");
+                    break;
+            }
         }
 
         /// <summary>
@@ -182,6 +229,13 @@ namespace RealityToolkit.CameraService
             }
 
             wasOutOfBounds = severity > 0f;
+        }
+
+        private void ApplyMovement()
+        {
+            var motionDirection = motionInput + verticalVelocity;
+            controller.Move(motionDirection * Time.deltaTime);
+            motionInput = Vector3.zero;
         }
     }
 }

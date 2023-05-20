@@ -11,6 +11,12 @@ namespace RealityToolkit.CameraService.Interfaces
     public interface IPlayerCameraRig : ICameraRig
     {
         /// <summary>
+        /// Controls when gravity begins to take effect.
+        /// </summary>
+        /// <seealso cref="RealityToolkit.CameraService.GravityMode"/>
+        GravityMode GravityMode { get; set; }
+
+        /// <summary>
         /// The character's body transform.
         /// </summary>
         Transform BodyTransform { get; }
