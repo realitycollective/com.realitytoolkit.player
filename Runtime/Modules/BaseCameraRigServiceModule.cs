@@ -19,31 +19,12 @@ namespace RealityToolkit.CameraService.Modules
             : base(name, priority, profile, parentService)
         {
             cameraService = parentService;
-
             eyeTextureResolution = profile.EyeTextureResolution;
-            applyQualitySettings = profile.ApplyQualitySettings;
-
             TrackingType = profile.TrackingType;
-
-            cameraClearFlagsOpaqueDisplay = profile.CameraClearFlagsOpaqueDisplay;
-            backgroundColorOpaqueDisplay = profile.BackgroundColorOpaqueDisplay;
-            opaqueQualityLevel = profile.OpaqueQualityLevel;
-
-            cameraClearFlagsTransparentDisplay = profile.CameraClearFlagsTransparentDisplay;
-            backgroundColorTransparentDisplay = profile.BackgroundColorTransparentDisplay;
-            transparentQualityLevel = profile.TransparentQualityLevel;
         }
 
         private readonly ICameraService cameraService;
         private readonly float eyeTextureResolution;
-        private readonly bool applyQualitySettings;
-        private readonly CameraClearFlags cameraClearFlagsTransparentDisplay;
-        private readonly Color backgroundColorTransparentDisplay;
-        private readonly int transparentQualityLevel;
-        private readonly CameraClearFlags cameraClearFlagsOpaqueDisplay;
-        private readonly Color backgroundColorOpaqueDisplay;
-        private readonly int opaqueQualityLevel;
-        private bool cameraOpaqueLastFrame;
 
         /// <inheritdoc />
         public TrackingType TrackingType { get; }
@@ -68,62 +49,7 @@ namespace RealityToolkit.CameraService.Modules
                 return;
             }
 
-            cameraOpaqueLastFrame = CameraRig.IsOpaque;
-
-            if (applyQualitySettings)
-            {
-                if (CameraRig.IsOpaque)
-                {
-                    ApplySettingsForOpaqueDisplay();
-                }
-                else
-                {
-                    ApplySettingsForTransparentDisplay();
-                }
-            }
-
             XRSettings.eyeTextureResolutionScale = eyeTextureResolution;
-        }
-
-        /// <inheritdoc />
-        public override void Update()
-        {
-            if (cameraOpaqueLastFrame != CameraRig.IsOpaque)
-            {
-                cameraOpaqueLastFrame = CameraRig.IsOpaque;
-
-                if (applyQualitySettings)
-                {
-                    if (CameraRig.IsOpaque)
-                    {
-                        ApplySettingsForOpaqueDisplay();
-                    }
-                    else
-                    {
-                        ApplySettingsForTransparentDisplay();
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Applies opaque settings from camera profile.
-        /// </summary>
-        protected virtual void ApplySettingsForOpaqueDisplay()
-        {
-            CameraRig.RigCamera.clearFlags = cameraClearFlagsOpaqueDisplay;
-            CameraRig.RigCamera.backgroundColor = backgroundColorOpaqueDisplay;
-            QualitySettings.SetQualityLevel(opaqueQualityLevel, false);
-        }
-
-        /// <summary>
-        /// Applies transparent settings from camera profile.
-        /// </summary>
-        protected virtual void ApplySettingsForTransparentDisplay()
-        {
-            CameraRig.RigCamera.clearFlags = cameraClearFlagsTransparentDisplay;
-            CameraRig.RigCamera.backgroundColor = backgroundColorTransparentDisplay;
-            QualitySettings.SetQualityLevel(transparentQualityLevel, false);
         }
     }
 }

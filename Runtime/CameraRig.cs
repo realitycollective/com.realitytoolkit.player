@@ -30,25 +30,6 @@ namespace RealityToolkit.CameraService
         /// <inheritdoc />
         public Transform CameraTransform => RigCamera.IsNull() ? null : RigCamera.transform;
 
-        /// <inheritdoc />
-        public virtual bool IsStereoscopic => RigCamera.stereoEnabled;
-
-        /// <inheritdoc />
-        public virtual bool IsOpaque
-        {
-            get
-            {
-                if (CameraService.DisplaySubsystem == null)
-                {
-                    // When no device is attached we are assuming the display
-                    // device is the computer's display, which should be opaque.
-                    return true;
-                }
-
-                return CameraService.DisplaySubsystem.displayOpaque;
-            }
-        }
-
         private ICameraService cameraService;
         /// <summary>
         /// Lazy loaded reference to the active <see cref="ICameraService"/>.

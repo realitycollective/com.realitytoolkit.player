@@ -11,6 +11,16 @@ namespace RealityToolkit.CameraService.Interfaces
     public interface ITrackedCameraRig : ICameraRig
     {
         /// <summary>
+        /// Is the <see cref="ICameraRig.RigCamera"/> camera displaying on a traditional 2d screen or a stereoscopic display?
+        /// </summary>
+        bool IsStereoscopic { get; }
+
+        /// <summary>
+        /// Is the <see cref="ICameraRig.RigCamera"/> displaying in opaque (VR) or transparent mode (XR)?.
+        /// </summary>
+        bool IsOpaque { get; }
+
+        /// <summary>
         /// The <see cref="TrackedPoseDriver"/> driving the <see cref="ITrackedCameraRig"/>'s pose.
         /// </summary>
         TrackedPoseDriver PoseDriver { get; }

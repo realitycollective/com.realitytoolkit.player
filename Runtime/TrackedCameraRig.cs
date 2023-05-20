@@ -42,6 +42,25 @@ namespace RealityToolkit.CameraService
         /// <inheritdoc />
         public TrackedPoseDriver PoseDriver => poseDriver;
 
+        /// <inheritdoc />
+        public virtual bool IsStereoscopic => RigCamera.stereoEnabled;
+
+        /// <inheritdoc />
+        public virtual bool IsOpaque
+        {
+            get
+            {
+                if (CameraService.DisplaySubsystem == null)
+                {
+                    // When no device is attached we are assuming the display
+                    // device is the computer's display, which should be opaque.
+                    return true;
+                }
+
+                return CameraService.DisplaySubsystem.displayOpaque;
+            }
+        }
+
 #if RTK_LOCOMOTION
         /// <inheritdoc />
         public Pose Pose => new Pose(RigTransform.position, RigTransform.rotation);

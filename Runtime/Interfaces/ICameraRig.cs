@@ -26,16 +26,6 @@ namespace RealityToolkit.CameraService.Interfaces
         Camera RigCamera { get; }
 
         /// <summary>
-        /// Is the <see cref="RigCamera"/> camera displaying on a traditional 2d screen or a stereoscopic display?
-        /// </summary>
-        bool IsStereoscopic { get; }
-
-        /// <summary>
-        /// Is the <see cref="RigCamera"/> displaying in opaque (VR) or transparent mode (XR)?.
-        /// </summary>
-        bool IsOpaque { get; }
-
-        /// <summary>
         /// Rotates the <see cref="ICameraRig"/> at its current position
         /// around <paramref name="axis"/> by <paramref name="angle"/>.
         /// </summary>
