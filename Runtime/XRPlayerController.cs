@@ -55,7 +55,7 @@ namespace RealityToolkit.CameraService
         public Transform BodyTransform => bodyTransform;
 
         private bool wasOutOfBounds;
-        private Vector3 verticalVelocity;
+        private Vector3 gravityVelocity;
         private Vector3 motionInput;
 
         /// <inheritdoc />
@@ -120,6 +120,10 @@ namespace RealityToolkit.CameraService
             ApplyMovement();
         }
 
+        /// <summary>
+        /// Updates the <see cref="controller"/> configuration with regard to
+        /// the <see cref="ICameraRig.CameraTransform"/> pose.
+        /// </summary>
         private void UpdateControllerBounds()
         {
             if (Application.isPlaying && !controller.enabled)
@@ -143,6 +147,10 @@ namespace RealityToolkit.CameraService
             controller.center = center;
         }
 
+        /// <summary>
+        /// Updates the <see cref="gravityVelocity"/> with regard to the
+        /// active <see cref="GravityMode"/>.
+        /// </summary>
         private void UpdateGravity()
         {
             switch (gravityMode)
@@ -151,17 +159,17 @@ namespace RealityToolkit.CameraService
                 case GravityMode.Immediately:
                     {
                         if (controller.isGrounded ||
-                            (motionInput == Vector3.zero && gravityMode == GravityMode.OnMove && verticalVelocity == Vector3.zero))
+                            (motionInput == Vector3.zero && gravityMode == GravityMode.OnMove && gravityVelocity == Vector3.zero))
                         {
-                            verticalVelocity = Vector3.zero;
+                            gravityVelocity = Vector3.zero;
                             return;
                         }
 
-                        verticalVelocity = Physics.gravity;
+                        gravityVelocity = Physics.gravity;
                     }
                     break;
                 case GravityMode.Disabled:
-                    verticalVelocity = Vector3.zero;
+                    gravityVelocity = Vector3.zero;
                     return;
                 default:
                     Debug.LogError($"{nameof(RealityToolkit.CameraService.GravityMode)}.{gravityMode} not supported.");
@@ -171,7 +179,7 @@ namespace RealityToolkit.CameraService
 
         /// <summary>
         /// Uses the head / camera's forward orientation to estimate the orientation
-        /// of the body / torso of the player.
+        /// of the <see cref="BodyTransform"/> of the player.
         /// </summary>
         private void UpdateBodyEstimation()
         {
@@ -192,6 +200,17 @@ namespace RealityToolkit.CameraService
                 var step = Vector3.up * Time.deltaTime * angleRotateBodySpeed * -delta;
                 BodyTransform.Rotate(step, Space.World);
             }
+        }
+
+        /// <summary>
+        /// Applies current <see cref="motionInput"/> and <see cref="gravityVelocity"/>
+        /// to the <see cref="controller"/>.
+        /// </summary>
+        private void ApplyMovement()
+        {
+            var motionDirection = motionInput + gravityVelocity;
+            controller.Move(motionDirection * Time.deltaTime);
+            motionInput = Vector3.zero;
         }
 
         private void CheckCameraBounds()
@@ -229,13 +248,6 @@ namespace RealityToolkit.CameraService
             }
 
             wasOutOfBounds = severity > 0f;
-        }
-
-        private void ApplyMovement()
-        {
-            var motionDirection = motionInput + verticalVelocity;
-            controller.Move(motionDirection * Time.deltaTime);
-            motionInput = Vector3.zero;
         }
     }
 }
