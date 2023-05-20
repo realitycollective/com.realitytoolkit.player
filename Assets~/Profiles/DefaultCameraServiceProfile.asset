@@ -22,4 +22,5 @@ MonoBehaviour:
       runtimePlatforms:
       - reference: 9869b29e-43bb-44cc-ae49-eb5c913263f9
   isRigPersistent: 1
+  resetCameraToOrigin: 0
   rigPrefab: {fileID: 1634786522418503189, guid: aae20b1f893489b4797fc46eacbb4101, type: 3}
