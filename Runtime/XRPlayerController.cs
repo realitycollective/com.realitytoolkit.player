@@ -101,7 +101,7 @@ namespace RealityToolkit.CameraService
             var rightDirection = CameraTransform.right;
             rightDirection.y = 0f;
 
-            var combinedDirection = (forwardDirection * direction.z + rightDirection * direction.x).normalized;
+            var combinedDirection = Quaternion.Inverse(RigTransform.rotation) * (rightDirection * direction.x + forwardDirection * direction.z).normalized;
 
             motionInput = speed * combinedDirection;
         }
