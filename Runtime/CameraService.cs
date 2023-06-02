@@ -131,7 +131,7 @@ namespace RealityToolkit.CameraService
                             CameraRig = go.GetComponent<ICameraRig>();
                         }
 #else
-                    CameraRig = Object.Instantiate(rigPrefab).GetComponent<ICameraRig>();
+                    CameraRig = UnityEngine.Object.Instantiate(rigPrefab).GetComponent<ICameraRig>();
 #endif
                     }
                     else
