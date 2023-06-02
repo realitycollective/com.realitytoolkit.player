@@ -13,12 +13,11 @@ using UnityEngine.XR;
 namespace RealityToolkit.CameraService
 {
     /// <summary>
-    /// A <see cref="ICameraRig"/> tracked via a <see cref="TrackedPoseDriver"/> that receives pose
-    /// input from hardware sensors.
+    /// The default <see cref="IXRCameraRig"/> implementation.
     /// </summary>
     [SelectionBase]
     [DisallowMultipleComponent]
-    public class TrackedCameraRig : CameraRig, ITrackedCameraRig
+    public class XRCameraRig : CameraRig, IXRCameraRig
 #if RTK_LOCOMOTION
         , Locomotion.Interfaces.ILocomotionTarget
 #endif

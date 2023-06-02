@@ -11,7 +11,6 @@ namespace RealityToolkit.CameraService
 {
     /// <summary>
     /// The default <see cref="ICameraRig"/> implmentation.
-    /// Use it as it is or use it as starting point for customization.
     /// </summary>
     [SelectionBase]
     [DisallowMultipleComponent]

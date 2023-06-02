@@ -6,9 +6,9 @@ using UnityEngine.SpatialTracking;
 namespace RealityToolkit.CameraService.Interfaces
 {
     /// <summary>
-    /// A <see cref="ICameraRig"/> that is being tracked by hardware sensors.
+    /// A XR <see cref="ICameraRig"/> that is being tracked by hardware sensors.
     /// </summary>
-    public interface ITrackedCameraRig : ICameraRig
+    public interface IXRCameraRig : ICameraRig
     {
         /// <summary>
         /// Is the <see cref="ICameraRig.RigCamera"/> camera displaying on a traditional 2d screen or a stereoscopic display?
@@ -21,7 +21,7 @@ namespace RealityToolkit.CameraService.Interfaces
         bool IsOpaque { get; }
 
         /// <summary>
-        /// The <see cref="TrackedPoseDriver"/> driving the <see cref="ITrackedCameraRig"/>'s pose.
+        /// The <see cref="TrackedPoseDriver"/> driving the <see cref="IXRCameraRig"/>'s pose.
         /// </summary>
         TrackedPoseDriver PoseDriver { get; }
     }

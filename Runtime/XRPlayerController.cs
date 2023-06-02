@@ -1,6 +1,7 @@
 // Copyright (c) Reality Collective. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using RealityToolkit.CameraService.Definitions;
 using RealityToolkit.CameraService.Interfaces;
 using RealityToolkit.CameraService.UX;
 using UnityEngine;
@@ -8,15 +9,14 @@ using UnityEngine;
 namespace RealityToolkit.CameraService
 {
     /// <summary>
-    /// Default <see cref="ICharacterCameraRig"/> implementation.
-    /// A player / character rig that supports collisions and has an estimated body pose.
+    /// Default <see cref="IXRPlayerController"/> implementation.
     /// </summary>
     [SelectionBase]
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(CharacterController))]
     [System.Runtime.InteropServices.Guid("3ddace9b-b75e-46d0-9b62-2b169e0c35d5")]
-    public class XRPlayerController : TrackedCameraRig, IPlayerCameraRig
+    public class XRPlayerController : XRCameraRig, IXRPlayerController
     {
         [SerializeField, Tooltip("The head collider is used to offset the body/character collider.")]
         private SphereCollider head = null;
@@ -172,7 +172,7 @@ namespace RealityToolkit.CameraService
                     gravityVelocity = Vector3.zero;
                     return;
                 default:
-                    Debug.LogError($"{nameof(RealityToolkit.CameraService.GravityMode)}.{gravityMode} not supported.");
+                    Debug.LogError($"{nameof(Definitions.GravityMode)}.{gravityMode} not supported.");
                     break;
             }
         }

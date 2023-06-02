@@ -1,7 +1,7 @@
-namespace RealityToolkit.CameraService
+namespace RealityToolkit.CameraService.Definitions
 {
     /// <summary>
-    /// Defines when gravity begins to take effect on <see cref="Interfaces.IPlayerCameraRig"/>'s.
+    /// Defines when gravity begins to take effect on <see cref="Interfaces.IXRPlayerController"/>'s.
     /// </summary>
     public enum GravityMode
     {
