@@ -25,7 +25,7 @@
     "url": "https://github.com/realitycollective"
   },
   "dependencies": {
-    "com.realitycollective.service-framework": "v1.0.2",
+    "com.realitycollective.service-framework": "1.0.2",
     "com.unity.xr.legacyinputhelpers": "2.1.7"
   },
   "assets": [

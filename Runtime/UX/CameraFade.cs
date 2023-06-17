@@ -63,7 +63,6 @@ namespace RealityToolkit.CameraService.UX
         /// <summary>
         /// Manually fades in the camera.
         /// </summary>
-        [ContextMenu("Fade In")]
         public void FadeIn()
         {
             StartCoroutine(Fade(1f, 0f));
@@ -72,7 +71,6 @@ namespace RealityToolkit.CameraService.UX
         /// <summary>
         /// Manually fades out the camera.
         /// </summary>
-        [ContextMenu("Fade Out")]
         public void FadeOut()
         {
             StartCoroutine(Fade(0f, 1f));

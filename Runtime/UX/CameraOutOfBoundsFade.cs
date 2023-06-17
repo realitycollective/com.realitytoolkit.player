@@ -8,7 +8,7 @@ using UnityEngine;
 namespace RealityToolkit.CameraService.UX
 {
     /// <summary>
-    /// Uses the <see cref="Interfaces.ICameraService.CameraOutOfBounds"/>
+    /// Uses the <see cref="ICameraService.CameraOutOfBounds"/>
     /// event in combination with the <see cref="CameraFade"/> component to
     /// fade the camera out as it progressively goes out of bounds.
     /// </summary>
