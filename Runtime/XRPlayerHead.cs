@@ -39,8 +39,11 @@ namespace RealityToolkit.CameraService
             }
 
             await ServiceManager.WaitUntilInitializedAsync();
-            cameraBoundsModule = ServiceManager.Instance.GetService<ICameraBoundsModule>();
-            cameraBoundsModule.CameraBackInBounds += CameraService_CameraBackInBounds;
+
+            if (ServiceManager.Instance.TryGetService(out cameraBoundsModule))
+            {
+                cameraBoundsModule.CameraBackInBounds += CameraService_CameraBackInBounds;
+            }
         }
 
         /// <inheritdoc />
@@ -55,6 +58,11 @@ namespace RealityToolkit.CameraService
         /// <inheritdoc />
         private void OnTriggerEnter(Collider other)
         {
+            if (cameraBoundsModule == null)
+            {
+                return;
+            }
+
             if (initialTrigger.IsNull() &&
                 other.TryGetComponent<CameraOutOfBoundsTrigger>(out var outOfBoundsTrigger) &&
                 outOfBoundsTrigger.RaiseEvents)
@@ -67,6 +75,11 @@ namespace RealityToolkit.CameraService
         /// <inheritdoc />
         protected virtual void OnTriggerStay(Collider other)
         {
+            if (cameraBoundsModule == null)
+            {
+                return;
+            }
+
             if (initialTrigger.IsNotNull() &&
                 initialTrigger.RaiseEvents)
             {
@@ -81,6 +94,11 @@ namespace RealityToolkit.CameraService
         /// <inheritdoc />
         protected virtual void OnTriggerExit(Collider other)
         {
+            if (cameraBoundsModule == null)
+            {
+                return;
+            }
+
             if (other.TryGetComponent<CameraOutOfBoundsTrigger>(out var outOfBoundsTrigger) &&
                 outOfBoundsTrigger == initialTrigger)
             {

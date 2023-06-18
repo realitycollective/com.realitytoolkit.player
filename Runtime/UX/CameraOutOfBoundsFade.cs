@@ -22,16 +22,12 @@ namespace RealityToolkit.CameraService.UX
         {
             cameraFade = GetComponent<CameraFade>();
 
-            try
+            await ServiceManager.WaitUntilInitializedAsync();
+
+            if (ServiceManager.Instance.TryGetService(out cameraBoundsModule))
             {
-                await ServiceManager.WaitUntilInitializedAsync();
-                cameraBoundsModule = await ServiceManager.Instance.GetServiceAsync<ICameraBoundsModule>();
                 cameraBoundsModule.CameraOutOfBounds += CameraService_CameraOutOfBounds;
                 cameraBoundsModule.CameraBackInBounds += CameraService_CameraBackInBounds;
-            }
-            catch
-            {
-                Debug.LogError($"{nameof(CameraOutOfBoundsFade)} was not able to register to {nameof(ICameraService)} events.");
             }
         }
 
