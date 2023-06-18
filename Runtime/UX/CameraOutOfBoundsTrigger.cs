@@ -1,12 +1,14 @@
+// Copyright (c) Reality Collective. All rights reserved.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 using UnityEngine;
 
 namespace RealityToolkit.CameraService.UX
 {
     /// <summary>
     /// Put this component on a <see cref="GameObject"/> with a <see cref="Collider"/>
-    /// attached to signal to the <see cref="Interfaces.ICameraService.CameraRig"/> that the camera
-    /// is not supposed to penetrate the collider, so it can raise <see cref="Interfaces.ICameraService.CameraOutOfBounds"/>
-    /// and <see cref="Interfaces.ICameraService.CameraBackInBounds"/> events.
+    /// attached to raise <see cref="Interfaces.ICameraBoundsModule.CameraOutOfBounds"/>
+    /// and <see cref="Interfaces.ICameraBoundsModule.CameraBackInBounds"/> events.
     /// </summary>
     [RequireComponent(typeof(Collider))]
     public class CameraOutOfBoundsTrigger : MonoBehaviour
@@ -26,6 +28,13 @@ namespace RealityToolkit.CameraService.UX
         {
             get => raiseEvents;
             set => raiseEvents = value;
+        }
+
+        /// <inheritdoc />
+        protected virtual void OnEnable()
+        {
+            var collider = GetComponent<Collider>();
+            collider.isTrigger = true;
         }
     }
 }

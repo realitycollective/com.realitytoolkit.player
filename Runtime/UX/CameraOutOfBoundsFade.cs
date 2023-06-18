@@ -16,7 +16,7 @@ namespace RealityToolkit.CameraService.UX
     public class CameraOutOfBoundsFade : MonoBehaviour
     {
         private CameraFade cameraFade;
-        private ICameraService cameraService;
+        private ICameraBoundsModule cameraBoundsModule;
 
         private async void OnEnable()
         {
@@ -25,9 +25,9 @@ namespace RealityToolkit.CameraService.UX
             try
             {
                 await ServiceManager.WaitUntilInitializedAsync();
-                cameraService = await ServiceManager.Instance.GetServiceAsync<ICameraService>();
-                cameraService.CameraOutOfBounds += CameraService_CameraOutOfBounds;
-                cameraService.CameraBackInBounds += CameraService_CameraBackInBounds;
+                cameraBoundsModule = await ServiceManager.Instance.GetServiceAsync<ICameraBoundsModule>();
+                cameraBoundsModule.CameraOutOfBounds += CameraService_CameraOutOfBounds;
+                cameraBoundsModule.CameraBackInBounds += CameraService_CameraBackInBounds;
             }
             catch
             {
@@ -37,10 +37,10 @@ namespace RealityToolkit.CameraService.UX
 
         private void OnDisable()
         {
-            if (cameraService != null)
+            if (cameraBoundsModule != null)
             {
-                cameraService.CameraOutOfBounds -= CameraService_CameraOutOfBounds;
-                cameraService.CameraBackInBounds -= CameraService_CameraBackInBounds;
+                cameraBoundsModule.CameraOutOfBounds -= CameraService_CameraOutOfBounds;
+                cameraBoundsModule.CameraBackInBounds -= CameraService_CameraBackInBounds;
             }
         }
 

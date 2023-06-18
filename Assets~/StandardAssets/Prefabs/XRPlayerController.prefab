@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 1634786521743085553}
   - component: {fileID: 1634786521743085559}
   - component: {fileID: 5055765067617793142}
+  - component: {fileID: 2171061433844026383}
   - component: {fileID: 367572774002706352}
   - component: {fileID: 824352232160900368}
   - component: {fileID: 235926544177973505}
-  - component: {fileID: 2171061433844026383}
   - component: {fileID: 8013877530359596602}
   m_Layer: 0
   m_Name: XRPlayerHead
@@ -108,6 +108,19 @@ MonoBehaviour:
   m_TrackingType: 0
   m_UpdateType: 0
   m_UseRelativeTransform: 0
+--- !u!114 &2171061433844026383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1634786521743085562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c04df2abf96dce42ac1d12dd45fe9e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sphereCollider: {fileID: 367572774002706352}
 --- !u!135 &367572774002706352
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -147,18 +160,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7713bdf19ad4e0c4d9508dbf06a9ace2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2171061433844026383
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1634786521743085562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c04df2abf96dce42ac1d12dd45fe9e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!54 &8013877530359596602

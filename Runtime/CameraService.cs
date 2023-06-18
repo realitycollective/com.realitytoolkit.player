@@ -7,7 +7,6 @@ using RealityCollective.ServiceFramework.Definitions.Platforms;
 using RealityCollective.ServiceFramework.Services;
 using RealityToolkit.CameraService.Definitions;
 using RealityToolkit.CameraService.Interfaces;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
@@ -74,12 +73,6 @@ namespace RealityToolkit.CameraService
                 return displaySubsystem;
             }
         }
-
-        /// <inheritdoc />
-        public event CameraOutOfBoundsDelegate CameraOutOfBounds;
-
-        /// <inheritdoc />
-        public event Action CameraBackInBounds;
 
         /// <inheritdoc />
         public override void Initialize()
@@ -149,11 +142,5 @@ namespace RealityToolkit.CameraService
                 CameraRig.CameraTransform.position = Vector3.zero;
             }
         }
-
-        /// <inheritdoc />
-        public void RaiseCameraOutOfBounds(float severity, Vector3 returnToBoundsDirection) => CameraOutOfBounds?.Invoke(severity, returnToBoundsDirection);
-
-        /// <inheritdoc />
-        public void RaiseCameraBackInBounds() => CameraBackInBounds?.Invoke();
     }
 }

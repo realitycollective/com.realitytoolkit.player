@@ -53,7 +53,6 @@ namespace RealityToolkit.CameraService
         /// <inheritdoc />
         public Transform BodyTransform => bodyTransform;
 
-        private bool wasOutOfBounds;
         private Vector3 gravityVelocity;
         private Vector3 motionInput;
 
@@ -201,43 +200,6 @@ namespace RealityToolkit.CameraService
             var motionDirection = motionInput + gravityVelocity;
             controller.Move(motionDirection * Time.deltaTime);
             motionInput = Vector3.zero;
-        }
-
-        private void CheckCameraBounds()
-        {
-            const float lowerThresholdFactor = .2f;
-
-            var headPosition = CameraTransform.position;
-            headPosition.y = 0f;
-            var bodyPosition = BodyTransform.position;
-            bodyPosition.y = 0f;
-
-            var headToBodyOffset = Vector3.Distance(headPosition, bodyPosition);
-            var severity = 0f;
-            var cameraOutOfBoundsLowerThreshold = lowerThresholdFactor * controller.radius;
-            var cameraOutOfBoundsUpperThreshold = controller.radius;
-
-            if (headToBodyOffset >= cameraOutOfBoundsUpperThreshold)
-            {
-                severity = 1f;
-            }
-            else if (headToBodyOffset >= cameraOutOfBoundsLowerThreshold)
-            {
-                var range = cameraOutOfBoundsUpperThreshold - cameraOutOfBoundsLowerThreshold;
-                var value = headToBodyOffset - cameraOutOfBoundsLowerThreshold;
-                severity = value / range;
-            }
-
-            if (severity > 0f)
-            {
-                CameraService.RaiseCameraOutOfBounds(severity, (bodyPosition - headPosition).normalized);
-            }
-            else if (severity <= 0f && wasOutOfBounds)
-            {
-                CameraService.RaiseCameraBackInBounds();
-            }
-
-            wasOutOfBounds = severity > 0f;
         }
     }
 }
