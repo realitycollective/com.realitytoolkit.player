@@ -13,12 +13,16 @@ namespace RealityToolkit.CameraService
     [RequireComponent(typeof(SphereCollider))]
     public class XRPlayerHead : MonoBehaviour
     {
-        [SerializeField]
+        [SerializeField, Tooltip("The sphere collider wrapping the player's head.")]
         private SphereCollider sphereCollider;
+
+        [SerializeField, Tooltip("The distance the head is allowed to move out of bounds before it is considered severely out of bounds.")]
+        private float maxSeverityDistanceThreshold = .2f;
 
         private XRPlayerController controller;
         private ICameraBoundsModule cameraBoundsModule;
         private CameraOutOfBoundsTrigger initialTrigger;
+        private Vector3 enterPosition;
 
         /// <summary>
         /// The radius of the head measured in the object's local space.
@@ -49,14 +53,28 @@ namespace RealityToolkit.CameraService
         }
 
         /// <inheritdoc />
+        private void OnTriggerEnter(Collider other)
+        {
+            if (initialTrigger.IsNull() &&
+                other.TryGetComponent<CameraOutOfBoundsTrigger>(out var outOfBoundsTrigger) &&
+                outOfBoundsTrigger.RaiseEvents)
+            {
+                initialTrigger = outOfBoundsTrigger;
+                enterPosition = transform.position;
+            }
+        }
+
+        /// <inheritdoc />
         protected virtual void OnTriggerStay(Collider other)
         {
-            if (other.TryGetComponent<CameraOutOfBoundsTrigger>(out var outOfBoundsTrigger) &&
-                outOfBoundsTrigger.RaiseEvents &&
-                initialTrigger.IsNull())
+            if (initialTrigger.IsNotNull() &&
+                initialTrigger.RaiseEvents)
             {
-                cameraBoundsModule.RaiseCameraOutOfBounds(1f, Vector3.zero);
-                initialTrigger = outOfBoundsTrigger;
+                var distance = Vector3.Distance(enterPosition, transform.position);
+                var severity = Mathf.Clamp01(distance / maxSeverityDistanceThreshold);
+                var direction = (enterPosition - transform.position).normalized;
+
+                cameraBoundsModule.RaiseCameraOutOfBounds(severity, direction);
             }
         }
 
@@ -77,42 +95,5 @@ namespace RealityToolkit.CameraService
             // we got to reset internal state.
             initialTrigger = null;
         }
-
-        //private void CheckCameraBounds()
-        //{
-        //    const float lowerThresholdFactor = .2f;
-
-        //    var headPosition = transform.position;
-        //    headPosition.y = 0f;
-        //    var bodyPosition = BodyTransform.position;
-        //    bodyPosition.y = 0f;
-
-        //    var headToBodyOffset = Vector3.Distance(headPosition, bodyPosition);
-        //    var severity = 0f;
-        //    var cameraOutOfBoundsLowerThreshold = lowerThresholdFactor * Radius;
-        //    var cameraOutOfBoundsUpperThreshold = Radius;
-
-        //    if (headToBodyOffset >= cameraOutOfBoundsUpperThreshold)
-        //    {
-        //        severity = 1f;
-        //    }
-        //    else if (headToBodyOffset >= cameraOutOfBoundsLowerThreshold)
-        //    {
-        //        var range = cameraOutOfBoundsUpperThreshold - cameraOutOfBoundsLowerThreshold;
-        //        var value = headToBodyOffset - cameraOutOfBoundsLowerThreshold;
-        //        severity = value / range;
-        //    }
-
-        //    if (severity > 0f)
-        //    {
-        //        cameraService.RaiseCameraOutOfBounds(severity, (bodyPosition - headPosition).normalized);
-        //    }
-        //    else if (severity <= 0f && wasOutOfBounds)
-        //    {
-        //        cameraService.RaiseCameraBackInBounds();
-        //    }
-
-        //    wasOutOfBounds = severity > 0f;
-        //}
     }
 }
