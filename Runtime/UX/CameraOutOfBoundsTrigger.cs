@@ -9,5 +9,8 @@ namespace RealityToolkit.CameraService.UX
     /// and <see cref="Interfaces.ICameraService.CameraBackInBounds"/> events.
     /// </summary>
     [RequireComponent(typeof(Collider))]
-    public class CameraBoundsCollider : MonoBehaviour { }
+    public class CameraOutOfBoundsTrigger : MonoBehaviour
+    {
+
+    }
 }

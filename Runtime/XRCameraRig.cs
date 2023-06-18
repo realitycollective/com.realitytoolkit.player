@@ -17,6 +17,7 @@ namespace RealityToolkit.CameraService
     /// </summary>
     [SelectionBase]
     [DisallowMultipleComponent]
+    [System.Runtime.InteropServices.Guid("968e05fa-de5d-4502-9123-8fb83fdea695")]
     public class XRCameraRig : CameraRig, IXRCameraRig
 #if RTK_LOCOMOTION
         , Locomotion.Interfaces.ILocomotionTarget

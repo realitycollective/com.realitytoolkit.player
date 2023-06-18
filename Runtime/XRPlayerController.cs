@@ -3,7 +3,6 @@
 
 using RealityToolkit.CameraService.Definitions;
 using RealityToolkit.CameraService.Interfaces;
-using RealityToolkit.CameraService.UX;
 using UnityEngine;
 
 namespace RealityToolkit.CameraService
@@ -19,7 +18,7 @@ namespace RealityToolkit.CameraService
     public class XRPlayerController : XRCameraRig, IXRPlayerController
     {
         [SerializeField, Tooltip("The head collider is used to offset the body/character collider.")]
-        private SphereCollider head = null;
+        private XRPlayerHead head = null;
 
         [SerializeField, Tooltip("The main character collider.")]
         private CharacterController controller;
@@ -70,17 +69,8 @@ namespace RealityToolkit.CameraService
         {
             var prevoiusColor = Gizmos.color;
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(head.transform.position, head.radius);
+            Gizmos.DrawWireSphere(head.transform.position, head.Radius);
             Gizmos.color = prevoiusColor;
-        }
-
-        /// <inheritdoc />
-        protected virtual void OnCollisionEnter(Collision collision)
-        {
-            if (collision.gameObject.TryGetComponent<CameraBoundsCollider>(out _))
-            {
-
-            }
         }
 
         /// <inheritdoc />
@@ -138,7 +128,7 @@ namespace RealityToolkit.CameraService
             controller.radius = bodyDiameter / 2f;
             controller.skinWidth = .1f * controller.radius;
 
-            var height = Mathf.Max(bodyDiameter, head.transform.localPosition.y - head.radius);
+            var height = Mathf.Max(bodyDiameter, head.transform.localPosition.y - head.Radius);
             controller.height = height;
             controller.stepOffset = .2f * controller.height;
 
