@@ -26,12 +26,12 @@ namespace RealityToolkit.CameraService
         public float Radius => sphereCollider.radius;
 
         /// <inheritdoc />
-        private async void Awake()
+        protected virtual async void Awake()
         {
             controller = GetComponentInParent<XRPlayerController>();
             if (controller.IsNull())
             {
-                Debug.LogError($"{nameof(XRPlayerHead)}must be parented to {nameof(XRPlayerController)}.");
+                Debug.LogError($"{nameof(XRPlayerHead)} must be parented to {nameof(XRPlayerController)}.");
             }
 
             await ServiceManager.WaitUntilInitializedAsync();
@@ -40,7 +40,7 @@ namespace RealityToolkit.CameraService
         }
 
         /// <inheritdoc />
-        private void OnDestroy()
+        protected virtual void OnDestroy()
         {
             if (cameraBoundsModule != null)
             {
@@ -49,7 +49,7 @@ namespace RealityToolkit.CameraService
         }
 
         /// <inheritdoc />
-        private void OnTriggerStay(Collider other)
+        protected virtual void OnTriggerStay(Collider other)
         {
             if (other.TryGetComponent<CameraOutOfBoundsTrigger>(out var outOfBoundsTrigger) &&
                 outOfBoundsTrigger.RaiseEvents &&
@@ -61,7 +61,7 @@ namespace RealityToolkit.CameraService
         }
 
         /// <inheritdoc />
-        private void OnTriggerExit(Collider other)
+        protected virtual void OnTriggerExit(Collider other)
         {
             if (other.TryGetComponent<CameraOutOfBoundsTrigger>(out var outOfBoundsTrigger) &&
                 outOfBoundsTrigger == initialTrigger)
@@ -71,9 +71,11 @@ namespace RealityToolkit.CameraService
             }
         }
 
-        private void CameraService_CameraBackInBounds()
+        protected virtual void CameraService_CameraBackInBounds()
         {
-
+            // We may have been force moved back into bounds externally, so we
+            // we got to reset internal state.
+            initialTrigger = null;
         }
 
         //private void CheckCameraBounds()
