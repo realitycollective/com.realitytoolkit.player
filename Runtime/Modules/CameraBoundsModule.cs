@@ -51,11 +51,6 @@ namespace RealityToolkit.CameraService.Modules
         /// <inheritdoc />
         public override void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                ResetCameraIntoBounds();
-            }
-
             if (IsCameraOutOfBounds)
             {
                 return;
