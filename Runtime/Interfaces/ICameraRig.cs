@@ -34,6 +34,20 @@ namespace RealityToolkit.CameraService.Interfaces
         void RotateAround(Vector3 axis, float angle);
 
         /// <summary>
+        /// Sets the world space position and rotation of the <see cref="ICameraRig"/>.
+        /// </summary>
+        /// <param name="position">The world space position.</param>
+        /// <param name="rotation">The world space rotation.</param>
+        void SetPositionAndRotation(Vector3 position, Quaternion rotation);
+
+        /// <summary>
+        /// Sets the world space position and rotation of the <see cref="ICameraRig"/>.
+        /// </summary>
+        /// <param name="position">The world space position.</param>
+        /// <param name="rotation">The world space rotation.</param>
+        void SetPositionAndRotation(Vector3 position, Vector3 rotation);
+
+        /// <summary>
         /// Moves the <see cref="ICameraRig"/> in <paramref name="direction"/> on the (X,Z) plane.
         /// </summary>
         /// <param name="direction">The direction <see cref="Vector2"/>.</param>

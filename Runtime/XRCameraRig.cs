@@ -138,23 +138,6 @@ namespace RealityToolkit.CameraService
                 CameraTransform.localPosition.z);
         }
 
-#if RTK_LOCOMOTION
-        /// <inheritdoc />
-        public virtual void SetPositionAndRotation(Vector3 position, Quaternion rotation)
-            => SetPositionAndRotation(position, rotation.eulerAngles);
-
-        /// <inheritdoc />
-        public virtual void SetPositionAndRotation(Vector3 position, Vector3 rotation)
-        {
-            var height = position.y;
-            position -= CameraTransform.position - RigTransform.position;
-            position.y = height;
-
-            RigTransform.position = position;
-            RotateAround(Vector3.up, rotation.y - CameraTransform.eulerAngles.y);
-        }
-#endif
-
         private bool SetupTrackingOrigin()
         {
             SubsystemManager.GetInstances(inputSubsystems);

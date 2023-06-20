@@ -63,6 +63,21 @@ namespace RealityToolkit.CameraService
         }
 
         /// <inheritdoc />
+        public virtual void SetPositionAndRotation(Vector3 position, Quaternion rotation)
+            => SetPositionAndRotation(position, rotation.eulerAngles);
+
+        /// <inheritdoc />
+        public virtual void SetPositionAndRotation(Vector3 position, Vector3 rotation)
+        {
+            var height = position.y;
+            position -= CameraTransform.position - RigTransform.position;
+            position.y = height;
+
+            RigTransform.position = position;
+            RotateAround(Vector3.up, rotation.y - CameraTransform.eulerAngles.y);
+        }
+
+        /// <inheritdoc />
         public virtual void Move(Vector2 direction, float speed = 1f)
         => Move(new Vector3(direction.x, 0f, direction.y));
 

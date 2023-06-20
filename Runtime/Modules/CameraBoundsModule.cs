@@ -23,15 +23,66 @@ namespace RealityToolkit.CameraService.Modules
             : base(name, priority, profile, parentService) { }
 
         /// <inheritdoc />
+        public bool IsCameraOutOfBounds { get; private set; }
+
+        /// <inheritdoc />
+        public Pose LastInBoundsPose { get; private set; }
+
+        /// <inheritdoc />
         public event CameraOutOfBoundsDelegate CameraOutOfBounds;
 
         /// <inheritdoc />
         public event Action CameraBackInBounds;
 
-        /// <inheritdoc />
-        public void RaiseCameraOutOfBounds(float severity, Vector3 returnToBoundsDirection) => CameraOutOfBounds?.Invoke(severity, returnToBoundsDirection);
+        private ICameraRig cameraRig;
 
         /// <inheritdoc />
-        public void RaiseCameraBackInBounds() => CameraBackInBounds?.Invoke();
+        public override void Initialize()
+        {
+            if (!Application.isPlaying)
+            {
+                return;
+            }
+
+            cameraRig = (ParentService as ICameraService).CameraRig;
+        }
+
+        /// <inheritdoc />
+        public override void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                ResetCameraIntoBounds();
+            }
+        }
+
+        /// <inheritdoc />
+        public void ResetCameraIntoBounds()
+        {
+            if (!IsCameraOutOfBounds)
+            {
+                return;
+            }
+
+            cameraRig.SetPositionAndRotation(LastInBoundsPose.position, Quaternion.identity);
+            RaiseCameraBackInBounds();
+        }
+
+        /// <inheritdoc />
+        public void RaiseCameraOutOfBounds(float severity, Vector3 returnToBoundsDirection)
+        {
+            IsCameraOutOfBounds = severity > 0f;
+            if (IsCameraOutOfBounds)
+            {
+                CameraOutOfBounds?.Invoke(severity, returnToBoundsDirection);
+            }
+        }
+
+        /// <inheritdoc />
+        public void RaiseCameraBackInBounds()
+        {
+            IsCameraOutOfBounds = false;
+            CameraBackInBounds?.Invoke();
+        }
     }
 }

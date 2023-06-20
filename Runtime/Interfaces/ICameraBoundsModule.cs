@@ -22,6 +22,16 @@ namespace RealityToolkit.CameraService.Interfaces
     public interface ICameraBoundsModule : ICameraServiceModule
     {
         /// <summary>
+        /// Is the active <see cref="ICameraRig"/> currently considered out of bounds?
+        /// </summary>
+        bool IsCameraOutOfBounds { get; }
+
+        /// <summary>
+        /// The last saved known <see cref="Pose"/> where the <see cref="ICameraRig"/> was still in bounds.
+        /// </summary>
+        Pose LastInBoundsPose { get; }
+
+        /// <summary>
         /// Raised while the <see cref="ICameraRig.RigCamera"/> is out of bounds.
         /// </summary>
         event CameraOutOfBoundsDelegate CameraOutOfBounds;
@@ -30,6 +40,12 @@ namespace RealityToolkit.CameraService.Interfaces
         /// Raised when the <see cref="ICameraRig.RigCamera"/> is back in bounds.
         /// </summary>
         event Action CameraBackInBounds;
+
+        /// <summary>
+        /// Force resets the <see cref="ICameraRig"/> into the last known pose
+        /// before it went out of bounds.
+        /// </summary>
+        void ResetCameraIntoBounds();
 
         /// <summary>
         /// Raises the <see cref="CameraOutOfBounds"/> event to subsribed
