@@ -14,14 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   configurations:
   - instancedType:
-      reference: 83eff552-adf4-47c8-ad53-df7406856d3f
-    name: Meta Camera Rig Service Module
+      reference: ea4c0c19-e533-4ae8-91a2-6998cb8905bb
+    name: Default Camera Rig Service Module
     priority: 0
-    profile: {fileID: 11400000, guid: 69601914bd8789b49bc45cc0a9220b4d, type: 2}
+    profile: {fileID: 11400000, guid: c02516a14adf1ff45b2e6feaefd1d090, type: 2}
     platformEntries:
       runtimePlatforms:
-      - reference: 5a504905-0968-4b2f-a537-7fe804f1bd8e
-      - reference: db1acc26-ec8d-4bc6-afca-c51351b2da2e
+      - reference: 9869b29e-43bb-44cc-ae49-eb5c913263f9
   - instancedType:
       reference: a68682d3-3e9d-4d56-8a32-9805f58928f8
     name: Camera Bounds Module
@@ -32,4 +31,4 @@ MonoBehaviour:
       - reference: 9869b29e-43bb-44cc-ae49-eb5c913263f9
   isRigPersistent: 1
   resetCameraToOrigin: 0
-  rigPrefab: {fileID: 1634786522418503189, guid: aae20b1f893489b4797fc46eacbb4101, type: 3}
+  rigPrefab: {fileID: 6074567058768481976, guid: 3d755ceced433da43a06ddaabfe73b3c, type: 3}
