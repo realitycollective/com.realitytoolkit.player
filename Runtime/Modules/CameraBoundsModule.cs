@@ -35,6 +35,7 @@ namespace RealityToolkit.CameraService.Modules
         public event Action CameraBackInBounds;
 
         private ICameraRig cameraRig;
+        private const float returnToBoundsPoseOffset = .5f;
 
         /// <inheritdoc />
         public override void Initialize()
@@ -54,6 +55,15 @@ namespace RealityToolkit.CameraService.Modules
             {
                 ResetCameraIntoBounds();
             }
+
+            if (IsCameraOutOfBounds)
+            {
+                return;
+            }
+
+            var position = cameraRig.CameraTransform.position;
+            position.y = cameraRig.RigTransform.position.y;
+            LastInBoundsPose = new Pose(position, cameraRig.RigTransform.rotation);
         }
 
         /// <inheritdoc />
@@ -64,7 +74,13 @@ namespace RealityToolkit.CameraService.Modules
                 return;
             }
 
-            cameraRig.SetPositionAndRotation(LastInBoundsPose.position, Quaternion.identity);
+            var position = LastInBoundsPose.position;
+            var direction = cameraRig.CameraTransform.position - position;
+            direction.y = 0f;
+            direction.Normalize();
+            position -= returnToBoundsPoseOffset * direction;
+
+            cameraRig.SetPositionAndRotation(position, Quaternion.identity);
             RaiseCameraBackInBounds();
         }
 
