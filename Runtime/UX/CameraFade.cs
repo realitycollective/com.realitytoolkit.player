@@ -17,7 +17,7 @@ namespace RealityToolkit.CameraService.UX
         private Color fadeColor = Color.black;
 
         [SerializeField, Tooltip("Duration in seconds to fully fade in / out.")]
-        private float fadeDuration = 1f;
+        private float fullFadeDuration = 1f;
 
         [SerializeField, Tooltip("The material used to fade. This must be a transparency enabled material.")]
         private Material fadeMaterial;
@@ -65,7 +65,11 @@ namespace RealityToolkit.CameraService.UX
         /// </summary>
         public void FadeIn()
         {
-            StartCoroutine(Fade(1f, 0f));
+            var color = fadeRenderer.material.color;
+            var startAlpha = color.a;
+            var duration = Mathf.Abs(startAlpha) * fullFadeDuration;
+
+            StartCoroutine(Fade(startAlpha, 0f, duration));
         }
 
         /// <summary>
@@ -73,7 +77,11 @@ namespace RealityToolkit.CameraService.UX
         /// </summary>
         public void FadeOut()
         {
-            StartCoroutine(Fade(0f, 1f));
+            var color = fadeRenderer.material.color;
+            var startAlpha = color.a;
+            var duration = Mathf.Abs(startAlpha - 1f) * fullFadeDuration;
+
+            StartCoroutine(Fade(startAlpha, 1f, duration));
         }
 
         /// <summary>
@@ -144,13 +152,13 @@ namespace RealityToolkit.CameraService.UX
             return mesh;
         }
 
-        private IEnumerator Fade(float startAlpha, float endAlpha)
+        private IEnumerator Fade(float startAlpha, float endAlpha, float duration)
         {
             var elapsedTime = 0f;
-            while (elapsedTime < fadeDuration)
+            while (elapsedTime < duration)
             {
                 elapsedTime += Time.deltaTime;
-                var frameAlpha = Mathf.Lerp(startAlpha, endAlpha, Mathf.Clamp01(elapsedTime / fadeDuration));
+                var frameAlpha = Mathf.Lerp(startAlpha, endAlpha, Mathf.Clamp01(elapsedTime / duration));
                 SetFade(frameAlpha);
                 yield return new WaitForEndOfFrame();
             }
