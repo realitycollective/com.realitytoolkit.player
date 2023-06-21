@@ -6,98 +6,93 @@ using RealityCollective.ServiceFramework.Services;
 using RealityToolkit.CameraService.Definitions;
 using RealityToolkit.CameraService.Interfaces;
 using UnityEngine;
-using UnityEngine.SpatialTracking;
 
 namespace RealityToolkit.CameraService
 {
     /// <summary>
     /// The default <see cref="ICameraRig"/> implmentation.
-    /// Use it as it is or use it as starting point for your own implementation.
     /// </summary>
+    [SelectionBase]
+    [DisallowMultipleComponent]
     [System.Runtime.InteropServices.Guid("8E0EE4FC-C8A5-4B10-9FCA-EE55B6D421FF")]
     public class CameraRig : MonoBehaviour, ICameraRig
     {
-        [SerializeField]
-        private Transform rigTransform = null;
-
-        [SerializeField]
-        private Camera playerCamera = null;
-
-        [SerializeField]
-        private Transform bodyTransform = null;
-
-        [SerializeField]
-        private TrackedPoseDriver cameraPoseDriver = null;
+        [SerializeField, Tooltip("The camera component on the rig.")]
+        private Camera rigCamera = null;
 
         /// <inheritdoc />
-        public GameObject GameObject => gameObject;
+        public Transform RigTransform => transform;
 
         /// <inheritdoc />
-        public Transform RigTransform => rigTransform;
+        public Camera RigCamera => rigCamera;
 
         /// <inheritdoc />
-        public Camera PlayerCamera => playerCamera;
+        public Transform CameraTransform => RigCamera.IsNull() ? null : RigCamera.transform;
+
+        private ICameraService cameraService;
+        /// <summary>
+        /// Lazy loaded reference to the active <see cref="ICameraService"/>.
+        /// </summary>
+        protected ICameraService CameraService => cameraService ??= ServiceManager.Instance.GetService<ICameraService>();
 
         /// <inheritdoc />
-        public Transform CameraTransform => PlayerCamera == null ? null : PlayerCamera.transform;
-
-        /// <inheritdoc />
-        public Transform BodyTransform => bodyTransform;
-
-        /// <inheritdoc />
-        public TrackedPoseDriver CameraPoseDriver => cameraPoseDriver;
-
-        /// <inheritdoc />
-        public virtual bool IsStereoscopic => PlayerCamera.stereoEnabled;
-
-        /// <inheritdoc />
-        public virtual bool IsOpaque
+        protected virtual async void Start()
         {
-            get
-            {
-                if (!ServiceManager.IsActiveAndInitialized ||
-                    !ServiceManager.Instance.TryGetService<ICameraService>(out var cameraService) ||
-                    cameraService.DisplaySubsystem == null)
-                {
-                    // When no device is attached we are assuming the display
-                    // device is the computer's display, which should be opaque.
-                    return true;
-                }
+            await ServiceManager.WaitUntilInitializedAsync();
 
-                return cameraService.DisplaySubsystem.displayOpaque;
+            if (ServiceManager.Instance.TryGetServiceProfile<ICameraService, CameraServiceProfile>(out var profile) &&
+                profile.IsRigPersistent)
+            {
+                RigTransform.gameObject.DontDestroyOnLoad();
             }
         }
 
         /// <summary>
-        /// Called just before any of the update callbacks is called the first time.
+        /// Resets the <see cref="ICameraRig.RigTransform"/>, <see cref="ICameraRig.CameraTransform"/>.
         /// </summary>
-        protected virtual void Start()
+        protected virtual void ResetRig()
         {
-            if (CameraPoseDriver.IsNull())
-            {
-                cameraPoseDriver = PlayerCamera.gameObject.EnsureComponent<TrackedPoseDriver>();
-                cameraPoseDriver.UseRelativeTransform = false;
-            }
+            RigTransform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+            CameraTransform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+        }
 
-            if (ServiceManager.Instance != null &&
-                ServiceManager.Instance.TryGetService<ICameraService>(out var cameraService)
-                && CameraPoseDriver.IsNotNull())
-            {
-                switch (cameraService.CameraRigServiceModule.TrackingType)
-                {
-                    case TrackingType.SixDegreesOfFreedom:
-                        CameraPoseDriver.trackingType = TrackedPoseDriver.TrackingType.RotationAndPosition;
-                        break;
-                    case TrackingType.ThreeDegreesOfFreedom:
-                        CameraPoseDriver.trackingType = TrackedPoseDriver.TrackingType.RotationOnly;
-                        break;
-                    case TrackingType.Auto:
-                    default:
-                        // For now, leave whatever the user has configured manually on the component. Once we
-                        // have APIs in place to query platform capabilities, we might use that for auto.
-                        break;
-                }
-            }
+        /// <inheritdoc />
+        public virtual void RotateAround(Vector3 axis, float angle)
+        {
+            RigTransform.RotateAround(CameraTransform.position, axis, angle);
+        }
+
+        /// <inheritdoc />
+        public virtual void SetPositionAndRotation(Vector3 position, Quaternion rotation)
+            => SetPositionAndRotation(position, rotation.eulerAngles);
+
+        /// <inheritdoc />
+        public virtual void SetPositionAndRotation(Vector3 position, Vector3 rotation)
+        {
+            var height = position.y;
+            position -= CameraTransform.position - RigTransform.position;
+            position.y = height;
+
+            RigTransform.position = position;
+            RotateAround(Vector3.up, rotation.y - CameraTransform.eulerAngles.y);
+        }
+
+        /// <inheritdoc />
+        public virtual void Move(Vector2 direction, float speed = 1f)
+        => Move(new Vector3(direction.x, 0f, direction.y));
+
+        /// <inheritdoc />
+        public virtual void Move(Vector3 direction, float speed = 1f)
+        {
+            var forwardDirection = CameraTransform.forward;
+            forwardDirection.y = 0f;
+
+            var rightDirection = CameraTransform.right;
+            rightDirection.y = 0f;
+
+            var combinedDirection = (forwardDirection * direction.z + rightDirection * direction.x).normalized;
+
+            RigTransform.Translate(speed * Time.deltaTime * combinedDirection, Space.World);
         }
     }
 }
