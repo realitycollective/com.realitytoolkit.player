@@ -1,6 +1,7 @@
 // Copyright (c) Reality Collective. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using RealityCollective.ServiceFramework.Services;
 using RealityToolkit.CameraService.Definitions;
 using RealityToolkit.CameraService.Interfaces;
 using UnityEngine;
@@ -31,14 +32,6 @@ namespace RealityToolkit.CameraService
         [Range(.5f, 2f)]
         private float bodyDiameter = 1f;
 
-        [SerializeField]
-        [Tooltip("Threshold angle between head and body at which to start updating the body orientation to fit head rotation.")]
-        private float startRotateBodyAngle = 45f;
-
-        [SerializeField]
-        [Tooltip("The body orientation change animation speed.")]
-        private float angleRotateBodySpeed = 20f;
-
         [SerializeField, Header("Gravity")]
         [Tooltip("Controls when gravity begins to take effect.")]
         private GravityMode gravityMode;
@@ -55,6 +48,19 @@ namespace RealityToolkit.CameraService
 
         private Vector3 gravityVelocity;
         private Vector3 motionInput;
+        private IBodyPoseProviderModule bodyPoseProvider;
+
+        /// <inheritdoc />
+        protected override async void Start()
+        {
+            base.Start();
+
+            await ServiceManager.WaitUntilInitializedAsync();
+            if (!ServiceManager.Instance.TryGetService(out bodyPoseProvider))
+            {
+                Debug.LogError($"The {nameof(XRPlayerController)} requires an active {nameof(IBodyPoseProviderModule)}.");
+            }
+        }
 
         /// <inheritdoc />
         protected override void Update()
@@ -167,28 +173,17 @@ namespace RealityToolkit.CameraService
         }
 
         /// <summary>
-        /// Uses the head / camera's forward orientation to estimate the orientation
-        /// of the <see cref="BodyTransform"/> of the player.
+        /// Updates the rig's estimated body pose using the active
+        /// <see cref="IBodyPoseProviderModule"/> implementation.
         /// </summary>
         private void UpdateBodyEstimation()
         {
-            var bodyForward = BodyTransform.forward;
-            var headForward = CameraTransform.forward;
-            headForward = new Vector3(headForward.x, 0f, headForward.z);
-
-            var angle = Vector3.SignedAngle(bodyForward, headForward, Vector3.up);
-            var delta = Mathf.Abs(angle) - startRotateBodyAngle;
-
-            if (angle > startRotateBodyAngle)
+            if (bodyPoseProvider == null)
             {
-                var step = Vector3.up * Time.deltaTime * angleRotateBodySpeed * delta;
-                BodyTransform.Rotate(step, Space.World);
+                return;
             }
-            else if (angle < -startRotateBodyAngle)
-            {
-                var step = Vector3.up * Time.deltaTime * angleRotateBodySpeed * -delta;
-                BodyTransform.Rotate(step, Space.World);
-            }
+
+            BodyTransform.SetPositionAndRotation(bodyPoseProvider.Pose.position, bodyPoseProvider.Pose.rotation);
         }
 
         /// <summary>
