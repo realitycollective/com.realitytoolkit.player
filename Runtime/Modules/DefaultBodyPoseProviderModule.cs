@@ -66,9 +66,12 @@ namespace RealityToolkit.CameraService.Modules
                 var angle = Vector3.Angle(playerController.BodyTransform.forward, playerController.CameraTransform.forward);
                 if (angle > thresholdAngle || shouldReturnToIdle)
                 {
-                    var targetRotation = Quaternion.LookRotation(playerController.CameraTransform.forward, Vector3.up);
+                    var targetRotation = Quaternion.LookRotation(playerController.CameraTransform.forward, Vector3.up).eulerAngles;
+                    targetRotation.x = 0f;
+                    targetRotation.z = 0f;
+
                     var speed = angle > largeAngleBoostThreshold ? largeAngleBoostMultiplier * rotateTowardsSpeed : rotateTowardsSpeed;
-                    bodyRotation = Quaternion.RotateTowards(playerController.BodyTransform.rotation, targetRotation, speed * Time.deltaTime);
+                    bodyRotation = Quaternion.RotateTowards(playerController.BodyTransform.rotation, Quaternion.Euler(targetRotation), speed * Time.deltaTime);
                     shouldReturnToIdle = angle > 0;
                 }
 
