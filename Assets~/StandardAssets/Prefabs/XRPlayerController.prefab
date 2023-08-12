@@ -261,7 +261,7 @@ MonoBehaviour:
   head: {fileID: 2171061433844026383}
   controller: {fileID: 1449923283234235447}
   bodyTransform: {fileID: 9042037184276085410}
-  bodyDiameter: 1
+  bodyDiameter: 0.5
   gravityMode: 0
 --- !u!54 &4329863972925498748
 Rigidbody:
@@ -310,12 +310,12 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 1.35
-  m_Radius: 0.5
+  m_Radius: 0.25
   m_SlopeLimit: 45
   m_StepOffset: 0.27
-  m_SkinWidth: 0.05
+  m_SkinWidth: 0.025
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.725, z: 0}
+  m_Center: {x: 0, y: 0.7, z: 0}
 --- !u!1 &9104542960344264379
 GameObject:
   m_ObjectHideFlags: 0
