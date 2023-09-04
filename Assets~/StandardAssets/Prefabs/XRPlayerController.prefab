@@ -31,13 +31,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1634786521743085562}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1634786522418503191}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &1634786521743085553
 Camera:
@@ -232,6 +232,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1634786522418503189}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -240,7 +241,6 @@ Transform:
   - {fileID: 1634786521743085558}
   - {fileID: 9042037184276085410}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9032217169315351357
 MonoBehaviour:
@@ -261,7 +261,7 @@ MonoBehaviour:
   head: {fileID: 2171061433844026383}
   controller: {fileID: 1449923283234235447}
   bodyTransform: {fileID: 9042037184276085410}
-  bodyDiameter: 1
+  bodyDiameter: 0.5
   gravityMode: 0
 --- !u!54 &4329863972925498748
 Rigidbody:
@@ -310,12 +310,12 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 1.35
-  m_Radius: 0.5
+  m_Radius: 0.25
   m_SlopeLimit: 45
   m_StepOffset: 0.27
-  m_SkinWidth: 0.05
+  m_SkinWidth: 0.025
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.725, z: 0}
+  m_Center: {x: 0, y: 0.7, z: 0}
 --- !u!1 &9104542960344264379
 GameObject:
   m_ObjectHideFlags: 0
@@ -339,11 +339,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9104542960344264379}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1634786522418503191}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
