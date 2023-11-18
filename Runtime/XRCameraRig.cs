@@ -140,7 +140,11 @@ namespace RealityToolkit.CameraService
 
         private bool SetupTrackingOrigin()
         {
+#if UNITY_2023_2_OR_NEWER
+            SubsystemManager.GetSubsystems(inputSubsystems);
+#else
             SubsystemManager.GetInstances(inputSubsystems);
+#endif
 
             // We assume the tracking mode to be set, that way
             // when in editor and no subsystems are connected / running
@@ -151,7 +155,11 @@ namespace RealityToolkit.CameraService
             {
                 for (int i = 0; i < inputSubsystems.Count; i++)
                 {
-                    if (inputSubsystems[i].SubsystemDescriptor.id == "MockHMD Head Tracking")
+#if UNITY_2023_2_OR_NEWER
+                    if (string.Equals(inputSubsystems[i].subsystemDescriptor.id, "MockHMD Head Tracking"))
+#else
+                    if (string.Equals(inputSubsystems[i].SubsystemDescriptor.id, "MockHMD Head Tracking"))
+#endif
                     {
                         UpdateCameraHeightOffset(defaultVerticalOffset);
                     }
