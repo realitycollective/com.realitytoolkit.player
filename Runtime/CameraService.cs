@@ -58,7 +58,12 @@ namespace RealityToolkit.CameraService
                 }
 
                 displaySubsystem = null;
+
+#if UNITY_2023_2_OR_NEWER
+                SubsystemManager.GetSubsystems(xrDisplaySubsystems);
+#else
                 SubsystemManager.GetInstances(xrDisplaySubsystems);
+#endif
 
                 for (var i = 0; i < xrDisplaySubsystems.Count; i++)
                 {
