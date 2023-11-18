@@ -2,59 +2,63 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using UnityEngine;
-using UnityEngine.SpatialTracking;
 
 namespace RealityToolkit.CameraService.Interfaces
 {
     /// <summary>
-    /// This interface is to be implemented by a <see cref="MonoBehaviour"/> and attached to the rig root object.
+    /// A basic camera rig.
     /// </summary>
     public interface ICameraRig
     {
         /// <summary>
-        /// The <see cref="GameObject"/> reference for this camera rig.
-        /// </summary>
-        GameObject GameObject { get; }
-
-        /// <summary>
-        /// The root rig transform.<para/>
-        /// This transform serves as a virtual representation of the physical space.<para/>
-        /// All physical objects that have digital twins will use this frame of reference to synchronize their transform data.
+        /// The root rig <see cref="Transform"/>.
         /// </summary>
         Transform RigTransform { get; }
 
         /// <summary>
-        /// The player's head transform where the <see cref="Camera"/> is located.
+        /// The <see cref="Transform"/> where the <see cref="Camera"/> component is located.
         /// </summary>
         Transform CameraTransform { get; }
 
         /// <summary>
-        /// The player's <see cref="Camera"/> reference, located at their tracked head position.
+        /// The rig's <see cref="Camera"/> reference.
         /// </summary>
-        Camera PlayerCamera { get; }
+        Camera RigCamera { get; }
 
         /// <summary>
-        /// The <see cref="TrackedPoseDriver"/> attached to the <see cref="CameraTransform"/>.
+        /// Rotates the <see cref="ICameraRig"/> at its current position
+        /// around <paramref name="axis"/> by <paramref name="angle"/>.
         /// </summary>
-        TrackedPoseDriver CameraPoseDriver { get; }
+        /// <param name="axis">Axis to rotate around.</param>
+        /// <param name="angle">Angle to rotate.</param>
+        void RotateAround(Vector3 axis, float angle);
 
         /// <summary>
-        /// Is the current camera displaying on a traditional 2d screen or a stereoscopic display?
+        /// Sets the world space position and rotation of the <see cref="ICameraRig"/>.
         /// </summary>
-        bool IsStereoscopic { get; }
+        /// <param name="position">The world space position.</param>
+        /// <param name="rotation">The world space rotation.</param>
+        void SetPositionAndRotation(Vector3 position, Quaternion rotation);
 
         /// <summary>
-        /// Is the current camera displaying on an Opaque (AR) device or a VR / immersive device.
+        /// Sets the world space position and rotation of the <see cref="ICameraRig"/>.
         /// </summary>
-        bool IsOpaque { get; }
+        /// <param name="position">The world space position.</param>
+        /// <param name="rotation">The world space rotation.</param>
+        void SetPositionAndRotation(Vector3 position, Vector3 rotation);
 
         /// <summary>
-        /// The player's body transform, located at the player's feet.
+        /// Moves the <see cref="ICameraRig"/> in <paramref name="direction"/> on the (X,Z) plane.
         /// </summary>
-        /// <remarks>
-        /// This <see cref="Transform"/> is synced to the player's head camera X &amp; Z values.
-        /// Y value is set using current <see cref="ICameraRigServiceModule.HeadHeight"/>.
-        /// </remarks>
-        Transform BodyTransform { get; }
+        /// <param name="direction">The direction <see cref="Vector2"/>.</param>
+        /// <param name="speed">The speed multiplier for the movement. Defaults to <c>1f</c>.</param>
+        void Move(Vector2 direction, float speed = 1f);
+
+        /// <summary>
+        /// Moves the <see cref="ICameraRig"/> in <paramref name="direction"/>.
+        /// </summary>
+        /// <param name="direction">The direction <see cref="Vector3"/>.</param>
+        /// <param name="speed">The speed multiplier for the movement. Defaults to <c>1f</c>.</param>
+        void Move(Vector3 direction, float speed = 1f);
     }
 }

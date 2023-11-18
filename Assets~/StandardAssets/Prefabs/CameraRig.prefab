@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6074567058768481978}
-  - component: {fileID: 8828591944363462759}
+  - component: {fileID: 6074567058768481977}
   m_Layer: 0
-  m_Name: XRCameraRig
+  m_Name: CameraRig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,13 +27,12 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6074567059711287131}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8828591944363462759
+--- !u!114 &6074567058768481977
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,13 +41,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6074567058768481976}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0af49e35702f3b84aaad525780772b16, type: 3}
+  m_Script: {fileID: 11500000, guid: 62d15896ce4d28b4dacfb72d68447759, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rigCamera: {fileID: 6074567059711287132}
-  poseDriver: {fileID: 345493674779043035}
-  trackingOriginMode: 2
-  defaultVerticalOffset: 1.6
 --- !u!1 &6074567059711287127
 GameObject:
   m_ObjectHideFlags: 0
@@ -60,7 +56,6 @@ GameObject:
   - component: {fileID: 6074567059711287131}
   - component: {fileID: 6074567059711287132}
   - component: {fileID: 6074567059711287130}
-  - component: {fileID: 345493674779043035}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: MainCamera
@@ -76,9 +71,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6074567059711287127}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.6, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6074567058768481978}
   m_RootOrder: 0
@@ -97,17 +91,9 @@ Camera:
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
-  m_Iso: 200
-  m_ShutterSpeed: 0.005
-  m_Aperture: 16
-  m_FocusDistance: 10
-  m_FocalLength: 50
-  m_BladeCount: 5
-  m_Curvature: {x: 2, y: 11}
-  m_BarrelClipping: 0.25
-  m_Anamorphism: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -142,21 +128,3 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6074567059711287127}
   m_Enabled: 1
---- !u!114 &345493674779043035
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6074567059711287127}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a2a9c34df4095f47b9ca8f975175f5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Device: 0
-  m_PoseSource: 2
-  m_PoseProviderComponent: {fileID: 0}
-  m_TrackingType: 0
-  m_UpdateType: 0
-  m_UseRelativeTransform: 0
