@@ -30,20 +30,20 @@ namespace RealityToolkit.PlayerService
             : base(name, priority)
         {
             rigPrefab = profile.RigPrefab;
-            resetCameraToOrigin = profile.ResetCameraToOrigin;
+            resetPlayerToOrigin = profile.ResetPlayerToOrigin;
         }
 
         private readonly GameObject rigPrefab;
-        private readonly bool resetCameraToOrigin;
+        private readonly bool resetPlayerToOrigin;
 
         /// <inheritdoc />
         public override uint Priority => 0;
 
         /// <inheritdoc />
-        public ICameraRig CameraRig { get; private set; }
+        public IPlayerRig PlayerRig { get; private set; }
 
         /// <inheritdoc />
-        public ICameraRigServiceModule CameraRigServiceModule { get; private set; }
+        public IPlayerRigServiceModule PlayerRigServiceModule { get; private set; }
 
         private static readonly List<XRDisplaySubsystem> xrDisplaySubsystems = new List<XRDisplaySubsystem>();
         private static XRDisplaySubsystem displaySubsystem = null;
@@ -82,69 +82,69 @@ namespace RealityToolkit.PlayerService
         /// <inheritdoc />
         public override void Initialize()
         {
-            var PlayerServiceModules = ServiceManager.Instance.GetServices<ICameraRigServiceModule>();
-            Debug.Assert(PlayerServiceModules.Count > 0, $"There must be an active {nameof(ICameraRigServiceModule)}. Please check your {nameof(PlayerServiceProfile)} configuration.");
-            Debug.Assert(PlayerServiceModules.Count < 2, $"There should only ever be one active {nameof(ICameraRigServiceModule)}. Please check your {nameof(PlayerServiceProfile)} configuration.");
-            CameraRigServiceModule = PlayerServiceModules[0];
+            var PlayerServiceModules = ServiceManager.Instance.GetServices<IPlayerRigServiceModule>();
+            Debug.Assert(PlayerServiceModules.Count > 0, $"There must be an active {nameof(IPlayerRigServiceModule)}. Please check your {nameof(PlayerServiceProfile)} configuration.");
+            Debug.Assert(PlayerServiceModules.Count < 2, $"There should only ever be one active {nameof(IPlayerRigServiceModule)}. Please check your {nameof(PlayerServiceProfile)} configuration.");
+            PlayerRigServiceModule = PlayerServiceModules[0];
 
-            EnsureCameraRigSetup();
+            EnsurePlayerRigSetup();
         }
 
         /// <inheritdoc />
         public override void Start()
         {
-            EnsureCameraRigSetup();
+            EnsurePlayerRigSetup();
         }
 
-        private void EnsureCameraRigSetup()
+        private void EnsurePlayerRigSetup()
         {
             // If we don't have a rig reference yet...
-            if (CameraRig == null)
+            if (PlayerRig == null)
             {
                 // We first try and lookup an existing rig in the scene...
                 if (Camera.main.IsNotNull())
                 {
-                    CameraRig = Camera.main.transform.root.GetComponentInChildren<ICameraRig>();
-                    if (CameraRig == null)
+                    PlayerRig = Camera.main.transform.root.GetComponentInChildren<IPlayerRig>();
+                    if (PlayerRig == null)
                     {
-                        Debug.LogWarning($"There is an existing main {nameof(Camera)} in the scene but it is not parented under a {nameof(ICameraRig)} object as required by the {GetType().Name} to work." +
-                            $" The existing camera is replaced with the {nameof(ICameraRig)} prefab configured in the {nameof(PlayerServiceProfile)} of {GetType().Name}.");
+                        Debug.LogWarning($"There is an existing main {nameof(Camera)} in the scene but it is not parented under a {nameof(IPlayerRig)} object as required by the {GetType().Name} to work." +
+                            $" The existing camera is replaced with the {nameof(IPlayerRig)} prefab configured in the {nameof(PlayerServiceProfile)} of {GetType().Name}.");
                         Camera.main.gameObject.Destroy();
                     }
                 }
 
                 // If we still don't have a rig, then and only then we create a new rig instance.
-                if (CameraRig == null)
+                if (PlayerRig == null)
                 {
                     if (rigPrefab.IsNotNull())
                     {
 #if UNITY_EDITOR
                         if (Application.isPlaying)
                         {
-                            CameraRig = UnityEngine.Object.Instantiate(rigPrefab).GetComponent<ICameraRig>();
+                            PlayerRig = UnityEngine.Object.Instantiate(rigPrefab).GetComponent<IPlayerRig>();
                         }
                         else
                         {
                             var go = UnityEditor.PrefabUtility.InstantiatePrefab(rigPrefab) as GameObject;
-                            CameraRig = go.GetComponent<ICameraRig>();
+                            PlayerRig = go.GetComponent<IPlayerRig>();
                         }
 #else
-                    CameraRig = UnityEngine.Object.Instantiate(rigPrefab).GetComponent<ICameraRig>();
+                    PlayerRig = UnityEngine.Object.Instantiate(rigPrefab).GetComponent<IPlayerRig>();
 #endif
                     }
                     else
                     {
-                        Debug.LogError($"Failed to instantiate camera rig. There is no camera rig prefab configured in the {nameof(PlayerServiceProfile)}.");
+                        Debug.LogError($"Failed to instantiate player rig. There is no player rig prefab configured in the {nameof(PlayerServiceProfile)}.");
                     }
                 }
 
-                Debug.Assert(CameraRig != null, $"Failed to set up camera rig required by {GetType().Name}");
+                Debug.Assert(PlayerRig != null, $"Failed to set up player rig required by {GetType().Name}");
             }
 
-            if (resetCameraToOrigin)
+            if (resetPlayerToOrigin)
             {
-                CameraRig.RigTransform.position = Vector3.zero;
-                CameraRig.CameraTransform.position = Vector3.zero;
+                PlayerRig.RigTransform.position = Vector3.zero;
+                PlayerRig.CameraTransform.position = Vector3.zero;
             }
         }
     }

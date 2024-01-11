@@ -6,22 +6,22 @@ using UnityEngine.SpatialTracking;
 namespace RealityToolkit.PlayerService.Interfaces
 {
     /// <summary>
-    /// A XR <see cref="ICameraRig"/> that is being tracked by hardware sensors.
+    /// A XR <see cref="IPlayerRig"/> that is being tracked by hardware sensors.
     /// </summary>
-    public interface IXRCameraRig : ICameraRig
+    public interface IXRPlayerRig : IPlayerRig
     {
         /// <summary>
-        /// Is the <see cref="ICameraRig.RigCamera"/> camera displaying on a traditional 2d screen or a stereoscopic display?
+        /// Is the <see cref="IPlayerRig.RigCamera"/> camera displaying on a traditional 2d screen or a stereoscopic display?
         /// </summary>
         bool IsStereoscopic { get; }
 
         /// <summary>
-        /// Is the <see cref="ICameraRig.RigCamera"/> displaying in opaque (VR) or transparent mode (XR)?.
+        /// Is the <see cref="IPlayerRig.RigCamera"/> displaying in opaque (VR) or transparent mode (XR)?.
         /// </summary>
         bool IsOpaque { get; }
 
         /// <summary>
-        /// The <see cref="TrackedPoseDriver"/> driving the <see cref="IXRCameraRig"/>'s pose.
+        /// The <see cref="TrackedPoseDriver"/> driving the <see cref="IXRPlayerRig"/>'s pose.
         /// </summary>
         TrackedPoseDriver PoseDriver { get; }
     }

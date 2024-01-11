@@ -6,9 +6,9 @@ using RealityToolkit.PlayerService.Definitions;
 namespace RealityToolkit.PlayerService.Interfaces
 {
     /// <summary>
-    /// Base interface for implementing camera rig service modules to be registered with the <see cref="IPlayerService"/>.
+    /// Base interface for implementing player rig service modules to be registered with the <see cref="IPlayerService"/>.
     /// </summary>
-    public interface ICameraRigServiceModule : IPlayerServiceModule
+    public interface IPlayerRigServiceModule : IPlayerServiceModule
     {
         /// <summary>
         /// The <see cref="Definitions.TrackingType"/> this provider is configured to use.

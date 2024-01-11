@@ -7,22 +7,22 @@ namespace RealityToolkit.PlayerService.UX
 {
     /// <summary>
     /// Put this component on a <see cref="GameObject"/> with a <see cref="Collider"/>
-    /// attached to raise <see cref="Interfaces.ICameraBoundsModule.CameraOutOfBounds"/>
-    /// and <see cref="Interfaces.ICameraBoundsModule.CameraBackInBounds"/> events.
+    /// attached to raise <see cref="Interfaces.IPlayerBoundsModule.PlayerOutOfBounds"/>
+    /// and <see cref="Interfaces.IPlayerBoundsModule.PlayerBackInBounds"/> events.
     /// </summary>
     [RequireComponent(typeof(Collider))]
-    public class CameraOutOfBoundsTrigger : MonoBehaviour
+    public class PlayerOutOfBoundsTrigger : MonoBehaviour
     {
-        [SerializeField, Tooltip("If set, this trigger will raise camera bounds events to the camera service.")]
+        [SerializeField, Tooltip("If set, this trigger will raise player bounds events to the player service.")]
         private bool raiseEvents = true;
 
         /// <summary>
-        /// If set, this trigger will raise camera bounds events to the camera service.
+        /// If set, this trigger will raise player bounds events to the player service.
         /// </summary>
         /// <remarks>
         /// You can use this property to programmatically decide when a trigger should be blocking
-        /// or not to the camera, e.g. when the player has unlocked a new area, set this value to <c>false</c>,
-        /// to allow the camera to pass the trigger without being considered out of bounds.
+        /// or not to the player, e.g. when the player has unlocked a new area, set this value to <c>false</c>,
+        /// to allow the player to pass the trigger without being considered out of bounds.
         /// </remarks>
         public bool RaiseEvents
         {

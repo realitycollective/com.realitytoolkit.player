@@ -10,12 +10,12 @@ using UnityEngine.XR;
 namespace RealityToolkit.PlayerService.Modules
 {
     /// <summary>
-    /// Base class for <see cref="ICameraRigServiceModule"/>s to inherit from.
+    /// Base class for <see cref="IPlayerRigServiceModule"/>s to inherit from.
     /// </summary>
-    public abstract class BaseCameraRigServiceModule : BaseServiceModule, ICameraRigServiceModule
+    public abstract class BasePlayerRigServiceModule : BaseServiceModule, IPlayerRigServiceModule
     {
         /// <inheritdoc />
-        public BaseCameraRigServiceModule(string name, uint priority, BaseCameraRigServiceModuleProfile profile, IPlayerService parentService)
+        public BasePlayerRigServiceModule(string name, uint priority, BasePlayerRigServiceModuleProfile profile, IPlayerService parentService)
             : base(name, priority, profile, parentService)
         {
             PlayerService = parentService;
@@ -30,13 +30,13 @@ namespace RealityToolkit.PlayerService.Modules
         public TrackingType TrackingType { get; }
 
         /// <inheritdoc />
-        public virtual float HeadHeight => CameraRig.CameraTransform.localPosition.y;
+        public virtual float HeadHeight => PlayerRig.CameraTransform.localPosition.y;
 
         /// <summary>
-        /// Internal referrence to the <see cref="IPlayerService.CameraRig"/>
+        /// Internal referrence to the <see cref="IPlayerService.PlayerRig"/>
         /// for ease of use.
         /// </summary>
-        private ICameraRig CameraRig => PlayerService.CameraRig;
+        private IPlayerRig PlayerRig => PlayerService.PlayerRig;
 
         /// <inheritdoc />
         public override uint Priority => 0;

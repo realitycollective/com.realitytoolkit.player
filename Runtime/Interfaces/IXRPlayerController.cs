@@ -7,9 +7,9 @@ using UnityEngine;
 namespace RealityToolkit.PlayerService.Interfaces
 {
     /// <summary>
-    /// A <see cref="IXRCameraRig"/> for player character simulation.
+    /// A <see cref="IXRPlayerRig"/> for player character simulation.
     /// </summary>
-    public interface IXRPlayerController : IXRCameraRig
+    public interface IXRPlayerController : IXRPlayerRig
     {
         /// <summary>
         /// Controls when gravity begins to take effect.

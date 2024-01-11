@@ -41,7 +41,7 @@ namespace RealityToolkit.PlayerService.Modules
                 return;
             }
 
-            playerController = PlayerService.CameraRig as IXRPlayerController;
+            playerController = PlayerService.PlayerRig as IXRPlayerController;
             if (playerController == null)
             {
                 Debug.LogError($"{nameof(DefaultBodyPoseProviderModule)} works only with {nameof(IXRPlayerController)} implementations.");

@@ -16,16 +16,16 @@ namespace RealityToolkit.PlayerService.Editor
     /// into the <see cref="PlayerServiceProfile"/> in the <see cref="ServiceManager.ActiveProfile"/>.
     /// </summary>
     [InitializeOnLoad]
-    public sealed class CameraPackageModulesInstaller : IPackageModulesInstaller
+    public sealed class PlayerPackageModulesInstaller : IPackageModulesInstaller
     {
         /// <summary>
         /// Statis initalizer for the installer instance.
         /// </summary>
-        static CameraPackageModulesInstaller()
+        static PlayerPackageModulesInstaller()
         {
             if (Instance == null)
             {
-                Instance = new CameraPackageModulesInstaller();
+                Instance = new PlayerPackageModulesInstaller();
             }
 
             PackageInstaller.RegisterModulesInstaller(Instance);
@@ -34,7 +34,7 @@ namespace RealityToolkit.PlayerService.Editor
         /// <summary>
         /// Internal singleton instance of the installer.
         /// </summary>
-        private static CameraPackageModulesInstaller Instance { get; }
+        private static PlayerPackageModulesInstaller Instance { get; }
 
         /// <inheritdoc/>
         public bool Install(ServiceConfiguration serviceConfiguration)

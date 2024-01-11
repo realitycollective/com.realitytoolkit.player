@@ -13,12 +13,12 @@ using UnityEngine.XR;
 namespace RealityToolkit.PlayerService
 {
     /// <summary>
-    /// The default <see cref="IXRCameraRig"/> implementation.
+    /// The default <see cref="IXRPlayerRig"/> implementation.
     /// </summary>
     [SelectionBase]
     [DisallowMultipleComponent]
     [System.Runtime.InteropServices.Guid("968e05fa-de5d-4502-9123-8fb83fdea695")]
-    public class XRCameraRig : CameraRig, IXRCameraRig
+    public class XRPlayerRig : PlayerRig, IXRPlayerRig
 #if RTK_LOCOMOTION
         , Locomotion.Interfaces.ILocomotionTarget
 #endif
@@ -32,7 +32,7 @@ namespace RealityToolkit.PlayerService
 
         [Range(0f, 3f)]
         [SerializeField]
-        [Tooltip("The default vertical camera offset on the rig. Used until tracking sensors provider a tracked value for the first time.")]
+        [Tooltip("The default vertical camera offset on the player rig. Used until tracking sensors provider a tracked value for the first time.")]
         private float defaultVerticalOffset = 1.6f;
 
         private bool trackingOriginInitialized = false;
@@ -81,7 +81,7 @@ namespace RealityToolkit.PlayerService
 
             if (PoseDriver.IsNotNull())
             {
-                switch (PlayerService.CameraRigServiceModule.TrackingType)
+                switch (PlayerService.PlayerRigServiceModule.TrackingType)
                 {
                     case TrackingType.SixDegreesOfFreedom:
                         PoseDriver.trackingType = TrackedPoseDriver.TrackingType.RotationAndPosition;
@@ -130,7 +130,7 @@ namespace RealityToolkit.PlayerService
             ResetRig();
         }
 
-        protected virtual void UpdateCameraHeightOffset(float heightOffset = 0f)
+        protected virtual void UpdatePlayerHeightOffset(float heightOffset = 0f)
         {
             CameraTransform.localPosition = new Vector3(
                 CameraTransform.localPosition.x,
@@ -161,7 +161,7 @@ namespace RealityToolkit.PlayerService
                     if (string.Equals(inputSubsystems[i].SubsystemDescriptor.id, "MockHMD Head Tracking"))
 #endif
                     {
-                        UpdateCameraHeightOffset(defaultVerticalOffset);
+                        UpdatePlayerHeightOffset(defaultVerticalOffset);
                     }
                     else
                     {
@@ -179,7 +179,7 @@ namespace RealityToolkit.PlayerService
             {
                 // No subsystems available, we are probably running in editor without a device
                 // connected, position the camera at the configured default offset.
-                UpdateCameraHeightOffset(defaultVerticalOffset);
+                UpdatePlayerHeightOffset(defaultVerticalOffset);
             }
 
             return trackingOriginModeSet;
@@ -211,7 +211,7 @@ namespace RealityToolkit.PlayerService
             {
                 if ((supportedModes & (TrackingOriginModeFlags.Device | TrackingOriginModeFlags.Unknown)) == 0)
                 {
-                    Debug.LogWarning("Attempting to set the camera system tracking origin to device, but the device does not support it.");
+                    Debug.LogWarning("Attempting to set the player service tracking origin to device, but the device does not support it.");
                 }
                 else
                 {
@@ -233,7 +233,7 @@ namespace RealityToolkit.PlayerService
         {
             trackingOriginMode = trackingOriginModeFlags;
 
-            UpdateCameraHeightOffset(trackingOriginMode == TrackingOriginModeFlags.Device ? defaultVerticalOffset : 0.0f);
+            UpdatePlayerHeightOffset(trackingOriginMode == TrackingOriginModeFlags.Device ? defaultVerticalOffset : 0.0f);
             ResetRig();
         }
 

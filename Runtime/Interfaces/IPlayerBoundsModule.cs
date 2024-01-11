@@ -7,58 +7,58 @@ using UnityEngine;
 namespace RealityToolkit.PlayerService.Interfaces
 {
     /// <summary>
-    /// Event delegate for handling the camera out of bounds situation.
+    /// Event delegate for handling the playerService out of bounds situation.
     /// </summary>
-    /// <param name="severity">A percentage in range <c>[0f, 1f]</c> specifying how far of bounds the camera is. Where <c>1f</c> means the camera
+    /// <param name="severity">A percentage in range <c>[0f, 1f]</c> specifying how far of bounds the player is. Where <c>1f</c> means the player
     /// is definitely going places it should not be at.</param>
-    /// <param name="returnToBoundsDirection">A <see cref="Vector3"/> specifying the direction the camera needs to take to return to into bounds.</param>
-    public delegate void CameraOutOfBoundsDelegate(float severity, Vector3 returnToBoundsDirection);
+    /// <param name="returnToBoundsDirection">A <see cref="Vector3"/> specifying the direction the player needs to take to return to into bounds.</param>
+    public delegate void PlayerOutOfBoundsDelegate(float severity, Vector3 returnToBoundsDirection);
 
     /// <summary>
-    /// The camera bounds module is used for room scale XR applications
+    /// The player bounds module is used for room scale XR applications
     /// where it is necessary to monitor, whether the user has moved physically
     /// outside of allowed application bounds.
     /// </summary>
-    public interface ICameraBoundsModule : IPlayerServiceModule
+    public interface IPlayerBoundsModule : IPlayerServiceModule
     {
         /// <summary>
-        /// Is the active <see cref="ICameraRig"/> currently considered out of bounds?
+        /// Is the active <see cref="IPlayerRig"/> currently considered out of bounds?
         /// </summary>
-        bool IsCameraOutOfBounds { get; }
+        bool IsPlayerOutOfBounds { get; }
 
         /// <summary>
-        /// The last saved known <see cref="Pose"/> where the <see cref="ICameraRig"/> was still in bounds.
+        /// The last saved known <see cref="Pose"/> where the <see cref="IPlayerRig"/> was still in bounds.
         /// </summary>
         Pose LastInBoundsPose { get; }
 
         /// <summary>
-        /// Raised while the <see cref="ICameraRig.RigCamera"/> is out of bounds.
+        /// Raised while the <see cref="IPlayerRig.RigCamera"/> is out of bounds.
         /// </summary>
-        event CameraOutOfBoundsDelegate CameraOutOfBounds;
+        event PlayerOutOfBoundsDelegate PlayerOutOfBounds;
 
         /// <summary>
-        /// Raised when the <see cref="ICameraRig.RigCamera"/> is back in bounds.
+        /// Raised when the <see cref="IPlayerRig.RigCamera"/> is back in bounds.
         /// </summary>
-        event Action CameraBackInBounds;
+        event Action PlayerBackInBounds;
 
         /// <summary>
-        /// Force resets the <see cref="ICameraRig"/> into the last known pose
+        /// Force resets the <see cref="IPlayerRig"/> into the last known pose
         /// before it went out of bounds.
         /// </summary>
-        void ResetCameraIntoBounds();
+        void ResetPlayerIntoBounds();
 
         /// <summary>
-        /// Raises the <see cref="CameraOutOfBounds"/> event to subsribed
-        /// <see cref="CameraOutOfBoundsDelegate"/>s.
+        /// Raises the <see cref="PlayerOutOfBounds"/> event to subsribed
+        /// <see cref="PlayerOutOfBoundsDelegate"/>s.
         /// </summary>
-        /// <param name="severity">A percentage in range <c>[0f, 1f]</c> specifying how far of bounds the camera is. Where <c>1f</c> means the camera
+        /// <param name="severity">A percentage in range <c>[0f, 1f]</c> specifying how far of bounds the player is. Where <c>1f</c> means the player
         /// is definitely going places it should not be at.</param>
-        /// <param name="returnToBoundsDirection">A <see cref="Vector3"/> specifying the direction the camera needs to take to return to into bounds.</param>
-        void RaiseCameraOutOfBounds(float severity, Vector3 returnToBoundsDirection);
+        /// <param name="returnToBoundsDirection">A <see cref="Vector3"/> specifying the direction the player needs to take to return to into bounds.</param>
+        void RaisePlayerOutOfBounds(float severity, Vector3 returnToBoundsDirection);
 
         /// <summary>
-        /// Raises the <see cref="CameraBackInBounds"/> event to subscirbed delegates.
+        /// Raises the <see cref="PlayerBackInBounds"/> event to subscirbed delegates.
         /// </summary>
-        void RaiseCameraBackInBounds();
+        void RaisePlayerBackInBounds();
     }
 }

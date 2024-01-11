@@ -20,8 +20,8 @@ namespace RealityToolkit.PlayerService
         private float maxSeverityDistanceThreshold = .2f;
 
         private XRPlayerController controller;
-        private ICameraBoundsModule cameraBoundsModule;
-        private CameraOutOfBoundsTrigger initialTrigger;
+        private IPlayerBoundsModule playerBoundsModule;
+        private PlayerOutOfBoundsTrigger initialTrigger;
         private Vector3 enterPosition;
 
         /// <summary>
@@ -40,31 +40,31 @@ namespace RealityToolkit.PlayerService
 
             await ServiceManager.WaitUntilInitializedAsync();
 
-            if (ServiceManager.Instance.TryGetService(out cameraBoundsModule))
+            if (ServiceManager.Instance.TryGetService(out playerBoundsModule))
             {
-                cameraBoundsModule.CameraBackInBounds += PlayerService_CameraBackInBounds;
+                playerBoundsModule.PlayerBackInBounds += PlayerService_PlayerBackInBounds;
             }
         }
 
         /// <inheritdoc />
         protected virtual void OnDestroy()
         {
-            if (cameraBoundsModule != null)
+            if (playerBoundsModule != null)
             {
-                cameraBoundsModule.CameraBackInBounds -= PlayerService_CameraBackInBounds;
+                playerBoundsModule.PlayerBackInBounds -= PlayerService_PlayerBackInBounds;
             }
         }
 
         /// <inheritdoc />
         private void OnTriggerEnter(Collider other)
         {
-            if (cameraBoundsModule == null)
+            if (playerBoundsModule == null)
             {
                 return;
             }
 
             if (initialTrigger.IsNull() &&
-                other.TryGetComponent<CameraOutOfBoundsTrigger>(out var outOfBoundsTrigger) &&
+                other.TryGetComponent<PlayerOutOfBoundsTrigger>(out var outOfBoundsTrigger) &&
                 outOfBoundsTrigger.RaiseEvents)
             {
                 initialTrigger = outOfBoundsTrigger;
@@ -75,7 +75,7 @@ namespace RealityToolkit.PlayerService
         /// <inheritdoc />
         protected virtual void OnTriggerStay(Collider other)
         {
-            if (cameraBoundsModule == null)
+            if (playerBoundsModule == null)
             {
                 return;
             }
@@ -87,27 +87,27 @@ namespace RealityToolkit.PlayerService
                 var severity = Mathf.Clamp01(distance / maxSeverityDistanceThreshold);
                 var direction = (enterPosition - transform.position).normalized;
 
-                cameraBoundsModule.RaiseCameraOutOfBounds(severity, direction);
+                playerBoundsModule.RaisePlayerOutOfBounds(severity, direction);
             }
         }
 
         /// <inheritdoc />
         protected virtual void OnTriggerExit(Collider other)
         {
-            if (cameraBoundsModule == null)
+            if (playerBoundsModule == null)
             {
                 return;
             }
 
-            if (other.TryGetComponent<CameraOutOfBoundsTrigger>(out var outOfBoundsTrigger) &&
+            if (other.TryGetComponent<PlayerOutOfBoundsTrigger>(out var outOfBoundsTrigger) &&
                 outOfBoundsTrigger == initialTrigger)
             {
-                cameraBoundsModule.RaiseCameraBackInBounds();
+                playerBoundsModule.RaisePlayerBackInBounds();
                 initialTrigger = null;
             }
         }
 
-        protected virtual void PlayerService_CameraBackInBounds()
+        protected virtual void PlayerService_PlayerBackInBounds()
         {
             // We may have been force moved back into bounds externally, so we
             // we got to reset internal state.

@@ -7,19 +7,19 @@ using UnityEngine.XR;
 namespace RealityToolkit.PlayerService.Interfaces
 {
     /// <summary>
-    /// The base interface for implementing a mixed reality camera system.
+    /// The base interface for implementing a mixed reality player system.
     /// </summary>
     public interface IPlayerService : IService
     {
         /// <summary>
-        /// The active <see cref="ICameraRig"/>.
+        /// The active <see cref="IPlayerRig"/>.
         /// </summary>
-        ICameraRig CameraRig { get; }
+        IPlayerRig PlayerRig { get; }
 
         /// <summary>
-        /// The active <see cref="ICameraRigServiceModule"/> operating the <see cref="CameraRig"/>.
+        /// The active <see cref="IPlayerRigServiceModule"/> operating the <see cref="PlayerRig"/>.
         /// </summary>
-        ICameraRigServiceModule CameraRigServiceModule { get; }
+        IPlayerRigServiceModule PlayerRigServiceModule { get; }
 
         /// <summary>
         /// Gets the active <see cref="XRDisplaySubsystem"/> for the currently loaded

@@ -9,14 +9,14 @@ using RealityToolkit.PlayerService.Interfaces;
 namespace RealityToolkit.PlayerService.Modules
 {
     /// <summary>
-    /// Default and general use <see cref="ICameraRigServiceModule"/> implementation.
+    /// Default and general use <see cref="IPlayerRigServiceModule"/> implementation.
     /// </summary>
     [RuntimePlatform(typeof(AllPlatforms))]
     [System.Runtime.InteropServices.Guid("EA4C0C19-E533-4AE8-91A2-6998CB8905BB")]
-    public class DefaultCameraRigServiceModule : BaseCameraRigServiceModule, ICameraRigServiceModule
+    public class DefaultPlayerRigServiceModule : BasePlayerRigServiceModule, IPlayerRigServiceModule
     {
         /// <inheritdoc />
-        public DefaultCameraRigServiceModule(string name, uint priority, BaseCameraRigServiceModuleProfile profile, IPlayerService parentService)
+        public DefaultPlayerRigServiceModule(string name, uint priority, BasePlayerRigServiceModuleProfile profile, IPlayerService parentService)
             : base(name, priority, profile, parentService) { }
     }
 }

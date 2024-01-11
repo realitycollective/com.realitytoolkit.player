@@ -13,34 +13,34 @@ using UnityEngine;
 namespace RealityToolkit.PlayerService.Editor
 {
     [InitializeOnLoad]
-    internal static class CameraPackageInstaller
+    internal static class PlayerPackageInstaller
     {
-        private static readonly string destinationPath = Application.dataPath + "/RealityToolkit.Generated/Camera";
-        private static readonly string sourcePath = Path.GetFullPath($"{PathFinderUtility.ResolvePath<IPathFinder>(typeof(CameraPackagePathFinder)).ForwardSlashes()}{Path.DirectorySeparatorChar}{"Assets~"}");
+        private static readonly string destinationPath = Application.dataPath + "/RealityToolkit.Generated/Player";
+        private static readonly string sourcePath = Path.GetFullPath($"{PathFinderUtility.ResolvePath<IPathFinder>(typeof(PlayerPackagePathFinder)).ForwardSlashes()}{Path.DirectorySeparatorChar}{"Assets~"}");
 
-        static CameraPackageInstaller()
+        static PlayerPackageInstaller()
         {
             EditorApplication.delayCall += CheckPackage;
         }
 
-        [MenuItem(ServiceFrameworkPreferences.Editor_Menu_Keyword + "/Reality Toolkit/Packages/Install Camera Package Assets...", true)]
+        [MenuItem(ServiceFrameworkPreferences.Editor_Menu_Keyword + "/Reality Toolkit/Packages/Install Player Package Assets...", true)]
         private static bool ImportPackageAssetsValidation()
         {
             return !Directory.Exists($"{destinationPath}{Path.DirectorySeparatorChar}");
         }
 
-        [MenuItem(ServiceFrameworkPreferences.Editor_Menu_Keyword + "/Reality Toolkit/Packages/Install Camera Package Assets...")]
+        [MenuItem(ServiceFrameworkPreferences.Editor_Menu_Keyword + "/Reality Toolkit/Packages/Install Player Package Assets...")]
         private static void ImportPackageAssets()
         {
-            EditorPreferences.Set($"{nameof(CameraPackageInstaller)}.Assets", false);
+            EditorPreferences.Set($"{nameof(PlayerPackageInstaller)}.Assets", false);
             EditorApplication.delayCall += CheckPackage;
         }
 
         private static void CheckPackage()
         {
-            if (!EditorPreferences.Get($"{nameof(CameraPackageInstaller)}.Assets", false))
+            if (!EditorPreferences.Get($"{nameof(PlayerPackageInstaller)}.Assets", false))
             {
-                EditorPreferences.Set($"{nameof(CameraPackageInstaller)}.Assets", AssetsInstaller.TryInstallAssets(sourcePath, destinationPath));
+                EditorPreferences.Set($"{nameof(PlayerPackageInstaller)}.Assets", AssetsInstaller.TryInstallAssets(sourcePath, destinationPath));
             }
         }
     }

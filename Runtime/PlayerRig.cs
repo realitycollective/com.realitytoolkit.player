@@ -10,12 +10,12 @@ using UnityEngine;
 namespace RealityToolkit.PlayerService
 {
     /// <summary>
-    /// The default <see cref="ICameraRig"/> implmentation.
+    /// The default <see cref="IPlayerRig"/> implmentation.
     /// </summary>
     [SelectionBase]
     [DisallowMultipleComponent]
     [System.Runtime.InteropServices.Guid("8E0EE4FC-C8A5-4B10-9FCA-EE55B6D421FF")]
-    public class CameraRig : MonoBehaviour, ICameraRig
+    public class PlayerRig : MonoBehaviour, IPlayerRig
     {
         [SerializeField, Tooltip("The camera component on the rig.")]
         private Camera rigCamera = null;
@@ -48,7 +48,7 @@ namespace RealityToolkit.PlayerService
         }
 
         /// <summary>
-        /// Resets the <see cref="ICameraRig.RigTransform"/>, <see cref="ICameraRig.CameraTransform"/>.
+        /// Resets the <see cref="IPlayerRig.RigTransform"/>, <see cref="IPlayerRig.CameraTransform"/>.
         /// </summary>
         protected virtual void ResetRig()
         {
