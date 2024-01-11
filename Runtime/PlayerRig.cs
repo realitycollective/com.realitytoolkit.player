@@ -29,11 +29,11 @@ namespace RealityToolkit.PlayerService
         /// <inheritdoc />
         public Transform CameraTransform => RigCamera.IsNull() ? null : RigCamera.transform;
 
-        private IPlayerService PlayerService;
+        private IPlayerService playerService;
         /// <summary>
         /// Lazy loaded reference to the active <see cref="IPlayerService"/>.
         /// </summary>
-        protected IPlayerService PlayerService => PlayerService ??= ServiceManager.Instance.GetService<IPlayerService>();
+        protected IPlayerService PlayerService => playerService ??= ServiceManager.Instance.GetService<IPlayerService>();
 
         /// <inheritdoc />
         protected virtual async void Start()

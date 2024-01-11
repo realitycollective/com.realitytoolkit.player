@@ -22,19 +22,19 @@ namespace RealityToolkit.PlayerService.Definitions
         /// </summary>
         public bool IsRigPersistent => isRigPersistent;
 
-        [SerializeField, TooltiplayerServiceuld the camera rig be reset to scene origin on launch?")]
-        private bool resetCameraToOrigin = false;
+        [SerializeField, Tooltip("Should  the player rig be reset to scene origin on launch?")]
+        private bool resetPlayerToOrigin = false;
 
         /// <summary>
-  playerService/// Should the camera rig be reset to scene origin on launch?
+        /// Should the player rig be reset to scene origin on launch?
         /// </summary>
-        public bool ResetCameraToOrigin => resetCameraToOrigin;
+        public bool ResetPlayerToOrigin => resetPlayerToOrigin;
 
-        [SplayerServicezeField, Tooltip("The camera rig prefab used by this service module."), Prefab(typeof(IPlayerRig))]
+        [SerializeField, Tooltip("The player rig prefab used by this service module."), Prefab(typeof(IPlayerRig))]
         private GameObject rigPrefab = null;
 
-    playerService/ <summary>
-        /// The camera rig prefab used by this service module.
+        /// <summary>
+        /// The player rig prefab used by this service module.
         /// </summary>
         public GameObject RigPrefab => rigPrefab;
     }
