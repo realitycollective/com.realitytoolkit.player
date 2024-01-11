@@ -4,28 +4,28 @@
 using RealityCollective.ServiceFramework.Definitions;
 using RealityCollective.ServiceFramework.Editor.Packages;
 using RealityCollective.ServiceFramework.Services;
-using RealityToolkit.CameraService.Definitions;
-using RealityToolkit.CameraService.Interfaces;
+using RealityToolkit.PlayerService.Definitions;
+using RealityToolkit.PlayerService.Interfaces;
 using System.Linq;
 using UnityEditor;
 
-namespace RealityToolkit.CameraService.Editor
+namespace RealityToolkit.PlayerService.Editor
 {
     /// <summary>
-    /// Installs <see cref="ICameraServiceModule"/>s coming from a third party package
-    /// into the <see cref="CameraServiceProfile"/> in the <see cref="ServiceManager.ActiveProfile"/>.
+    /// Installs <see cref="IPlayerServiceModule"/>s coming from a third party package
+    /// into the <see cref="PlayerServiceProfile"/> in the <see cref="ServiceManager.ActiveProfile"/>.
     /// </summary>
     [InitializeOnLoad]
-    public sealed class CameraPackageModulesInstaller : IPackageModulesInstaller
+    public sealed class PlayerPackageModulesInstaller : IPackageModulesInstaller
     {
         /// <summary>
         /// Statis initalizer for the installer instance.
         /// </summary>
-        static CameraPackageModulesInstaller()
+        static PlayerPackageModulesInstaller()
         {
             if (Instance == null)
             {
-                Instance = new CameraPackageModulesInstaller();
+                Instance = new PlayerPackageModulesInstaller();
             }
 
             PackageInstaller.RegisterModulesInstaller(Instance);
@@ -34,12 +34,12 @@ namespace RealityToolkit.CameraService.Editor
         /// <summary>
         /// Internal singleton instance of the installer.
         /// </summary>
-        private static CameraPackageModulesInstaller Instance { get; }
+        private static PlayerPackageModulesInstaller Instance { get; }
 
         /// <inheritdoc/>
         public bool Install(ServiceConfiguration serviceConfiguration)
         {
-            if (!typeof(ICameraServiceModule).IsAssignableFrom(serviceConfiguration.InstancedType.Type))
+            if (!typeof(IPlayerServiceModule).IsAssignableFrom(serviceConfiguration.InstancedType.Type))
             {
                 // This module installer does not accept the configuration type.
                 return false;
@@ -57,24 +57,24 @@ namespace RealityToolkit.CameraService.Editor
                 return false;
             }
 
-            if (!ServiceManager.Instance.TryGetServiceProfile<ICameraService, CameraServiceProfile>(out var cameraServiceProfile))
+            if (!ServiceManager.Instance.TryGetServiceProfile<IPlayerService, PlayerServiceProfile>(out var PlayerServiceProfile))
             {
-                UnityEngine.Debug.LogWarning($"Could not install {serviceConfiguration.InstancedType.Type.Name}.{nameof(CameraServiceProfile)} not found.");
+                UnityEngine.Debug.LogWarning($"Could not install {serviceConfiguration.InstancedType.Type.Name}.{nameof(PlayerServiceProfile)} not found.");
                 return false;
             }
 
             // Setup the configuration.
-            var typedServiceConfiguration = new ServiceConfiguration<ICameraServiceModule>(serviceConfiguration.InstancedType.Type, serviceConfiguration.Name, serviceConfiguration.Priority, serviceConfiguration.RuntimePlatforms, serviceConfiguration.Profile);
+            var typedServiceConfiguration = new ServiceConfiguration<IPlayerServiceModule>(serviceConfiguration.InstancedType.Type, serviceConfiguration.Name, serviceConfiguration.Priority, serviceConfiguration.RuntimePlatforms, serviceConfiguration.Profile);
 
             // Make sure it's not already in the target profile.
-            if (cameraServiceProfile.ServiceConfigurations.All(sc => sc.InstancedType.Type != serviceConfiguration.InstancedType.Type))
+            if (PlayerServiceProfile.ServiceConfigurations.All(sc => sc.InstancedType.Type != serviceConfiguration.InstancedType.Type))
             {
-                cameraServiceProfile.AddConfiguration(typedServiceConfiguration);
-                UnityEngine.Debug.Log($"Successfully installed the {serviceConfiguration.InstancedType.Type.Name} to {cameraServiceProfile.name}.");
+                PlayerServiceProfile.AddConfiguration(typedServiceConfiguration);
+                UnityEngine.Debug.Log($"Successfully installed the {serviceConfiguration.InstancedType.Type.Name} to {PlayerServiceProfile.name}.");
             }
             else
             {
-                UnityEngine.Debug.Log($"Skipped installing the {serviceConfiguration.InstancedType.Type.Name} to {cameraServiceProfile.name}. Already installed.");
+                UnityEngine.Debug.Log($"Skipped installing the {serviceConfiguration.InstancedType.Type.Name} to {PlayerServiceProfile.name}. Already installed.");
             }
 
             return true;

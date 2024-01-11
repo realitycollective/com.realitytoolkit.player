@@ -2,21 +2,21 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using RealityCollective.ServiceFramework.Services;
-using RealityToolkit.CameraService.Interfaces;
+using RealityToolkit.PlayerService.Interfaces;
 using UnityEngine;
 
-namespace RealityToolkit.CameraService.UX
+namespace RealityToolkit.PlayerService.UX
 {
     /// <summary>
-    /// Uses the <see cref="ICameraService.CameraOutOfBounds"/>
+    /// Uses the <see cref="IPlayerService.PlayerOutOfBounds"/>
     /// event in combination with the <see cref="CameraFade"/> component to
     /// fade the camera out as it progressively goes out of bounds.
     /// </summary>
     [RequireComponent(typeof(CameraFade))]
-    public class CameraOutOfBoundsFade : MonoBehaviour
+    public class PlayerOutOfBoundsFade : MonoBehaviour
     {
         private CameraFade cameraFade;
-        private ICameraBoundsModule cameraBoundsModule;
+        private IPlayerBoundsModule playerBoundsModule;
 
         private async void OnEnable()
         {
@@ -24,28 +24,28 @@ namespace RealityToolkit.CameraService.UX
 
             await ServiceManager.WaitUntilInitializedAsync();
 
-            if (ServiceManager.Instance.TryGetService(out cameraBoundsModule))
+            if (ServiceManager.Instance.TryGetService(out playerBoundsModule))
             {
-                cameraBoundsModule.CameraOutOfBounds += CameraService_CameraOutOfBounds;
-                cameraBoundsModule.CameraBackInBounds += CameraService_CameraBackInBounds;
+                playerBoundsModule.PlayerOutOfBounds += PlayerService_PlayerOutOfBounds;
+                playerBoundsModule.PlayerBackInBounds += PlayerService_PlayerBackInBounds;
             }
         }
 
         private void OnDisable()
         {
-            if (cameraBoundsModule != null)
+            if (playerBoundsModule != null)
             {
-                cameraBoundsModule.CameraOutOfBounds -= CameraService_CameraOutOfBounds;
-                cameraBoundsModule.CameraBackInBounds -= CameraService_CameraBackInBounds;
+                playerBoundsModule.PlayerOutOfBounds -= PlayerService_PlayerOutOfBounds;
+                playerBoundsModule.PlayerBackInBounds -= PlayerService_PlayerBackInBounds;
             }
         }
 
-        private void CameraService_CameraOutOfBounds(float severity, Vector3 returnToBoundsDirection)
+        private void PlayerService_PlayerOutOfBounds(float severity, Vector3 returnToBoundsDirection)
         {
             cameraFade.SetFade(severity);
         }
 
-        private void CameraService_CameraBackInBounds()
+        private void PlayerService_PlayerBackInBounds()
         {
             cameraFade.SetFade(0f);
         }

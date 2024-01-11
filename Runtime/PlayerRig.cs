@@ -3,19 +3,19 @@
 
 using RealityCollective.Extensions;
 using RealityCollective.ServiceFramework.Services;
-using RealityToolkit.CameraService.Definitions;
-using RealityToolkit.CameraService.Interfaces;
+using RealityToolkit.PlayerService.Definitions;
+using RealityToolkit.PlayerService.Interfaces;
 using UnityEngine;
 
-namespace RealityToolkit.CameraService
+namespace RealityToolkit.PlayerService
 {
     /// <summary>
-    /// The default <see cref="ICameraRig"/> implmentation.
+    /// The default <see cref="IPlayerRig"/> implmentation.
     /// </summary>
     [SelectionBase]
     [DisallowMultipleComponent]
     [System.Runtime.InteropServices.Guid("8E0EE4FC-C8A5-4B10-9FCA-EE55B6D421FF")]
-    public class CameraRig : MonoBehaviour, ICameraRig
+    public class PlayerRig : MonoBehaviour, IPlayerRig
     {
         [SerializeField, Tooltip("The camera component on the rig.")]
         private Camera rigCamera = null;
@@ -29,18 +29,18 @@ namespace RealityToolkit.CameraService
         /// <inheritdoc />
         public Transform CameraTransform => RigCamera.IsNull() ? null : RigCamera.transform;
 
-        private ICameraService cameraService;
+        private IPlayerService playerService;
         /// <summary>
-        /// Lazy loaded reference to the active <see cref="ICameraService"/>.
+        /// Lazy loaded reference to the active <see cref="IPlayerService"/>.
         /// </summary>
-        protected ICameraService CameraService => cameraService ??= ServiceManager.Instance.GetService<ICameraService>();
+        protected IPlayerService PlayerService => playerService ??= ServiceManager.Instance.GetService<IPlayerService>();
 
         /// <inheritdoc />
         protected virtual async void Start()
         {
             await ServiceManager.WaitUntilInitializedAsync();
 
-            if (ServiceManager.Instance.TryGetServiceProfile<ICameraService, CameraServiceProfile>(out var profile) &&
+            if (ServiceManager.Instance.TryGetServiceProfile<IPlayerService, PlayerServiceProfile>(out var profile) &&
                 profile.IsRigPersistent)
             {
                 RigTransform.gameObject.DontDestroyOnLoad();
@@ -48,7 +48,7 @@ namespace RealityToolkit.CameraService
         }
 
         /// <summary>
-        /// Resets the <see cref="ICameraRig.RigTransform"/>, <see cref="ICameraRig.CameraTransform"/>.
+        /// Resets the <see cref="IPlayerRig.RigTransform"/>, <see cref="IPlayerRig.CameraTransform"/>.
         /// </summary>
         protected virtual void ResetRig()
         {

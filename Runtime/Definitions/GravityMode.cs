@@ -1,4 +1,4 @@
-namespace RealityToolkit.CameraService.Definitions
+namespace RealityToolkit.PlayerService.Definitions
 {
     /// <summary>
     /// Defines when gravity begins to take effect on <see cref="Interfaces.IXRPlayerController"/>'s.

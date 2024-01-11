@@ -4,12 +4,12 @@
 using RealityCollective.ServiceFramework.Definitions;
 using UnityEngine;
 
-namespace RealityToolkit.CameraService.Definitions
+namespace RealityToolkit.PlayerService.Definitions
 {
     /// <summary>
-    /// Provides configuration options for <see cref="Modules.BaseCameraRigServiceModule"/>s.
+    /// Provides configuration options for <see cref="Modules.BasePlayerRigServiceModule"/>s.
     /// </summary>
-    public class BaseCameraRigServiceModuleProfile : BaseProfile
+    public class BasePlayerRigServiceModuleProfile : BaseProfile
     {
         [Header("General")]
         [SerializeField]
