@@ -3,11 +3,11 @@
 
 using RealityCollective.Extensions;
 using RealityCollective.ServiceFramework.Services;
-using RealityToolkit.CameraService.Definitions;
-using RealityToolkit.CameraService.Interfaces;
+using RealityToolkit.PlayerService.Definitions;
+using RealityToolkit.PlayerService.Interfaces;
 using UnityEngine;
 
-namespace RealityToolkit.CameraService
+namespace RealityToolkit.PlayerService
 {
     /// <summary>
     /// The default <see cref="ICameraRig"/> implmentation.
@@ -29,18 +29,18 @@ namespace RealityToolkit.CameraService
         /// <inheritdoc />
         public Transform CameraTransform => RigCamera.IsNull() ? null : RigCamera.transform;
 
-        private ICameraService cameraService;
+        private IPlayerService PlayerService;
         /// <summary>
-        /// Lazy loaded reference to the active <see cref="ICameraService"/>.
+        /// Lazy loaded reference to the active <see cref="IPlayerService"/>.
         /// </summary>
-        protected ICameraService CameraService => cameraService ??= ServiceManager.Instance.GetService<ICameraService>();
+        protected IPlayerService PlayerService => PlayerService ??= ServiceManager.Instance.GetService<IPlayerService>();
 
         /// <inheritdoc />
         protected virtual async void Start()
         {
             await ServiceManager.WaitUntilInitializedAsync();
 
-            if (ServiceManager.Instance.TryGetServiceProfile<ICameraService, CameraServiceProfile>(out var profile) &&
+            if (ServiceManager.Instance.TryGetServiceProfile<IPlayerService, PlayerServiceProfile>(out var profile) &&
                 profile.IsRigPersistent)
             {
                 RigTransform.gameObject.DontDestroyOnLoad();

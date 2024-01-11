@@ -3,7 +3,7 @@
 
 using UnityEngine;
 
-namespace RealityToolkit.CameraService.UX
+namespace RealityToolkit.PlayerService.UX
 {
     /// <summary>
     /// Put this component on a <see cref="GameObject"/> with a <see cref="Collider"/>

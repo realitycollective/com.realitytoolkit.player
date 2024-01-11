@@ -1,10 +1,10 @@
 // Copyright (c) Reality Collective. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using RealityToolkit.CameraService.Definitions;
+using RealityToolkit.PlayerService.Definitions;
 using UnityEngine;
 
-namespace RealityToolkit.CameraService.Interfaces
+namespace RealityToolkit.PlayerService.Interfaces
 {
     /// <summary>
     /// A <see cref="IXRCameraRig"/> for player character simulation.
@@ -14,7 +14,7 @@ namespace RealityToolkit.CameraService.Interfaces
         /// <summary>
         /// Controls when gravity begins to take effect.
         /// </summary>
-        /// <seealso cref="RealityToolkit.CameraService.GravityMode"/>
+        /// <seealso cref="RealityToolkit.PlayerService.GravityMode"/>
         GravityMode GravityMode { get; set; }
 
         /// <summary>

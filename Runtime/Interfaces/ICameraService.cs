@@ -4,12 +4,12 @@
 using RealityCollective.ServiceFramework.Interfaces;
 using UnityEngine.XR;
 
-namespace RealityToolkit.CameraService.Interfaces
+namespace RealityToolkit.PlayerService.Interfaces
 {
     /// <summary>
     /// The base interface for implementing a mixed reality camera system.
     /// </summary>
-    public interface ICameraService : IService
+    public interface IPlayerService : IService
     {
         /// <summary>
         /// The active <see cref="ICameraRig"/>.

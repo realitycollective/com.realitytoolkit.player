@@ -3,7 +3,7 @@
 
 using UnityEngine;
 
-namespace RealityToolkit.CameraService.Interfaces
+namespace RealityToolkit.PlayerService.Interfaces
 {
     /// <summary>
     /// A basic camera rig.

@@ -2,11 +2,11 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using RealityCollective.ServiceFramework.Services;
-using RealityToolkit.CameraService.Definitions;
-using RealityToolkit.CameraService.Interfaces;
+using RealityToolkit.PlayerService.Definitions;
+using RealityToolkit.PlayerService.Interfaces;
 using UnityEngine;
 
-namespace RealityToolkit.CameraService
+namespace RealityToolkit.PlayerService
 {
     /// <summary>
     /// Default <see cref="IXRPlayerController"/> implementation.

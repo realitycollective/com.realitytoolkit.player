@@ -5,20 +5,20 @@ using RealityCollective.Extensions;
 using RealityCollective.ServiceFramework.Attributes;
 using RealityCollective.ServiceFramework.Definitions.Platforms;
 using RealityCollective.ServiceFramework.Services;
-using RealityToolkit.CameraService.Definitions;
-using RealityToolkit.CameraService.Interfaces;
+using RealityToolkit.PlayerService.Definitions;
+using RealityToolkit.PlayerService.Interfaces;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
 
-namespace RealityToolkit.CameraService
+namespace RealityToolkit.PlayerService
 {
     /// <summary>
-    /// The Reality Toolkit's default implementation of the <see cref="ICameraService"/>.
+    /// The Reality Toolkit's default implementation of the <see cref="IPlayerService"/>.
     /// </summary>
     [RuntimePlatform(typeof(AllPlatforms))]
     [System.Runtime.InteropServices.Guid("5C656EE3-FE7C-4FB3-B3EE-DF3FC0D0973D")]
-    public class CameraService : BaseServiceWithConstructor, ICameraService
+    public class PlayerService : BaseServiceWithConstructor, IPlayerService
     {
         /// <summary>
         /// Constructor.
@@ -26,7 +26,7 @@ namespace RealityToolkit.CameraService
         /// <param name="name">The service display name.</param>
         /// <param name="priority">The service initialization priority.</param>
         /// <param name="profile">The service configuration profile.</param>
-        public CameraService(string name, uint priority, CameraServiceProfile profile)
+        public PlayerService(string name, uint priority, PlayerServiceProfile profile)
             : base(name, priority)
         {
             rigPrefab = profile.RigPrefab;
@@ -82,10 +82,10 @@ namespace RealityToolkit.CameraService
         /// <inheritdoc />
         public override void Initialize()
         {
-            var cameraServiceModules = ServiceManager.Instance.GetServices<ICameraRigServiceModule>();
-            Debug.Assert(cameraServiceModules.Count > 0, $"There must be an active {nameof(ICameraRigServiceModule)}. Please check your {nameof(CameraServiceProfile)} configuration.");
-            Debug.Assert(cameraServiceModules.Count < 2, $"There should only ever be one active {nameof(ICameraRigServiceModule)}. Please check your {nameof(CameraServiceProfile)} configuration.");
-            CameraRigServiceModule = cameraServiceModules[0];
+            var PlayerServiceModules = ServiceManager.Instance.GetServices<ICameraRigServiceModule>();
+            Debug.Assert(PlayerServiceModules.Count > 0, $"There must be an active {nameof(ICameraRigServiceModule)}. Please check your {nameof(PlayerServiceProfile)} configuration.");
+            Debug.Assert(PlayerServiceModules.Count < 2, $"There should only ever be one active {nameof(ICameraRigServiceModule)}. Please check your {nameof(PlayerServiceProfile)} configuration.");
+            CameraRigServiceModule = PlayerServiceModules[0];
 
             EnsureCameraRigSetup();
         }
@@ -108,7 +108,7 @@ namespace RealityToolkit.CameraService
                     if (CameraRig == null)
                     {
                         Debug.LogWarning($"There is an existing main {nameof(Camera)} in the scene but it is not parented under a {nameof(ICameraRig)} object as required by the {GetType().Name} to work." +
-                            $" The existing camera is replaced with the {nameof(ICameraRig)} prefab configured in the {nameof(CameraServiceProfile)} of {GetType().Name}.");
+                            $" The existing camera is replaced with the {nameof(ICameraRig)} prefab configured in the {nameof(PlayerServiceProfile)} of {GetType().Name}.");
                         Camera.main.gameObject.Destroy();
                     }
                 }
@@ -134,7 +134,7 @@ namespace RealityToolkit.CameraService
                     }
                     else
                     {
-                        Debug.LogError($"Failed to instantiate camera rig. There is no camera rig prefab configured in the {nameof(CameraServiceProfile)}.");
+                        Debug.LogError($"Failed to instantiate camera rig. There is no camera rig prefab configured in the {nameof(PlayerServiceProfile)}.");
                     }
                 }
 

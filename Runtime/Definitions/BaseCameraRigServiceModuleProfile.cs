@@ -4,7 +4,7 @@
 using RealityCollective.ServiceFramework.Definitions;
 using UnityEngine;
 
-namespace RealityToolkit.CameraService.Definitions
+namespace RealityToolkit.PlayerService.Definitions
 {
     /// <summary>
     /// Provides configuration options for <see cref="Modules.BaseCameraRigServiceModule"/>s.

@@ -4,7 +4,7 @@
 using System;
 using UnityEngine;
 
-namespace RealityToolkit.CameraService.Interfaces
+namespace RealityToolkit.PlayerService.Interfaces
 {
     /// <summary>
     /// Event delegate for handling the camera out of bounds situation.
@@ -19,7 +19,7 @@ namespace RealityToolkit.CameraService.Interfaces
     /// where it is necessary to monitor, whether the user has moved physically
     /// outside of allowed application bounds.
     /// </summary>
-    public interface ICameraBoundsModule : ICameraServiceModule
+    public interface ICameraBoundsModule : IPlayerServiceModule
     {
         /// <summary>
         /// Is the active <see cref="ICameraRig"/> currently considered out of bounds?

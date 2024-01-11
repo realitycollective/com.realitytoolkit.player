@@ -5,11 +5,11 @@ using RealityCollective.ServiceFramework.Attributes;
 using RealityCollective.ServiceFramework.Definitions;
 using RealityCollective.ServiceFramework.Definitions.Platforms;
 using RealityCollective.ServiceFramework.Modules;
-using RealityToolkit.CameraService.Interfaces;
+using RealityToolkit.PlayerService.Interfaces;
 using System;
 using UnityEngine;
 
-namespace RealityToolkit.CameraService.Modules
+namespace RealityToolkit.PlayerService.Modules
 {
     /// <summary>
     /// Default implementation for <see cref="ICameraBoundsModule"/>.
@@ -19,7 +19,7 @@ namespace RealityToolkit.CameraService.Modules
     public class CameraBoundsModule : BaseServiceModule, ICameraBoundsModule
     {
         /// <inheritdoc />
-        public CameraBoundsModule(string name, uint priority, BaseProfile profile, ICameraService parentService)
+        public CameraBoundsModule(string name, uint priority, BaseProfile profile, IPlayerService parentService)
             : base(name, priority, profile, parentService) { }
 
         /// <inheritdoc />
@@ -45,7 +45,7 @@ namespace RealityToolkit.CameraService.Modules
                 return;
             }
 
-            cameraRig = (ParentService as ICameraService).CameraRig;
+            cameraRig = (ParentService as IPlayerService).CameraRig;
         }
 
         /// <inheritdoc />

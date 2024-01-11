@@ -10,7 +10,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace RealityToolkit.CameraService.Editor
+namespace RealityToolkit.PlayerService.Editor
 {
     [InitializeOnLoad]
     internal static class CameraPackageInstaller

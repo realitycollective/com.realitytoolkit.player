@@ -3,14 +3,14 @@
 
 using RealityCollective.Extensions;
 using RealityCollective.ServiceFramework.Services;
-using RealityToolkit.CameraService.Definitions;
-using RealityToolkit.CameraService.Interfaces;
+using RealityToolkit.PlayerService.Definitions;
+using RealityToolkit.PlayerService.Interfaces;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SpatialTracking;
 using UnityEngine.XR;
 
-namespace RealityToolkit.CameraService
+namespace RealityToolkit.PlayerService
 {
     /// <summary>
     /// The default <see cref="IXRCameraRig"/> implementation.
@@ -50,14 +50,14 @@ namespace RealityToolkit.CameraService
         {
             get
             {
-                if (CameraService.DisplaySubsystem == null)
+                if (PlayerService.DisplaySubsystem == null)
                 {
                     // When no device is attached we are assuming the display
                     // device is the computer's display, which should be opaque.
                     return true;
                 }
 
-                return CameraService.DisplaySubsystem.displayOpaque;
+                return PlayerService.DisplaySubsystem.displayOpaque;
             }
         }
 
@@ -81,7 +81,7 @@ namespace RealityToolkit.CameraService
 
             if (PoseDriver.IsNotNull())
             {
-                switch (CameraService.CameraRigServiceModule.TrackingType)
+                switch (PlayerService.CameraRigServiceModule.TrackingType)
                 {
                     case TrackingType.SixDegreesOfFreedom:
                         PoseDriver.trackingType = TrackedPoseDriver.TrackingType.RotationAndPosition;

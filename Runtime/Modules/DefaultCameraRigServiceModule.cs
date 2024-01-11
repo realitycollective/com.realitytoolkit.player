@@ -3,10 +3,10 @@
 
 using RealityCollective.ServiceFramework.Attributes;
 using RealityCollective.ServiceFramework.Definitions.Platforms;
-using RealityToolkit.CameraService.Definitions;
-using RealityToolkit.CameraService.Interfaces;
+using RealityToolkit.PlayerService.Definitions;
+using RealityToolkit.PlayerService.Interfaces;
 
-namespace RealityToolkit.CameraService.Modules
+namespace RealityToolkit.PlayerService.Modules
 {
     /// <summary>
     /// Default and general use <see cref="ICameraRigServiceModule"/> implementation.
@@ -16,7 +16,7 @@ namespace RealityToolkit.CameraService.Modules
     public class DefaultCameraRigServiceModule : BaseCameraRigServiceModule, ICameraRigServiceModule
     {
         /// <inheritdoc />
-        public DefaultCameraRigServiceModule(string name, uint priority, BaseCameraRigServiceModuleProfile profile, ICameraService parentService)
+        public DefaultCameraRigServiceModule(string name, uint priority, BaseCameraRigServiceModuleProfile profile, IPlayerService parentService)
             : base(name, priority, profile, parentService) { }
     }
 }

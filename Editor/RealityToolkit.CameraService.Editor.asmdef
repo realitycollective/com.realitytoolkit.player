@@ -1,6 +1,6 @@
 {
-    "name": "RealityToolkit.CameraService.Editor",
-    "rootNamespace": "RealityToolkit.CameraService.Editor",
+    "name": "RealityToolkit.PlayerService.Editor",
+    "rootNamespace": "RealityToolkit.PlayerService.Editor",
     "references": [
         "GUID:de07d9dfb71843b46aa2c474f73ca4cc",
         "GUID:b2d046948d6452a4b8485efc9ce0f88c",

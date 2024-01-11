@@ -4,7 +4,7 @@
 using RealityCollective.ServiceFramework.Editor;
 using UnityEngine;
 
-namespace RealityToolkit.CameraService.Editor
+namespace RealityToolkit.PlayerService.Editor
 {
     /// <summary>
     /// Dummy scriptable object used to find the relative path of the package.

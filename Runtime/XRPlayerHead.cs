@@ -3,11 +3,11 @@
 
 using RealityCollective.Extensions;
 using RealityCollective.ServiceFramework.Services;
-using RealityToolkit.CameraService.Interfaces;
-using RealityToolkit.CameraService.UX;
+using RealityToolkit.PlayerService.Interfaces;
+using RealityToolkit.PlayerService.UX;
 using UnityEngine;
 
-namespace RealityToolkit.CameraService
+namespace RealityToolkit.PlayerService
 {
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(SphereCollider))]
@@ -42,7 +42,7 @@ namespace RealityToolkit.CameraService
 
             if (ServiceManager.Instance.TryGetService(out cameraBoundsModule))
             {
-                cameraBoundsModule.CameraBackInBounds += CameraService_CameraBackInBounds;
+                cameraBoundsModule.CameraBackInBounds += PlayerService_CameraBackInBounds;
             }
         }
 
@@ -51,7 +51,7 @@ namespace RealityToolkit.CameraService
         {
             if (cameraBoundsModule != null)
             {
-                cameraBoundsModule.CameraBackInBounds -= CameraService_CameraBackInBounds;
+                cameraBoundsModule.CameraBackInBounds -= PlayerService_CameraBackInBounds;
             }
         }
 
@@ -107,7 +107,7 @@ namespace RealityToolkit.CameraService
             }
         }
 
-        protected virtual void CameraService_CameraBackInBounds()
+        protected virtual void PlayerService_CameraBackInBounds()
         {
             // We may have been force moved back into bounds externally, so we
             // we got to reset internal state.

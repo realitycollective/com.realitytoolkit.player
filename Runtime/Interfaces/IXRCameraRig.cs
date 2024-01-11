@@ -3,7 +3,7 @@
 
 using UnityEngine.SpatialTracking;
 
-namespace RealityToolkit.CameraService.Interfaces
+namespace RealityToolkit.PlayerService.Interfaces
 {
     /// <summary>
     /// A XR <see cref="ICameraRig"/> that is being tracked by hardware sensors.

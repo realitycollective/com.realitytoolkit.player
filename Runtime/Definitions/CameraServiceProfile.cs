@@ -3,15 +3,15 @@
 
 using RealityCollective.Attributes;
 using RealityCollective.ServiceFramework.Definitions;
-using RealityToolkit.CameraService.Interfaces;
+using RealityToolkit.PlayerService.Interfaces;
 using UnityEngine;
 
-namespace RealityToolkit.CameraService.Definitions
+namespace RealityToolkit.PlayerService.Definitions
 {
     /// <summary>
-    /// Configuration profile for the <see cref="CameraService"/>.
+    /// Configuration profile for the <see cref="PlayerService"/>.
     /// </summary>
-    public class CameraServiceProfile : BaseServiceProfile<ICameraServiceModule>
+    public class PlayerServiceProfile : BaseServiceProfile<IPlayerServiceModule>
     {
         [SerializeField, Tooltip("Should the camera rig be persistent across scenes?")]
         private bool isRigPersistent = true;
