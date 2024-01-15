@@ -18,25 +18,25 @@ namespace RealityToolkit.PlayerService.Modules
         public BasePlayerRigServiceModule(string name, uint priority, BasePlayerRigServiceModuleProfile profile, IPlayerService parentService)
             : base(name, priority, profile, parentService)
         {
-            PlayerService = parentService;
+            playerService = parentService;
             eyeTextureResolution = profile.EyeTextureResolution;
             TrackingType = profile.TrackingType;
         }
 
-        private readonly IPlayerService PlayerService;
+        private readonly IPlayerService playerService;
         private readonly float eyeTextureResolution;
 
         /// <inheritdoc />
         public TrackingType TrackingType { get; }
 
         /// <inheritdoc />
-        public virtual float HeadHeight => PlayerRig.CameraTransform.localPosition.y;
+        public virtual float HeadHeight => playerRig.CameraTransform.localPosition.y;
 
         /// <summary>
         /// Internal referrence to the <see cref="IPlayerService.PlayerRig"/>
         /// for ease of use.
         /// </summary>
-        private IPlayerRig PlayerRig => PlayerService.PlayerRig;
+        private IPlayerRig playerRig => playerService.PlayerRig;
 
         /// <inheritdoc />
         public override uint Priority => 0;
