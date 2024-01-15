@@ -3,11 +3,11 @@
 
 using RealityCollective.Extensions;
 using RealityCollective.ServiceFramework.Services;
-using RealityToolkit.CameraService.Interfaces;
-using RealityToolkit.CameraService.UX;
+using RealityToolkit.PlayerService.Interfaces;
+using RealityToolkit.PlayerService.UX;
 using UnityEngine;
 
-namespace RealityToolkit.CameraService
+namespace RealityToolkit.PlayerService
 {
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(SphereCollider))]
@@ -20,8 +20,8 @@ namespace RealityToolkit.CameraService
         private float maxSeverityDistanceThreshold = .2f;
 
         private XRPlayerController controller;
-        private ICameraBoundsModule cameraBoundsModule;
-        private CameraOutOfBoundsTrigger initialTrigger;
+        private IPlayerBoundsModule playerBoundsModule;
+        private PlayerOutOfBoundsTrigger initialTrigger;
         private Vector3 enterPosition;
 
         /// <summary>
@@ -40,31 +40,31 @@ namespace RealityToolkit.CameraService
 
             await ServiceManager.WaitUntilInitializedAsync();
 
-            if (ServiceManager.Instance.TryGetService(out cameraBoundsModule))
+            if (ServiceManager.Instance.TryGetService(out playerBoundsModule))
             {
-                cameraBoundsModule.CameraBackInBounds += CameraService_CameraBackInBounds;
+                playerBoundsModule.PlayerBackInBounds += PlayerService_PlayerBackInBounds;
             }
         }
 
         /// <inheritdoc />
         protected virtual void OnDestroy()
         {
-            if (cameraBoundsModule != null)
+            if (playerBoundsModule != null)
             {
-                cameraBoundsModule.CameraBackInBounds -= CameraService_CameraBackInBounds;
+                playerBoundsModule.PlayerBackInBounds -= PlayerService_PlayerBackInBounds;
             }
         }
 
         /// <inheritdoc />
         private void OnTriggerEnter(Collider other)
         {
-            if (cameraBoundsModule == null)
+            if (playerBoundsModule == null)
             {
                 return;
             }
 
             if (initialTrigger.IsNull() &&
-                other.TryGetComponent<CameraOutOfBoundsTrigger>(out var outOfBoundsTrigger) &&
+                other.TryGetComponent<PlayerOutOfBoundsTrigger>(out var outOfBoundsTrigger) &&
                 outOfBoundsTrigger.RaiseEvents)
             {
                 initialTrigger = outOfBoundsTrigger;
@@ -75,7 +75,7 @@ namespace RealityToolkit.CameraService
         /// <inheritdoc />
         protected virtual void OnTriggerStay(Collider other)
         {
-            if (cameraBoundsModule == null)
+            if (playerBoundsModule == null)
             {
                 return;
             }
@@ -87,27 +87,27 @@ namespace RealityToolkit.CameraService
                 var severity = Mathf.Clamp01(distance / maxSeverityDistanceThreshold);
                 var direction = (enterPosition - transform.position).normalized;
 
-                cameraBoundsModule.RaiseCameraOutOfBounds(severity, direction);
+                playerBoundsModule.RaisePlayerOutOfBounds(severity, direction);
             }
         }
 
         /// <inheritdoc />
         protected virtual void OnTriggerExit(Collider other)
         {
-            if (cameraBoundsModule == null)
+            if (playerBoundsModule == null)
             {
                 return;
             }
 
-            if (other.TryGetComponent<CameraOutOfBoundsTrigger>(out var outOfBoundsTrigger) &&
+            if (other.TryGetComponent<PlayerOutOfBoundsTrigger>(out var outOfBoundsTrigger) &&
                 outOfBoundsTrigger == initialTrigger)
             {
-                cameraBoundsModule.RaiseCameraBackInBounds();
+                playerBoundsModule.RaisePlayerBackInBounds();
                 initialTrigger = null;
             }
         }
 
-        protected virtual void CameraService_CameraBackInBounds()
+        protected virtual void PlayerService_PlayerBackInBounds()
         {
             // We may have been force moved back into bounds externally, so we
             // we got to reset internal state.

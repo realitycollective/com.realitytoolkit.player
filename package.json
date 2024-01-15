@@ -1,23 +1,23 @@
 {
-  "name": "com.realitytoolkit.camera",
-  "displayName": "RealityToolkit.Camera",
-  "description": "The Camera service module of the Reality Toolkit by the Reality Collective. Use this module to set up a camera rig for XR apps and games in no time.",
+  "name": "com.realitytoolkit.player",
+  "displayName": "RealityToolkit.Player",
+  "description": "The Player service module of the Reality Toolkit by the Reality Collective. Use this module to set up a Player rig for XR apps and games in no time.",
   "keywords": [
     "VR",
     "AR",
     "XR",
     "Mixed Reality"
   ],
-  "version": "1.0.1",
+  "version": "1.0.2-pre.2",
   "unity": "2021.3",
   "homepage": "https://github.com/realitycollective",
   "bugs": {
-    "url": "https://github.com/realitycollective/realitytoolkit.camera/issues"
+    "url": "https://github.com/realitycollective/realitytoolkit.player/issues"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/realitycollective/com.realitytoolkit.camera"
+    "url": "git+https://github.com/realitycollective/com.realitytoolkit.player"
   },
   "author": {
     "name": "Reality Collective",

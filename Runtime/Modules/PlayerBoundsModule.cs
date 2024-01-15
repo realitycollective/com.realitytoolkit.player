@@ -5,36 +5,36 @@ using RealityCollective.ServiceFramework.Attributes;
 using RealityCollective.ServiceFramework.Definitions;
 using RealityCollective.ServiceFramework.Definitions.Platforms;
 using RealityCollective.ServiceFramework.Modules;
-using RealityToolkit.CameraService.Interfaces;
+using RealityToolkit.PlayerService.Interfaces;
 using System;
 using UnityEngine;
 
-namespace RealityToolkit.CameraService.Modules
+namespace RealityToolkit.PlayerService.Modules
 {
     /// <summary>
-    /// Default implementation for <see cref="ICameraBoundsModule"/>.
+    /// Default implementation for <see cref="IPlayerBoundsModule"/>.
     /// </summary>
     [RuntimePlatform(typeof(AllPlatforms))]
     [System.Runtime.InteropServices.Guid("a68682d3-3e9d-4d56-8a32-9805f58928f8")]
-    public class CameraBoundsModule : BaseServiceModule, ICameraBoundsModule
+    public class PlayerBoundsModule : BaseServiceModule, IPlayerBoundsModule
     {
         /// <inheritdoc />
-        public CameraBoundsModule(string name, uint priority, BaseProfile profile, ICameraService parentService)
+        public PlayerBoundsModule(string name, uint priority, BaseProfile profile, IPlayerService parentService)
             : base(name, priority, profile, parentService) { }
 
         /// <inheritdoc />
-        public bool IsCameraOutOfBounds { get; private set; }
+        public bool IsPlayerOutOfBounds { get; private set; }
 
         /// <inheritdoc />
         public Pose LastInBoundsPose { get; private set; }
 
         /// <inheritdoc />
-        public event CameraOutOfBoundsDelegate CameraOutOfBounds;
+        public event PlayerOutOfBoundsDelegate PlayerOutOfBounds;
 
         /// <inheritdoc />
-        public event Action CameraBackInBounds;
+        public event Action PlayerBackInBounds;
 
-        private ICameraRig cameraRig;
+        private IPlayerRig playerRig;
         private const float returnToBoundsPoseOffset = .5f;
 
         /// <inheritdoc />
@@ -45,55 +45,55 @@ namespace RealityToolkit.CameraService.Modules
                 return;
             }
 
-            cameraRig = (ParentService as ICameraService).CameraRig;
+            playerRig = (ParentService as IPlayerService).PlayerRig;
         }
 
         /// <inheritdoc />
         public override void Update()
         {
-            if (IsCameraOutOfBounds)
+            if (IsPlayerOutOfBounds)
             {
                 return;
             }
 
-            var position = cameraRig.CameraTransform.position;
-            position.y = cameraRig.RigTransform.position.y;
-            LastInBoundsPose = new Pose(position, cameraRig.RigTransform.rotation);
+            var position = playerRig.CameraTransform.position;
+            position.y = playerRig.RigTransform.position.y;
+            LastInBoundsPose = new Pose(position, playerRig.RigTransform.rotation);
         }
 
         /// <inheritdoc />
-        public void ResetCameraIntoBounds()
+        public void ResetPlayerIntoBounds()
         {
-            if (!IsCameraOutOfBounds)
+            if (!IsPlayerOutOfBounds)
             {
                 return;
             }
 
             var position = LastInBoundsPose.position;
-            var direction = cameraRig.CameraTransform.position - position;
+            var direction = playerRig.CameraTransform.position - position;
             direction.y = 0f;
             direction.Normalize();
             position -= returnToBoundsPoseOffset * direction;
 
-            cameraRig.SetPositionAndRotation(position, Quaternion.identity);
-            RaiseCameraBackInBounds();
+            playerRig.SetPositionAndRotation(position, Quaternion.identity);
+            RaisePlayerBackInBounds();
         }
 
         /// <inheritdoc />
-        public void RaiseCameraOutOfBounds(float severity, Vector3 returnToBoundsDirection)
+        public void RaisePlayerOutOfBounds(float severity, Vector3 returnToBoundsDirection)
         {
-            IsCameraOutOfBounds = severity > 0f;
-            if (IsCameraOutOfBounds)
+            IsPlayerOutOfBounds = severity > 0f;
+            if (IsPlayerOutOfBounds)
             {
-                CameraOutOfBounds?.Invoke(severity, returnToBoundsDirection);
+                PlayerOutOfBounds?.Invoke(severity, returnToBoundsDirection);
             }
         }
 
         /// <inheritdoc />
-        public void RaiseCameraBackInBounds()
+        public void RaisePlayerBackInBounds()
         {
-            IsCameraOutOfBounds = false;
-            CameraBackInBounds?.Invoke();
+            IsPlayerOutOfBounds = false;
+            PlayerBackInBounds?.Invoke();
         }
     }
 }

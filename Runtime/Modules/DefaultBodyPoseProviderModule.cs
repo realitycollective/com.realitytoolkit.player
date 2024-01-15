@@ -5,10 +5,10 @@ using RealityCollective.ServiceFramework.Attributes;
 using RealityCollective.ServiceFramework.Definitions;
 using RealityCollective.ServiceFramework.Definitions.Platforms;
 using RealityCollective.ServiceFramework.Modules;
-using RealityToolkit.CameraService.Interfaces;
+using RealityToolkit.PlayerService.Interfaces;
 using UnityEngine;
 
-namespace RealityToolkit.CameraService.Modules
+namespace RealityToolkit.PlayerService.Modules
 {
     /// <summary>
     /// Default <see cref="IBodyPoseProviderModule"/> implementation that provides a very basic
@@ -19,13 +19,13 @@ namespace RealityToolkit.CameraService.Modules
     public class DefaultBodyPoseProviderModule : BaseServiceModule, IBodyPoseProviderModule
     {
         /// <inheritdoc />
-        public DefaultBodyPoseProviderModule(string name, uint priority, BaseProfile profile, ICameraService parentService)
+        public DefaultBodyPoseProviderModule(string name, uint priority, BaseProfile profile, IPlayerService parentService)
             : base(name, priority, profile, parentService)
         {
-            cameraService = parentService;
+            playerService = parentService;
         }
 
-        private readonly ICameraService cameraService;
+        private readonly IPlayerService playerService;
         private IXRPlayerController playerController;
         private const float rotateTowardsSpeed = 50f;
         private const float thresholdAngle = 30f;
@@ -41,7 +41,7 @@ namespace RealityToolkit.CameraService.Modules
                 return;
             }
 
-            playerController = cameraService.CameraRig as IXRPlayerController;
+            playerController = playerService.PlayerRig as IXRPlayerController;
             if (playerController == null)
             {
                 Debug.LogError($"{nameof(DefaultBodyPoseProviderModule)} works only with {nameof(IXRPlayerController)} implementations.");

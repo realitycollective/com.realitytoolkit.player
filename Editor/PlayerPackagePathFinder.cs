@@ -4,15 +4,15 @@
 using RealityCollective.ServiceFramework.Editor;
 using UnityEngine;
 
-namespace RealityToolkit.CameraService.Editor
+namespace RealityToolkit.PlayerService.Editor
 {
     /// <summary>
     /// Dummy scriptable object used to find the relative path of the package.
     /// </summary>
     /// <inheritdoc cref="IPathFinder" />
-    public class CameraPackagePathFinder : ScriptableObject, IPathFinder
+    public class PlayerPackagePathFinder : ScriptableObject, IPathFinder
     {
         /// <inheritdoc />
-        public string Location => $"/Editor/{nameof(CameraPackagePathFinder)}.cs";
+        public string Location => $"/Editor/{nameof(PlayerPackagePathFinder)}.cs";
     }
 }

@@ -3,11 +3,11 @@
 
 using RealityCollective.ServiceFramework.Interfaces;
 
-namespace RealityToolkit.CameraService.Interfaces
+namespace RealityToolkit.PlayerService.Interfaces
 {
     /// <summary>
     /// Base interface for all <see cref="IServiceModule"/>s aimed at the
-    /// <see cref="ICameraService"/>.
+    /// <see cref="IPlayerService"/>.
     /// </summary>
-    public interface ICameraServiceModule : IServiceModule { }
+    public interface IPlayerServiceModule : IServiceModule { }
 }

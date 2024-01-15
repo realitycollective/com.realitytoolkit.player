@@ -3,22 +3,22 @@
 
 using RealityCollective.Extensions;
 using RealityCollective.ServiceFramework.Services;
-using RealityToolkit.CameraService.Definitions;
-using RealityToolkit.CameraService.Interfaces;
+using RealityToolkit.PlayerService.Definitions;
+using RealityToolkit.PlayerService.Interfaces;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SpatialTracking;
 using UnityEngine.XR;
 
-namespace RealityToolkit.CameraService
+namespace RealityToolkit.PlayerService
 {
     /// <summary>
-    /// The default <see cref="IXRCameraRig"/> implementation.
+    /// The default <see cref="IXRPlayerRig"/> implementation.
     /// </summary>
     [SelectionBase]
     [DisallowMultipleComponent]
     [System.Runtime.InteropServices.Guid("968e05fa-de5d-4502-9123-8fb83fdea695")]
-    public class XRCameraRig : CameraRig, IXRCameraRig
+    public class XRPlayerRig : PlayerRig, IXRPlayerRig
 #if RTK_LOCOMOTION
         , Locomotion.Interfaces.ILocomotionTarget
 #endif
@@ -32,7 +32,7 @@ namespace RealityToolkit.CameraService
 
         [Range(0f, 3f)]
         [SerializeField]
-        [Tooltip("The default vertical camera offset on the rig. Used until tracking sensors provider a tracked value for the first time.")]
+        [Tooltip("The default vertical camera offset on the player rig. Used until tracking sensors provider a tracked value for the first time.")]
         private float defaultVerticalOffset = 1.6f;
 
         private bool trackingOriginInitialized = false;
@@ -50,14 +50,14 @@ namespace RealityToolkit.CameraService
         {
             get
             {
-                if (CameraService.DisplaySubsystem == null)
+                if (PlayerService.DisplaySubsystem == null)
                 {
                     // When no device is attached we are assuming the display
                     // device is the computer's display, which should be opaque.
                     return true;
                 }
 
-                return CameraService.DisplaySubsystem.displayOpaque;
+                return PlayerService.DisplaySubsystem.displayOpaque;
             }
         }
 
@@ -81,7 +81,7 @@ namespace RealityToolkit.CameraService
 
             if (PoseDriver.IsNotNull())
             {
-                switch (CameraService.CameraRigServiceModule.TrackingType)
+                switch (PlayerService.PlayerRigServiceModule.TrackingType)
                 {
                     case TrackingType.SixDegreesOfFreedom:
                         PoseDriver.trackingType = TrackedPoseDriver.TrackingType.RotationAndPosition;
@@ -130,7 +130,7 @@ namespace RealityToolkit.CameraService
             ResetRig();
         }
 
-        protected virtual void UpdateCameraHeightOffset(float heightOffset = 0f)
+        protected virtual void UpdatePlayerHeightOffset(float heightOffset = 0f)
         {
             CameraTransform.localPosition = new Vector3(
                 CameraTransform.localPosition.x,
@@ -161,7 +161,7 @@ namespace RealityToolkit.CameraService
                     if (string.Equals(inputSubsystems[i].SubsystemDescriptor.id, "MockHMD Head Tracking"))
 #endif
                     {
-                        UpdateCameraHeightOffset(defaultVerticalOffset);
+                        UpdatePlayerHeightOffset(defaultVerticalOffset);
                     }
                     else
                     {
@@ -179,7 +179,7 @@ namespace RealityToolkit.CameraService
             {
                 // No subsystems available, we are probably running in editor without a device
                 // connected, position the camera at the configured default offset.
-                UpdateCameraHeightOffset(defaultVerticalOffset);
+                UpdatePlayerHeightOffset(defaultVerticalOffset);
             }
 
             return trackingOriginModeSet;
@@ -211,7 +211,7 @@ namespace RealityToolkit.CameraService
             {
                 if ((supportedModes & (TrackingOriginModeFlags.Device | TrackingOriginModeFlags.Unknown)) == 0)
                 {
-                    Debug.LogWarning("Attempting to set the camera system tracking origin to device, but the device does not support it.");
+                    Debug.LogWarning("Attempting to set the player service tracking origin to device, but the device does not support it.");
                 }
                 else
                 {
@@ -233,7 +233,7 @@ namespace RealityToolkit.CameraService
         {
             trackingOriginMode = trackingOriginModeFlags;
 
-            UpdateCameraHeightOffset(trackingOriginMode == TrackingOriginModeFlags.Device ? defaultVerticalOffset : 0.0f);
+            UpdatePlayerHeightOffset(trackingOriginMode == TrackingOriginModeFlags.Device ? defaultVerticalOffset : 0.0f);
             ResetRig();
         }
 

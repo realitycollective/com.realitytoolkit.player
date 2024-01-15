@@ -2,11 +2,11 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using RealityCollective.ServiceFramework.Services;
-using RealityToolkit.CameraService.Definitions;
-using RealityToolkit.CameraService.Interfaces;
+using RealityToolkit.PlayerService.Definitions;
+using RealityToolkit.PlayerService.Interfaces;
 using UnityEngine;
 
-namespace RealityToolkit.CameraService
+namespace RealityToolkit.PlayerService
 {
     /// <summary>
     /// Default <see cref="IXRPlayerController"/> implementation.
@@ -16,7 +16,7 @@ namespace RealityToolkit.CameraService
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(CharacterController))]
     [System.Runtime.InteropServices.Guid("3ddace9b-b75e-46d0-9b62-2b169e0c35d5")]
-    public class XRPlayerController : XRCameraRig, IXRPlayerController
+    public class XRPlayerController : XRPlayerRig, IXRPlayerController
     {
         [SerializeField, Tooltip("The head collider is used to offset the body/character collider.")]
         private XRPlayerHead head = null;
@@ -117,13 +117,13 @@ namespace RealityToolkit.CameraService
 
         /// <summary>
         /// Updates the <see cref="controller"/> configuration with regard to
-        /// the <see cref="ICameraRig.CameraTransform"/> pose.
+        /// the <see cref="IPlayerRig.CameraTransform"/> pose.
         /// </summary>
         private void UpdateControllerBounds()
         {
             if (Application.isPlaying && !controller.enabled)
             {
-                // If the controller is disabled, e.g. because the camera
+                // If the controller is disabled, e.g. because the player
                 // is out of bounds, do not update it. If we are in edit-mode
                 // we want to update it no matter what to keep it in sync with inspector
                 // changes.

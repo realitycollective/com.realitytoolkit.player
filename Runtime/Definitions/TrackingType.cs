@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Reality Collective. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-namespace RealityToolkit.CameraService.Definitions
+namespace RealityToolkit.PlayerService.Definitions
 {
     /// <summary>
-    /// Available tracking types for the camera operated by the <see cref="Interfaces.ICameraService"/>.
+    /// Available tracking types for the camera operated by the <see cref="Interfaces.IPlayerService"/>.
     /// </summary>
     public enum TrackingType
     {
