@@ -22,10 +22,10 @@ namespace RealityToolkit.PlayerService.Modules
         public DefaultBodyPoseProviderModule(string name, uint priority, BaseProfile profile, IPlayerService parentService)
             : base(name, priority, profile, parentService)
         {
-            PlayerService = parentService;
+            playerService = parentService;
         }
 
-        private readonly IPlayerService PlayerService;
+        private readonly IPlayerService playerService;
         private IXRPlayerController playerController;
         private const float rotateTowardsSpeed = 50f;
         private const float thresholdAngle = 30f;
@@ -41,7 +41,7 @@ namespace RealityToolkit.PlayerService.Modules
                 return;
             }
 
-            playerController = PlayerService.PlayerRig as IXRPlayerController;
+            playerController = playerService.PlayerRig as IXRPlayerController;
             if (playerController == null)
             {
                 Debug.LogError($"{nameof(DefaultBodyPoseProviderModule)} works only with {nameof(IXRPlayerController)} implementations.");
