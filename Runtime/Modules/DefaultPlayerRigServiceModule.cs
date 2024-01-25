@@ -3,10 +3,10 @@
 
 using RealityCollective.ServiceFramework.Attributes;
 using RealityCollective.ServiceFramework.Definitions.Platforms;
-using RealityToolkit.PlayerService.Definitions;
-using RealityToolkit.PlayerService.Interfaces;
+using RealityToolkit.Player.Definitions;
+using RealityToolkit.Player.Interfaces;
 
-namespace RealityToolkit.PlayerService.Modules
+namespace RealityToolkit.Player.Modules
 {
     /// <summary>
     /// Default and general use <see cref="IPlayerRigServiceModule"/> implementation.

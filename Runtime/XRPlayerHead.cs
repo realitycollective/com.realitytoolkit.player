@@ -3,11 +3,11 @@
 
 using RealityCollective.Extensions;
 using RealityCollective.ServiceFramework.Services;
-using RealityToolkit.PlayerService.Interfaces;
-using RealityToolkit.PlayerService.UX;
+using RealityToolkit.Player.Interfaces;
+using RealityToolkit.Player.UX;
 using UnityEngine;
 
-namespace RealityToolkit.PlayerService
+namespace RealityToolkit.Player
 {
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(SphereCollider))]

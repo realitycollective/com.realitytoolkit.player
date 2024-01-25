@@ -4,7 +4,7 @@
 using RealityCollective.ServiceFramework.Definitions;
 using UnityEngine;
 
-namespace RealityToolkit.PlayerService.Definitions
+namespace RealityToolkit.Player.Definitions
 {
     /// <summary>
     /// Provides configuration options for <see cref="Modules.BasePlayerRigServiceModule"/>s.

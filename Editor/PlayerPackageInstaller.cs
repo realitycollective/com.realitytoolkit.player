@@ -3,14 +3,14 @@
 
 using RealityCollective.Editor.Utilities;
 using RealityCollective.Extensions;
-using RealityCollective.ServiceFramework;
 using RealityCollective.ServiceFramework.Editor;
 using RealityCollective.ServiceFramework.Editor.Packages;
+using RealityToolkit.Editor;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace RealityToolkit.PlayerService.Editor
+namespace RealityToolkit.Player.Editor
 {
     [InitializeOnLoad]
     internal static class PlayerPackageInstaller
@@ -23,13 +23,13 @@ namespace RealityToolkit.PlayerService.Editor
             EditorApplication.delayCall += CheckPackage;
         }
 
-        [MenuItem(ServiceFrameworkPreferences.Editor_Menu_Keyword + "/Reality Toolkit/Packages/Install Player Package Assets...", true)]
+        [MenuItem(RealityToolkitPreferences.Editor_Menu_Keyword + "/Packages/Install Player Package Assets...", true)]
         private static bool ImportPackageAssetsValidation()
         {
             return !Directory.Exists($"{destinationPath}{Path.DirectorySeparatorChar}");
         }
 
-        [MenuItem(ServiceFrameworkPreferences.Editor_Menu_Keyword + "/Reality Toolkit/Packages/Install Player Package Assets...")]
+        [MenuItem(RealityToolkitPreferences.Editor_Menu_Keyword + "/Packages/Install Player Package Assets...")]
         private static void ImportPackageAssets()
         {
             EditorPreferences.Set($"{nameof(PlayerPackageInstaller)}.Assets", false);

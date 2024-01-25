@@ -5,13 +5,13 @@ using RealityCollective.Extensions;
 using RealityCollective.ServiceFramework.Attributes;
 using RealityCollective.ServiceFramework.Definitions.Platforms;
 using RealityCollective.ServiceFramework.Services;
-using RealityToolkit.PlayerService.Definitions;
-using RealityToolkit.PlayerService.Interfaces;
+using RealityToolkit.Player.Definitions;
+using RealityToolkit.Player.Interfaces;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
 
-namespace RealityToolkit.PlayerService
+namespace RealityToolkit.Player
 {
     /// <summary>
     /// The Reality Toolkit's default implementation of the <see cref="IPlayerService"/>.

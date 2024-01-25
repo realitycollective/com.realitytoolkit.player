@@ -3,7 +3,7 @@
 
 using RealityCollective.ServiceFramework.Interfaces;
 
-namespace RealityToolkit.PlayerService.Interfaces
+namespace RealityToolkit.Player.Interfaces
 {
     /// <summary>
     /// Base interface for all <see cref="IServiceModule"/>s aimed at the
