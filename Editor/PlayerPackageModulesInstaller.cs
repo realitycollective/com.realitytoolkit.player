@@ -9,7 +9,7 @@ using RealityToolkit.PlayerService.Interfaces;
 using System.Linq;
 using UnityEditor;
 
-namespace RealityToolkit.PlayerService.Editor
+namespace RealityToolkit.Player.Editor
 {
     /// <summary>
     /// Installs <see cref="IPlayerServiceModule"/>s coming from a third party package
