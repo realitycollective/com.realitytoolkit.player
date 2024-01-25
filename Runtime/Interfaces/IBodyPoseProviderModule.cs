@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace RealityToolkit.PlayerService.Interfaces
+namespace RealityToolkit.Player.Interfaces
 {
     /// <summary>
     /// Provides an estimated or tracked body pose for the <see cref="IXRPlayerController"/>.

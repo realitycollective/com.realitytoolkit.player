@@ -4,7 +4,7 @@
 using RealityCollective.ServiceFramework.Interfaces;
 using UnityEngine.XR;
 
-namespace RealityToolkit.PlayerService.Interfaces
+namespace RealityToolkit.Player.Interfaces
 {
     /// <summary>
     /// The base interface for implementing a mixed reality player system.
