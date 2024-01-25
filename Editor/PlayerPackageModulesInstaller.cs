@@ -4,8 +4,8 @@
 using RealityCollective.ServiceFramework.Definitions;
 using RealityCollective.ServiceFramework.Editor.Packages;
 using RealityCollective.ServiceFramework.Services;
-using RealityToolkit.PlayerService.Definitions;
-using RealityToolkit.PlayerService.Interfaces;
+using RealityToolkit.Player.Definitions;
+using RealityToolkit.Player.Interfaces;
 using System.Linq;
 using UnityEditor;
 
@@ -57,7 +57,7 @@ namespace RealityToolkit.Player.Editor
                 return false;
             }
 
-            if (!ServiceManager.Instance.TryGetServiceProfile<IPlayerService, PlayerServiceProfile>(out var PlayerServiceProfile))
+            if (!ServiceManager.Instance.TryGetServiceProfile<IPlayerService, PlayerServiceProfile>(out var playerServiceProfile))
             {
                 UnityEngine.Debug.LogWarning($"Could not install {serviceConfiguration.InstancedType.Type.Name}.{nameof(PlayerServiceProfile)} not found.");
                 return false;
@@ -67,14 +67,14 @@ namespace RealityToolkit.Player.Editor
             var typedServiceConfiguration = new ServiceConfiguration<IPlayerServiceModule>(serviceConfiguration.InstancedType.Type, serviceConfiguration.Name, serviceConfiguration.Priority, serviceConfiguration.RuntimePlatforms, serviceConfiguration.Profile);
 
             // Make sure it's not already in the target profile.
-            if (PlayerServiceProfile.ServiceConfigurations.All(sc => sc.InstancedType.Type != serviceConfiguration.InstancedType.Type))
+            if (playerServiceProfile.ServiceConfigurations.All(sc => sc.InstancedType.Type != serviceConfiguration.InstancedType.Type))
             {
-                PlayerServiceProfile.AddConfiguration(typedServiceConfiguration);
-                UnityEngine.Debug.Log($"Successfully installed the {serviceConfiguration.InstancedType.Type.Name} to {PlayerServiceProfile.name}.");
+                playerServiceProfile.AddConfiguration(typedServiceConfiguration);
+                UnityEngine.Debug.Log($"Successfully installed the {serviceConfiguration.InstancedType.Type.Name} to {playerServiceProfile.name}.");
             }
             else
             {
-                UnityEngine.Debug.Log($"Skipped installing the {serviceConfiguration.InstancedType.Type.Name} to {PlayerServiceProfile.name}. Already installed.");
+                UnityEngine.Debug.Log($"Skipped installing the {serviceConfiguration.InstancedType.Type.Name} to {playerServiceProfile.name}. Already installed.");
             }
 
             return true;

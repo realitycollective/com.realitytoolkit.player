@@ -1,9 +1,9 @@
 // Copyright (c) Reality Collective. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using RealityToolkit.PlayerService.Definitions;
+using RealityToolkit.Player.Definitions;
 
-namespace RealityToolkit.PlayerService.Interfaces
+namespace RealityToolkit.Player.Interfaces
 {
     /// <summary>
     /// Base interface for implementing player rig service modules to be registered with the <see cref="IPlayerService"/>.

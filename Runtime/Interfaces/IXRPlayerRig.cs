@@ -3,7 +3,7 @@
 
 using UnityEngine.SpatialTracking;
 
-namespace RealityToolkit.PlayerService.Interfaces
+namespace RealityToolkit.Player.Interfaces
 {
     /// <summary>
     /// A XR <see cref="IPlayerRig"/> that is being tracked by hardware sensors.

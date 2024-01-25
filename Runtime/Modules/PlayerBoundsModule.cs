@@ -5,11 +5,11 @@ using RealityCollective.ServiceFramework.Attributes;
 using RealityCollective.ServiceFramework.Definitions;
 using RealityCollective.ServiceFramework.Definitions.Platforms;
 using RealityCollective.ServiceFramework.Modules;
-using RealityToolkit.PlayerService.Interfaces;
+using RealityToolkit.Player.Interfaces;
 using System;
 using UnityEngine;
 
-namespace RealityToolkit.PlayerService.Modules
+namespace RealityToolkit.Player.Modules
 {
     /// <summary>
     /// Default implementation for <see cref="IPlayerBoundsModule"/>.

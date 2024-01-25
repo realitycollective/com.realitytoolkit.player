@@ -3,14 +3,14 @@
 
 using RealityCollective.Extensions;
 using RealityCollective.ServiceFramework.Services;
-using RealityToolkit.PlayerService.Definitions;
-using RealityToolkit.PlayerService.Interfaces;
+using RealityToolkit.Player.Definitions;
+using RealityToolkit.Player.Interfaces;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SpatialTracking;
 using UnityEngine.XR;
 
-namespace RealityToolkit.PlayerService
+namespace RealityToolkit.Player
 {
     /// <summary>
     /// The default <see cref="IXRPlayerRig"/> implementation.

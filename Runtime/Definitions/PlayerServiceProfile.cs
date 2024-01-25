@@ -3,10 +3,10 @@
 
 using RealityCollective.Attributes;
 using RealityCollective.ServiceFramework.Definitions;
-using RealityToolkit.PlayerService.Interfaces;
+using RealityToolkit.Player.Interfaces;
 using UnityEngine;
 
-namespace RealityToolkit.PlayerService.Definitions
+namespace RealityToolkit.Player.Definitions
 {
     /// <summary>
     /// Configuration profile for the <see cref="PlayerService"/>.

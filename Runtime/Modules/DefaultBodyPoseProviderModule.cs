@@ -5,10 +5,10 @@ using RealityCollective.ServiceFramework.Attributes;
 using RealityCollective.ServiceFramework.Definitions;
 using RealityCollective.ServiceFramework.Definitions.Platforms;
 using RealityCollective.ServiceFramework.Modules;
-using RealityToolkit.PlayerService.Interfaces;
+using RealityToolkit.Player.Interfaces;
 using UnityEngine;
 
-namespace RealityToolkit.PlayerService.Modules
+namespace RealityToolkit.Player.Modules
 {
     /// <summary>
     /// Default <see cref="IBodyPoseProviderModule"/> implementation that provides a very basic

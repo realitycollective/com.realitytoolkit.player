@@ -4,7 +4,7 @@
 using System;
 using UnityEngine;
 
-namespace RealityToolkit.PlayerService.Interfaces
+namespace RealityToolkit.Player.Interfaces
 {
     /// <summary>
     /// Event delegate for handling the playerService out of bounds situation.

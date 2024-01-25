@@ -5,7 +5,7 @@ using RealityCollective.Extensions;
 using System.Collections;
 using UnityEngine;
 
-namespace RealityToolkit.PlayerService.UX
+namespace RealityToolkit.Player.UX
 {
     /// <summary>
     /// Fades the camera from and to <see cref="fadeColor"/>.

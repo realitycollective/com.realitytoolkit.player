@@ -2,10 +2,10 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using RealityCollective.ServiceFramework.Services;
-using RealityToolkit.PlayerService.Interfaces;
+using RealityToolkit.Player.Interfaces;
 using UnityEngine;
 
-namespace RealityToolkit.PlayerService.UX
+namespace RealityToolkit.Player.UX
 {
     /// <summary>
     /// Uses the <see cref="IPlayerService.PlayerOutOfBounds"/>
