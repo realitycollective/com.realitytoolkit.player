@@ -30,7 +30,7 @@ namespace RealityToolkit.Player.Definitions
         /// </summary>
         public bool ResetPlayerToOrigin => resetPlayerToOrigin;
 
-        [SerializeField, Tooltip("The player rig prefab used by this service module."), Prefab(typeof(IPlayerRig))]
+        [SerializeField, Tooltip("The player rig prefab used by this service module."), Prefab]
         private GameObject rigPrefab = null;
 
         /// <summary>
