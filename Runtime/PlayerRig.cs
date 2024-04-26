@@ -79,7 +79,7 @@ namespace RealityToolkit.Player
 
         /// <inheritdoc />
         public virtual void Move(Vector2 direction, float speed = 1f)
-        => Move(new Vector3(direction.x, 0f, direction.y));
+        => Move(new Vector3(direction.x, 0f, direction.y), speed);
 
         /// <inheritdoc />
         public virtual void Move(Vector3 direction, float speed = 1f)
