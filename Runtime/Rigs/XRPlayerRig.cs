@@ -1,16 +1,14 @@
-// Copyright (c) Reality Collective. All rights reserved.
+﻿// Copyright (c) Reality Collective. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using RealityCollective.Extensions;
 using RealityCollective.ServiceFramework.Services;
-using RealityToolkit.Player.Definitions;
-using RealityToolkit.Player.Interfaces;
+using RealityCollective.Utilities.Extensions;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SpatialTracking;
 using UnityEngine.XR;
 
-namespace RealityToolkit.Player
+namespace RealityToolkit.Player.Rigs
 {
     /// <summary>
     /// The default <see cref="IXRPlayerRig"/> implementation.
@@ -20,7 +18,7 @@ namespace RealityToolkit.Player
     [System.Runtime.InteropServices.Guid("968e05fa-de5d-4502-9123-8fb83fdea695")]
     public class XRPlayerRig : PlayerRig, IXRPlayerRig
 #if RTK_LOCOMOTION
-        , Locomotion.Interfaces.ILocomotionTarget
+        , Locomotion.ILocomotionTarget
 #endif
     {
         [SerializeField]
@@ -104,7 +102,7 @@ namespace RealityToolkit.Player
             trackingOriginInitializing = !trackingOriginInitialized;
 
 #if RTK_LOCOMOTION
-            if (ServiceManager.Instance.TryGetService<Locomotion.Interfaces.ILocomotionService>(out var locomotionService))
+            if (ServiceManager.Instance.TryGetService<Locomotion.ILocomotionService>(out var locomotionService))
             {
                 locomotionService.LocomotionTarget = this;
             }

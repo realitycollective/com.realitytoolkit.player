@@ -1,9 +1,9 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace RealityToolkit.Player.Interfaces
+namespace RealityToolkit.Player.Body
 {
     /// <summary>
-    /// Provides an estimated or tracked body pose for the <see cref="IXRPlayerController"/>.
+    /// Provides an estimated or tracked body pose for the <see cref="Rigs.IXRPlayerController"/>.
     /// </summary>
     public interface IBodyPoseProviderModule : IPlayerServiceModule
     {

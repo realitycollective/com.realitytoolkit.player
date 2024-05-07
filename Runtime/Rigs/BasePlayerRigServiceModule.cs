@@ -2,12 +2,10 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using RealityCollective.ServiceFramework.Modules;
-using RealityToolkit.Player.Definitions;
-using RealityToolkit.Player.Interfaces;
 using UnityEngine;
 using UnityEngine.XR;
 
-namespace RealityToolkit.Player.Modules
+namespace RealityToolkit.Player.Rigs
 {
     /// <summary>
     /// Base class for <see cref="IPlayerRigServiceModule"/>s to inherit from.

@@ -1,12 +1,11 @@
 ﻿// Copyright (c) Reality Collective. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using RealityCollective.Extensions;
 using RealityCollective.ServiceFramework.Attributes;
 using RealityCollective.ServiceFramework.Definitions.Platforms;
 using RealityCollective.ServiceFramework.Services;
-using RealityToolkit.Player.Definitions;
-using RealityToolkit.Player.Interfaces;
+using RealityCollective.Utilities.Extensions;
+using RealityToolkit.Player.Rigs;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
@@ -121,15 +120,15 @@ namespace RealityToolkit.Player
 #if UNITY_EDITOR
                         if (Application.isPlaying)
                         {
-                            PlayerRig = UnityEngine.Object.Instantiate(rigPrefab).GetComponent<IPlayerRig>();
+                            PlayerRig = Object.Instantiate(rigPrefab).GetComponentInChildren<IPlayerRig>(true);
                         }
                         else
                         {
                             var go = UnityEditor.PrefabUtility.InstantiatePrefab(rigPrefab) as GameObject;
-                            PlayerRig = go.GetComponent<IPlayerRig>();
+                            PlayerRig = go.GetComponentInChildren<IPlayerRig>(true);
                         }
 #else
-                    PlayerRig = UnityEngine.Object.Instantiate(rigPrefab).GetComponent<IPlayerRig>();
+                        PlayerRig = Object.Instantiate(rigPrefab).GetComponentInChildren<IPlayerRig>(true);
 #endif
                     }
                     else

@@ -1,13 +1,11 @@
 ﻿// Copyright (c) Reality Collective. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using RealityCollective.Extensions;
 using RealityCollective.ServiceFramework.Services;
-using RealityToolkit.Player.Definitions;
-using RealityToolkit.Player.Interfaces;
+using RealityCollective.Utilities.Extensions;
 using UnityEngine;
 
-namespace RealityToolkit.Player
+namespace RealityToolkit.Player.Rigs
 {
     /// <summary>
     /// The default <see cref="IPlayerRig"/> implmentation.
@@ -79,7 +77,7 @@ namespace RealityToolkit.Player
 
         /// <inheritdoc />
         public virtual void Move(Vector2 direction, float speed = 1f)
-        => Move(new Vector3(direction.x, 0f, direction.y));
+        => Move(new Vector3(direction.x, 0f, direction.y), speed);
 
         /// <inheritdoc />
         public virtual void Move(Vector3 direction, float speed = 1f)

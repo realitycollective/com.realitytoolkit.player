@@ -1,9 +1,7 @@
-// Copyright (c) Reality Collective. All rights reserved.
+﻿// Copyright (c) Reality Collective. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using RealityToolkit.Player.Definitions;
-
-namespace RealityToolkit.Player.Interfaces
+namespace RealityToolkit.Player.Rigs
 {
     /// <summary>
     /// Base interface for implementing player rig service modules to be registered with the <see cref="IPlayerService"/>.
@@ -11,7 +9,7 @@ namespace RealityToolkit.Player.Interfaces
     public interface IPlayerRigServiceModule : IPlayerServiceModule
     {
         /// <summary>
-        /// The <see cref="Definitions.TrackingType"/> this provider is configured to use.
+        /// The <see cref="Rigs.TrackingType"/> this provider is configured to use.
         /// </summary>
         TrackingType TrackingType { get; }
     }

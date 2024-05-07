@@ -1,14 +1,14 @@
-// Copyright (c) Reality Collective. All rights reserved.
+﻿// Copyright (c) Reality Collective. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using RealityCollective.ServiceFramework.Attributes;
 using RealityCollective.ServiceFramework.Definitions;
 using RealityCollective.ServiceFramework.Definitions.Platforms;
 using RealityCollective.ServiceFramework.Modules;
-using RealityToolkit.Player.Interfaces;
+using RealityToolkit.Player.Rigs;
 using UnityEngine;
 
-namespace RealityToolkit.Player.Modules
+namespace RealityToolkit.Player.Body
 {
     /// <summary>
     /// Default <see cref="IBodyPoseProviderModule"/> implementation that provides a very basic

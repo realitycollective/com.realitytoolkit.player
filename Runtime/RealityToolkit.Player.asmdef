@@ -5,6 +5,7 @@
         "GUID:13703f41b24bb904cb2305abe6317e3d",
         "GUID:b2d046948d6452a4b8485efc9ce0f88c",
         "GUID:ba171b3dd2a51234ab864770f99741a5",
+        "GUID:f3241d040533491e8a1e2714b27c3111",
         "GUID:89da61ad1c944794996ee5b3730145ae"
     ],
     "includePlatforms": [],
@@ -17,7 +18,7 @@
     "versionDefines": [
         {
             "name": "com.realitytoolkit.locomotion",
-            "expression": "1.0.0-pre.1",
+            "expression": "1.0.2-pre.2",
             "define": "RTK_LOCOMOTION"
         }
     ],
