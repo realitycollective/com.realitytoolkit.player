@@ -1,12 +1,10 @@
-// Copyright (c) Reality Collective. All rights reserved.
+﻿// Copyright (c) Reality Collective. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using RealityCollective.ServiceFramework.Attributes;
 using RealityCollective.ServiceFramework.Definitions.Platforms;
-using RealityToolkit.Player.Definitions;
-using RealityToolkit.Player.Interfaces;
 
-namespace RealityToolkit.Player.Modules
+namespace RealityToolkit.Player.Rigs
 {
     /// <summary>
     /// Default and general use <see cref="IPlayerRigServiceModule"/> implementation.

@@ -1,9 +1,9 @@
-// Copyright (c) Reality Collective. All rights reserved.
+﻿// Copyright (c) Reality Collective. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using UnityEngine.SpatialTracking;
 
-namespace RealityToolkit.Player.Interfaces
+namespace RealityToolkit.Player.Rigs
 {
     /// <summary>
     /// A XR <see cref="IPlayerRig"/> that is being tracked by hardware sensors.

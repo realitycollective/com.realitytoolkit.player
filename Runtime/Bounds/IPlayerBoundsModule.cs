@@ -1,10 +1,10 @@
-// Copyright (c) Reality Collective. All rights reserved.
+﻿// Copyright (c) Reality Collective. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System;
 using UnityEngine;
 
-namespace RealityToolkit.Player.Interfaces
+namespace RealityToolkit.Player.Bounds
 {
     /// <summary>
     /// Event delegate for handling the playerService out of bounds situation.

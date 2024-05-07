@@ -1,15 +1,15 @@
 ﻿// Copyright (c) Reality Collective. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using RealityCollective.ServiceFramework.Interfaces;
+using RealityToolkit.Player.Rigs;
 using UnityEngine.XR;
 
-namespace RealityToolkit.Player.Interfaces
+namespace RealityToolkit.Player
 {
     /// <summary>
     /// The base interface for implementing a mixed reality player system.
     /// </summary>
-    public interface IPlayerService : IService
+    public interface IPlayerService : IRealityToolkitService
     {
         /// <summary>
         /// The active <see cref="IPlayerRig"/>.
