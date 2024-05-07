@@ -1,12 +1,11 @@
 ﻿// Copyright (c) Reality Collective. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using RealityCollective.Attributes;
 using RealityCollective.ServiceFramework.Definitions;
-using RealityToolkit.Player.Interfaces;
+using RealityCollective.Utilities.Attributes;
 using UnityEngine;
 
-namespace RealityToolkit.Player.Definitions
+namespace RealityToolkit.Player
 {
     /// <summary>
     /// Configuration profile for the <see cref="PlayerService"/>.

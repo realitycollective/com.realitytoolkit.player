@@ -3,7 +3,7 @@
 
 using UnityEngine;
 
-namespace RealityToolkit.Player.Interfaces
+namespace RealityToolkit.Player.Rigs
 {
     /// <summary>
     /// A basic player rig.

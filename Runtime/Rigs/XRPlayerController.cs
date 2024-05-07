@@ -1,12 +1,11 @@
-// Copyright (c) Reality Collective. All rights reserved.
+﻿// Copyright (c) Reality Collective. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using RealityCollective.ServiceFramework.Services;
-using RealityToolkit.Player.Definitions;
-using RealityToolkit.Player.Interfaces;
+using RealityToolkit.Player.Body;
 using UnityEngine;
 
-namespace RealityToolkit.Player
+namespace RealityToolkit.Player.Rigs
 {
     /// <summary>
     /// Default <see cref="IXRPlayerController"/> implementation.
@@ -167,7 +166,7 @@ namespace RealityToolkit.Player
                     gravityVelocity = Vector3.zero;
                     return;
                 default:
-                    Debug.LogError($"{nameof(Definitions.GravityMode)}.{gravityMode} not supported.");
+                    Debug.LogError($"{nameof(Rigs.GravityMode)}.{gravityMode} not supported.");
                     break;
             }
         }
