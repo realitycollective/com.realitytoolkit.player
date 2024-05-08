@@ -41,6 +41,19 @@ namespace RealityToolkit.Player.UX
         /// <summary>
         /// See <see cref="MonoBehaviour"/>.
         /// </summary>
+        private void Awake()
+        {
+            var collider = GetComponent<Collider>();
+            if (!collider.isTrigger)
+            {
+                collider.isTrigger = true;
+                Debug.LogWarning($"{nameof(PlayerTrigger)} requires the attached {nameof(Collider)} to be a trigger and has auto configured it.", this);
+            }
+        }
+
+        /// <summary>
+        /// See <see cref="MonoBehaviour"/>.
+        /// </summary>
         private void OnTriggerEnter(Collider other)
         {
             if (!other.TryGetComponent<IPlayerRig>(out _))
