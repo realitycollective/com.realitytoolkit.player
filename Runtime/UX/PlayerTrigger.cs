@@ -8,7 +8,7 @@ using UnityEngine.Events;
 namespace RealityToolkit.Player.UX
 {
     /// <summary>
-    /// A simple utility component that will raise events w
+    /// A simple utility component that will raise events as the player enters, leaves or stays within a trigger zone.
     /// </summary>
     [HelpURL("https://www.realitytoolkit.io/docs/category/player")]
     [RequireComponent(typeof(Collider))]
