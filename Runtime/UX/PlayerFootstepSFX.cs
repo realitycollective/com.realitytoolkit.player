@@ -1,22 +1,21 @@
 ﻿// Copyright (c) Reality Collective. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using UnityEngine;
-
-#if RTK_LOCOMOTION
 using RealityCollective.ServiceFramework.Services;
-using RealityToolkit.Locomotion;
-#endif
+using RealityToolkit.Player.Rigs;
+using UnityEngine;
 
 namespace RealityToolkit.Player.UX
 {
     /// <summary>
     /// Produces a footstep sound effect when the player rig moves.
-    /// Attach to the <see cref="Rigs.IPlayerRig"/> <see cref="GameObject"/>.
+    /// Attach to the <see cref="IPlayerRig"/> <see cref="GameObject"/>.
     /// </summary>
+    [HelpURL("https://www.realitytoolkit.io/docs/category/player")]
+    [RequireComponent(typeof(IPlayerRig))]
     public class PlayerFootstepSFX : MonoBehaviour
 #if RTK_LOCOMOTION
-        , ILocomotionServiceHandler
+        , Locomotion.ILocomotionServiceHandler
 #endif
     {
         [SerializeField]
@@ -25,12 +24,14 @@ namespace RealityToolkit.Player.UX
         [SerializeField]
         private float stepSize = 1f;
 
+        private IPlayerRig playerRig;
         private float previousStepTime;
         private Vector2 previousStepPosition;
         private const float timeout = .5f;
 
 #if RTK_LOCOMOTION
-        private ILocomotionService locomotionService;
+        private Locomotion.ILocomotionService locomotionService;
+#endif
 
         /// <summary>
         /// See <see cref="MonoBehaviour"/>.
@@ -38,11 +39,15 @@ namespace RealityToolkit.Player.UX
         private async void Awake()
         {
             await ServiceManager.WaitUntilInitializedAsync();
+            playerRig = GetComponent<IPlayerRig>();
 
-            locomotionService = ServiceManager.Instance.GetService<ILocomotionService>();
+#if RTK_LOCOMOTION
+            locomotionService = ServiceManager.Instance.GetService<Locomotion.ILocomotionService>();
             locomotionService.Register(gameObject);
+#endif
         }
 
+#if RTK_LOCOMOTION
         /// <summary>
         /// See <see cref="MonoBehaviour"/>.
         /// </summary>
@@ -55,19 +60,19 @@ namespace RealityToolkit.Player.UX
         }
 
         /// <inheritdoc />
-        public void OnMoving(LocomotionEventData eventData) => CheckStep();
+        public void OnMoving(Locomotion.LocomotionEventData eventData) => CheckStep();
 
         /// <inheritdoc />
-        public void OnTeleportCanceled(LocomotionEventData eventData) { }
+        public void OnTeleportCanceled(Locomotion.LocomotionEventData eventData) { }
 
         /// <inheritdoc />
-        public void OnTeleportCompleted(LocomotionEventData eventData) { }
+        public void OnTeleportCompleted(Locomotion.LocomotionEventData eventData) { }
 
         /// <inheritdoc />
-        public void OnTeleportStarted(LocomotionEventData eventData) { }
+        public void OnTeleportStarted(Locomotion.LocomotionEventData eventData) { }
 
         /// <inheritdoc />
-        public void OnTeleportTargetRequested(LocomotionEventData eventData) { }
+        public void OnTeleportTargetRequested(Locomotion.LocomotionEventData eventData) { }
 #else
         /// <summary>
         /// See <see cref="MonoBehaviour"/>.
@@ -77,8 +82,13 @@ namespace RealityToolkit.Player.UX
 
         private void CheckStep()
         {
+            if (playerRig == null)
+            {
+                return;
+            }
+
             var time = Time.time;
-            var position = transform.position;
+            var position = playerRig.RigTransform.position;
             var stepPosition = new Vector2(position.x, position.z);
 
             if (previousStepTime > 0f && time - previousStepTime > timeout)
