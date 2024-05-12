@@ -7,9 +7,13 @@ namespace RealityToolkit.Player.Bounds
 {
     /// <summary>
     /// Put this component on a <see cref="GameObject"/> with a <see cref="Collider"/>
-    /// attached to raise <see cref="Interfaces.IPlayerBoundsModule.PlayerOutOfBounds"/>
-    /// and <see cref="Interfaces.IPlayerBoundsModule.PlayerBackInBounds"/> events.
+    /// attached to raise <see cref="IPlayerBoundsModule.PlayerOutOfBounds"/>
+    /// and <see cref="IPlayerBoundsModule.PlayerBackInBounds"/> events.
     /// </summary>
+    /// <remarks>
+    /// This component relies on the <see cref="Rigs.XRPlayerController"/> rig and specifically
+    /// on the <see cref="Rigs.XRPlayerHead"/> being present on that rig.
+    /// </remarks>
     [RequireComponent(typeof(Collider))]
     public class PlayerOutOfBoundsTrigger : MonoBehaviour
     {
