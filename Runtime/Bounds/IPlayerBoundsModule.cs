@@ -22,17 +22,17 @@ namespace RealityToolkit.Player.Bounds
     public interface IPlayerBoundsModule : IPlayerServiceModule
     {
         /// <summary>
-        /// Is the active <see cref="IPlayerRig"/> currently considered out of bounds?
+        /// Is the active <see cref="Rigs.IPlayerRig"/> currently considered out of bounds?
         /// </summary>
         bool IsPlayerOutOfBounds { get; }
 
         /// <summary>
-        /// The last saved known <see cref="Pose"/> where the <see cref="IPlayerRig"/> was still in bounds.
+        /// The last saved known <see cref="Pose"/> where the <see cref="Rigs.IPlayerRig"/> was still in bounds.
         /// </summary>
         Pose LastInBoundsPose { get; }
 
         /// <summary>
-        /// Raised while the <see cref="IPlayerRig.RigCamera"/> is out of bounds.
+        /// Raised while the <see cref="Rigs.XRPlayerHead"/> is out of bounds.
         /// </summary>
         event PlayerOutOfBoundsDelegate PlayerOutOfBounds;
 
@@ -42,23 +42,26 @@ namespace RealityToolkit.Player.Bounds
         event Action PlayerBackInBounds;
 
         /// <summary>
-        /// Force resets the <see cref="IPlayerRig"/> into the last known pose
-        /// before it went out of bounds.
+        /// Force resets the <see cref="Rigs.IPlayerRig"/> into the <see cref="LastInBoundsPose"/>.
         /// </summary>
         void ResetPlayerIntoBounds();
 
         /// <summary>
-        /// Raises the <see cref="PlayerOutOfBounds"/> event to subsribed
-        /// <see cref="PlayerOutOfBoundsDelegate"/>s.
+        /// The <see cref="Rigs.XRPlayerHead"/> has entered a <see cref="PlayerOutOfBoundsTrigger"/>.
         /// </summary>
-        /// <param name="severity">A percentage in range <c>[0f, 1f]</c> specifying how far of bounds the player is. Where <c>1f</c> means the player
-        /// is definitely going places it should not be at.</param>
-        /// <param name="returnToBoundsDirection">A <see cref="Vector3"/> specifying the direction the player needs to take to return to into bounds.</param>
-        void RaisePlayerOutOfBounds(float severity, Vector3 returnToBoundsDirection);
+        /// <param name="trigger">The <see cref="PlayerOutOfBoundsTrigger"/>.</param>
+        void OnTriggerEnter(PlayerOutOfBoundsTrigger trigger);
 
         /// <summary>
-        /// Raises the <see cref="PlayerBackInBounds"/> event to subscirbed delegates.
+        /// The <see cref="Rigs.XRPlayerHead"/> is staying within a <see cref="PlayerOutOfBoundsTrigger"/>.
         /// </summary>
-        void RaisePlayerBackInBounds();
+        /// <param name="trigger">The <see cref="PlayerOutOfBoundsTrigger"/>.</param>
+        void OnTriggerStay(PlayerOutOfBoundsTrigger trigger);
+
+        /// <summary>
+        /// The <see cref="Rigs.XRPlayerHead"/> has left a <see cref="PlayerOutOfBoundsTrigger"/>.
+        /// </summary>
+        /// <param name="trigger">The <see cref="PlayerOutOfBoundsTrigger"/>.</param>
+        void OnTriggerExit(PlayerOutOfBoundsTrigger trigger);
     }
 }

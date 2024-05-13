@@ -2,9 +2,9 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using RealityCollective.ServiceFramework.Attributes;
-using RealityCollective.ServiceFramework.Definitions;
 using RealityCollective.ServiceFramework.Definitions.Platforms;
 using RealityCollective.ServiceFramework.Modules;
+using RealityCollective.Utilities.Extensions;
 using RealityToolkit.Player.Rigs;
 using System;
 using UnityEngine;
@@ -19,8 +19,17 @@ namespace RealityToolkit.Player.Bounds
     public class PlayerBoundsModule : BaseServiceModule, IPlayerBoundsModule
     {
         /// <inheritdoc />
-        public PlayerBoundsModule(string name, uint priority, BaseProfile profile, IPlayerService parentService)
-            : base(name, priority, profile, parentService) { }
+        public PlayerBoundsModule(string name, uint priority, PlayerBoundsModuleProfile profile, IPlayerService parentService)
+            : base(name, priority, profile, parentService)
+        {
+            maxSeverityDistanceThreshold = profile.MaxSeverityDistanceThreshold;
+        }
+
+        private readonly float maxSeverityDistanceThreshold;
+        private XRPlayerController playerRig;
+        private const float returnToBoundsPoseOffset = .5f;
+        private PlayerOutOfBoundsTrigger initialTrigger;
+        private Vector3 enterPosition;
 
         /// <inheritdoc />
         public bool IsPlayerOutOfBounds { get; private set; }
@@ -34,9 +43,6 @@ namespace RealityToolkit.Player.Bounds
         /// <inheritdoc />
         public event Action PlayerBackInBounds;
 
-        private IPlayerRig playerRig;
-        private const float returnToBoundsPoseOffset = .5f;
-
         /// <inheritdoc />
         public override void Initialize()
         {
@@ -45,7 +51,7 @@ namespace RealityToolkit.Player.Bounds
                 return;
             }
 
-            playerRig = (ParentService as IPlayerService).PlayerRig;
+            playerRig = (ParentService as IPlayerService).PlayerRig as XRPlayerController;
         }
 
         /// <inheritdoc />
@@ -80,17 +86,43 @@ namespace RealityToolkit.Player.Bounds
         }
 
         /// <inheritdoc />
-        public void RaisePlayerOutOfBounds(float severity, Vector3 returnToBoundsDirection)
+        public void OnTriggerEnter(PlayerOutOfBoundsTrigger trigger)
         {
-            IsPlayerOutOfBounds = severity > 0f;
-            if (IsPlayerOutOfBounds)
+            if (initialTrigger.IsNull())
             {
-                PlayerOutOfBounds?.Invoke(severity, returnToBoundsDirection);
+                initialTrigger = trigger;
+                enterPosition = playerRig.Head.Pose.position;
             }
         }
 
         /// <inheritdoc />
-        public void RaisePlayerBackInBounds()
+        public void OnTriggerStay(PlayerOutOfBoundsTrigger trigger)
+        {
+            if (initialTrigger.IsNotNull())
+            {
+                var distance = Vector3.Distance(enterPosition, playerRig.Head.Pose.position);
+                var severity = Mathf.Clamp01(distance / maxSeverityDistanceThreshold);
+                var direction = (enterPosition - playerRig.Head.Pose.position).normalized;
+
+                IsPlayerOutOfBounds = severity > 0f;
+                if (IsPlayerOutOfBounds)
+                {
+                    PlayerOutOfBounds?.Invoke(severity, direction);
+                }
+            }
+        }
+
+        /// <inheritdoc />
+        public void OnTriggerExit(PlayerOutOfBoundsTrigger trigger)
+        {
+            if (trigger == initialTrigger)
+            {
+                RaisePlayerBackInBounds();
+                initialTrigger = null;
+            }
+        }
+
+        private void RaisePlayerBackInBounds()
         {
             IsPlayerOutOfBounds = false;
             PlayerBackInBounds?.Invoke();

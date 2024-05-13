@@ -45,6 +45,11 @@ namespace RealityToolkit.Player.Rigs
         /// <inheritdoc />
         public Transform BodyTransform => bodyTransform;
 
+        /// <summary>
+        /// The head collider is used to offset the body/character collider.
+        /// </summary>
+        public IXRPlayerHead Head => head;
+
         private Vector3 gravityVelocity;
         private Vector3 motionInput;
         private IBodyPoseProviderModule bodyPoseProvider;
