@@ -22,13 +22,18 @@ namespace RealityToolkit.Player.Bounds
             : base(name, priority, profile, parentService)
         {
             maxSeverityDistanceThreshold = profile.MaxSeverityDistanceThreshold;
+            autoResetEnabled = profile.AutoResetEnabled;
+            autoResetTimeout = profile.AutoResetTimeout;
         }
 
         private readonly float maxSeverityDistanceThreshold;
+        private readonly bool autoResetEnabled;
+        private readonly float autoResetTimeout;
         private XRPlayerController playerRig;
         private const float returnToBoundsPoseOffset = .5f;
         private PlayerOutOfBoundsTrigger initialTrigger;
         private Vector3 enterPosition;
+        private float autoResetTimer;
 
         /// <inheritdoc />
         public bool IsPlayerOutOfBounds { get; private set; }
@@ -58,6 +63,15 @@ namespace RealityToolkit.Player.Bounds
         {
             if (IsPlayerOutOfBounds)
             {
+                if (autoResetEnabled)
+                {
+                    autoResetTimer -= Time.deltaTime;
+                    if (autoResetTimer <= 0f)
+                    {
+                        ResetPlayerIntoBounds();
+                    }
+                }
+
                 return;
             }
 
@@ -103,9 +117,16 @@ namespace RealityToolkit.Player.Bounds
                 var severity = Mathf.Clamp01(distance / maxSeverityDistanceThreshold);
                 var direction = (enterPosition - playerRig.Head.Pose.position).normalized;
 
+                var wasAlreadyOutOfBounds = IsPlayerOutOfBounds;
                 IsPlayerOutOfBounds = severity > 0f;
+
                 if (IsPlayerOutOfBounds)
                 {
+                    if (!wasAlreadyOutOfBounds)
+                    {
+                        autoResetTimer = autoResetTimeout;
+                    }
+
                     PlayerOutOfBounds?.Invoke(severity, direction);
                 }
             }
