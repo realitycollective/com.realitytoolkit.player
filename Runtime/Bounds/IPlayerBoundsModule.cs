@@ -27,6 +27,16 @@ namespace RealityToolkit.Player.Bounds
     public interface IPlayerBoundsModule : IPlayerServiceModule
     {
         /// <summary>
+        /// If set, the player will be reset into bounds if out of bounds for a given period of time.
+        /// </summary>
+        bool AutoResetEnabled { get; set; }
+
+        /// <summary>
+        /// Duration in seconds tolerated out of bounds until the player is automatically reset into bounds.
+        /// </summary>
+        float AutoResetTimeout { get; set; }
+
+        /// <summary>
         /// Is the active <see cref="Rigs.IPlayerRig"/> currently considered out of bounds?
         /// </summary>
         bool IsPlayerOutOfBounds { get; }

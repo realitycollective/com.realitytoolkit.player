@@ -22,19 +22,23 @@ namespace RealityToolkit.Player.Bounds
             : base(name, priority, profile, parentService)
         {
             maxSeverityDistanceThreshold = profile.MaxSeverityDistanceThreshold;
-            autoResetEnabled = profile.AutoResetEnabled;
-            autoResetTimeout = profile.AutoResetTimeout;
+            AutoResetEnabled = profile.AutoResetEnabled;
+            AutoResetTimeout = profile.AutoResetTimeout;
         }
 
         private readonly float maxSeverityDistanceThreshold;
-        private readonly bool autoResetEnabled;
-        private readonly float autoResetTimeout;
         private XRPlayerController playerRig;
         private const float returnToBoundsPoseOffset = .5f;
         private const float maxSeverity = 1f;
         private PlayerOutOfBoundsTrigger currentOutOfBoundsTrigger;
         private Vector3 boundsExitPosition;
         private float autoResetTimer;
+
+        /// <inheritdoc />
+        public bool AutoResetEnabled { get; set; }
+
+        /// <inheritdoc />
+        public float AutoResetTimeout { get; set; }
 
         /// <inheritdoc />
         public bool IsPlayerOutOfBounds { get; private set; }
@@ -64,7 +68,7 @@ namespace RealityToolkit.Player.Bounds
         {
             if (IsPlayerOutOfBounds)
             {
-                if (autoResetEnabled)
+                if (AutoResetEnabled)
                 {
                     autoResetTimer -= Time.deltaTime;
                     if (autoResetTimer <= 0f)
@@ -127,7 +131,7 @@ namespace RealityToolkit.Player.Bounds
                 {
                     if (!wasAlreadyOutOfBounds || severity < maxSeverity)
                     {
-                        autoResetTimer = autoResetTimeout;
+                        autoResetTimer = AutoResetTimeout;
                     }
 
                     PlayerOutOfBounds?.Invoke(severity, direction);
