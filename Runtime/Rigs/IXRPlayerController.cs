@@ -13,8 +13,13 @@ namespace RealityToolkit.Player.Rigs
         /// <summary>
         /// Controls when gravity begins to take effect.
         /// </summary>
-        /// <seealso cref="RealityToolkit.PlayerService.GravityMode"/>
+        /// <seealso cref="Rigs.GravityMode"/>
         GravityMode GravityMode { get; set; }
+
+        /// <summary>
+        /// The player's head on the <see cref="IXRPlayerController"/>.
+        /// </summary>
+        IXRPlayerHead Head { get; }
 
         /// <summary>
         /// The character's body transform.

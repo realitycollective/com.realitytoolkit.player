@@ -81,10 +81,10 @@ namespace RealityToolkit.Player
         /// <inheritdoc />
         public override void Initialize()
         {
-            var PlayerServiceModules = ServiceManager.Instance.GetServices<IPlayerRigServiceModule>();
-            Debug.Assert(PlayerServiceModules.Count > 0, $"There must be an active {nameof(IPlayerRigServiceModule)}. Please check your {nameof(PlayerServiceProfile)} configuration.");
-            Debug.Assert(PlayerServiceModules.Count < 2, $"There should only ever be one active {nameof(IPlayerRigServiceModule)}. Please check your {nameof(PlayerServiceProfile)} configuration.");
-            PlayerRigServiceModule = PlayerServiceModules[0];
+            var playerServiceModules = ServiceManager.Instance.GetServices<IPlayerRigServiceModule>();
+            Debug.Assert(playerServiceModules.Count > 0, $"There must be an active {nameof(IPlayerRigServiceModule)}. Please check your {nameof(PlayerServiceProfile)} configuration.");
+            Debug.Assert(playerServiceModules.Count < 2, $"There should only ever be one active {nameof(IPlayerRigServiceModule)}. Please check your {nameof(PlayerServiceProfile)} configuration.");
+            PlayerRigServiceModule = playerServiceModules[0];
 
             EnsurePlayerRigSetup();
         }
