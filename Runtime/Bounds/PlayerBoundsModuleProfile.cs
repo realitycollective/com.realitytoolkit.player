@@ -18,5 +18,21 @@ namespace RealityToolkit.Player.Bounds
         /// The distance the head is allowed to move out of bounds before it is considered severely out of bounds.
         /// </summary>
         public float MaxSeverityDistanceThreshold => maxSeverityDistanceThreshold;
+
+        [SerializeField, Tooltip("If set, the player will be reset into bounds if out of bounds for a given period of time.")]
+        private bool autoResetEnabled = true;
+
+        /// <summary>
+        /// If set, the player will be reset into bounds if out of bounds for a given period of time.
+        /// </summary>
+        public bool AutoResetEnabled => autoResetEnabled;
+
+        [SerializeField, Tooltip("Duration in seconds tolerated out of bounds until the player is automatically reset into bounds.")]
+        private float autoResetTimeout = 5f;
+
+        /// <summary>
+        /// Duration in seconds tolerated out of bounds until the player is automatically reset into bounds.
+        /// </summary>
+        public float AutoResetTimeout => autoResetTimeout;
     }
 }

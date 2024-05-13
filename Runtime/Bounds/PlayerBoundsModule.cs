@@ -6,7 +6,6 @@ using RealityCollective.ServiceFramework.Definitions.Platforms;
 using RealityCollective.ServiceFramework.Modules;
 using RealityCollective.Utilities.Extensions;
 using RealityToolkit.Player.Rigs;
-using System;
 using UnityEngine;
 
 namespace RealityToolkit.Player.Bounds
@@ -41,7 +40,7 @@ namespace RealityToolkit.Player.Bounds
         public event PlayerOutOfBoundsDelegate PlayerOutOfBounds;
 
         /// <inheritdoc />
-        public event Action PlayerBackInBounds;
+        public event PlayerBackInBoundsDelegate PlayerBackInBounds;
 
         /// <inheritdoc />
         public override void Initialize()
@@ -125,7 +124,7 @@ namespace RealityToolkit.Player.Bounds
         private void RaisePlayerBackInBounds()
         {
             IsPlayerOutOfBounds = false;
-            PlayerBackInBounds?.Invoke();
+            PlayerBackInBounds?.Invoke(false);
         }
     }
 }
