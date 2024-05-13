@@ -32,8 +32,8 @@ namespace RealityToolkit.Player.Bounds
         private XRPlayerController playerRig;
         private const float returnToBoundsPoseOffset = .5f;
         private const float maxSeverity = 1f;
-        private PlayerOutOfBoundsTrigger initialTrigger;
-        private Vector3 enterPosition;
+        private PlayerOutOfBoundsTrigger currentOutOfBoundsTrigger;
+        private Vector3 boundsExitPosition;
         private float autoResetTimer;
 
         /// <inheritdoc />
@@ -104,21 +104,21 @@ namespace RealityToolkit.Player.Bounds
         /// <inheritdoc />
         public void OnTriggerEnter(PlayerOutOfBoundsTrigger trigger)
         {
-            if (initialTrigger.IsNull())
+            if (currentOutOfBoundsTrigger.IsNull())
             {
-                initialTrigger = trigger;
-                enterPosition = playerRig.Head.Pose.position;
+                currentOutOfBoundsTrigger = trigger;
+                boundsExitPosition = playerRig.Head.Pose.position;
             }
         }
 
         /// <inheritdoc />
         public void OnTriggerStay(PlayerOutOfBoundsTrigger trigger)
         {
-            if (initialTrigger.IsNotNull())
+            if (currentOutOfBoundsTrigger.IsNotNull())
             {
-                var distance = Vector3.Distance(enterPosition, playerRig.Head.Pose.position);
+                var distance = Vector3.Distance(boundsExitPosition, playerRig.Head.Pose.position);
                 var severity = Mathf.Clamp01(distance / maxSeverityDistanceThreshold);
-                var direction = (enterPosition - playerRig.Head.Pose.position).normalized;
+                var direction = (boundsExitPosition - playerRig.Head.Pose.position).normalized;
 
                 var wasAlreadyOutOfBounds = IsPlayerOutOfBounds;
                 IsPlayerOutOfBounds = severity > 0f;
@@ -138,10 +138,10 @@ namespace RealityToolkit.Player.Bounds
         /// <inheritdoc />
         public void OnTriggerExit(PlayerOutOfBoundsTrigger trigger)
         {
-            if (trigger == initialTrigger)
+            if (trigger == currentOutOfBoundsTrigger)
             {
                 RaisePlayerBackInBounds(false);
-                initialTrigger = null;
+                currentOutOfBoundsTrigger = null;
             }
         }
 
