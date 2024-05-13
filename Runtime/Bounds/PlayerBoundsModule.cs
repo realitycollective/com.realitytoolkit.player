@@ -31,6 +31,7 @@ namespace RealityToolkit.Player.Bounds
         private readonly float autoResetTimeout;
         private XRPlayerController playerRig;
         private const float returnToBoundsPoseOffset = .5f;
+        private const float maxSeverity = 1f;
         private PlayerOutOfBoundsTrigger initialTrigger;
         private Vector3 enterPosition;
         private float autoResetTimer;
@@ -68,7 +69,7 @@ namespace RealityToolkit.Player.Bounds
                     autoResetTimer -= Time.deltaTime;
                     if (autoResetTimer <= 0f)
                     {
-                        ResetPlayerIntoBounds();
+                        ResetPlayerIntoBounds(true);
                     }
                 }
 
@@ -81,7 +82,9 @@ namespace RealityToolkit.Player.Bounds
         }
 
         /// <inheritdoc />
-        public void ResetPlayerIntoBounds()
+        public void ResetPlayerIntoBounds() => RaisePlayerBackInBounds(false);
+
+        private void ResetPlayerIntoBounds(bool didAutoReset)
         {
             if (!IsPlayerOutOfBounds)
             {
@@ -95,7 +98,7 @@ namespace RealityToolkit.Player.Bounds
             position -= returnToBoundsPoseOffset * direction;
 
             playerRig.SetPositionAndRotation(position, Quaternion.identity);
-            RaisePlayerBackInBounds();
+            RaisePlayerBackInBounds(didAutoReset);
         }
 
         /// <inheritdoc />
@@ -122,7 +125,7 @@ namespace RealityToolkit.Player.Bounds
 
                 if (IsPlayerOutOfBounds)
                 {
-                    if (!wasAlreadyOutOfBounds)
+                    if (!wasAlreadyOutOfBounds || severity < maxSeverity)
                     {
                         autoResetTimer = autoResetTimeout;
                     }
@@ -137,15 +140,15 @@ namespace RealityToolkit.Player.Bounds
         {
             if (trigger == initialTrigger)
             {
-                RaisePlayerBackInBounds();
+                RaisePlayerBackInBounds(false);
                 initialTrigger = null;
             }
         }
 
-        private void RaisePlayerBackInBounds()
+        private void RaisePlayerBackInBounds(bool didAutoReset)
         {
             IsPlayerOutOfBounds = false;
-            PlayerBackInBounds?.Invoke(false);
+            PlayerBackInBounds?.Invoke(didAutoReset);
         }
     }
 }
