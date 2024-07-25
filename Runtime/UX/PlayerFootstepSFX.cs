@@ -11,7 +11,7 @@ namespace RealityToolkit.Player.UX
     /// Produces a footstep sound effect when the player rig moves.
     /// Attach to the <see cref="IPlayerRig"/> <see cref="GameObject"/>.
     /// </summary>
-    [HelpURL("https://www.realitytoolkit.io/docs/category/player")]
+    [HelpURL(RealityToolkitRuntimePreferences.Toolkit_Docs_BaseUrl + "docs/category/player")]
     [RequireComponent(typeof(IPlayerRig))]
     public class PlayerFootstepSFX : MonoBehaviour
 #if RTK_LOCOMOTION
