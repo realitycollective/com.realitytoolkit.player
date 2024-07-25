@@ -10,7 +10,7 @@ namespace RealityToolkit.Player.UX
     /// <summary>
     /// A simple utility component that will raise events as the player enters, leaves or stays within a trigger zone.
     /// </summary>
-    [HelpURL("https://www.realitytoolkit.io/docs/category/player")]
+    [HelpURL(RealityToolkitRuntimePreferences.Toolkit_Docs_BaseUrl + "docs/category/player")]
     [RequireComponent(typeof(Collider))]
     public class PlayerTrigger : MonoBehaviour
     {

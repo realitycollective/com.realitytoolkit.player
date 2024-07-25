@@ -3,6 +3,7 @@
 
 using RealityCollective.ServiceFramework.Services;
 using RealityCollective.Utilities.Extensions;
+using RealityToolkit.Input.Interfaces;
 using UnityEngine;
 
 namespace RealityToolkit.Player.Rigs
@@ -13,7 +14,7 @@ namespace RealityToolkit.Player.Rigs
     [SelectionBase]
     [DisallowMultipleComponent]
     [System.Runtime.InteropServices.Guid("8E0EE4FC-C8A5-4B10-9FCA-EE55B6D421FF")]
-    public class PlayerRig : MonoBehaviour, IPlayerRig
+    public class PlayerRig : MonoBehaviour, IPlayerRig, IInputRig
     {
         [SerializeField, Tooltip("The camera component on the rig.")]
         private Camera rigCamera = null;
@@ -42,6 +43,11 @@ namespace RealityToolkit.Player.Rigs
                 profile.IsRigPersistent)
             {
                 RigTransform.gameObject.DontDestroyOnLoad();
+            }
+
+            if (ServiceManager.Instance.TryGetService<IInputService>(out var inputService))
+            {
+                inputService.InputRig = this;
             }
         }
 
