@@ -2,8 +2,8 @@
   "name": "com.realitytoolkit.player",
   "displayName": "RealityToolkit.Player",
   "description": "The Player service module of the Reality Toolkit by the Reality Collective. Use this module to set up a Player rig for XR apps and games in no time.",
-  "version": "1.0.4",
-  "documentationUrl": "https://realitytoolkit.io",
+  "version": "1.0.5-pre.10",
+  "documentationUrl": "https://realitytoolkit.realitycollective.net/",
   "changelogUrl": "https://github.com/realitycollective/com.realitytoolkit.player/releases",
   "licensesUrl": "https://github.com/realitycollective/com.realitytoolkit.player/blob/main/LICENSE.md",
   "keywords": [
@@ -28,7 +28,7 @@
     "url": "https://github.com/realitycollective"
   },
   "dependencies": {
-    "com.realitytoolkit.core": "1.0.0-pre.48",
+    "com.realitytoolkit.core": "1.0.0-pre.72",
     "com.unity.xr.legacyinputhelpers": "2.1.7"
   },
   "assets": [

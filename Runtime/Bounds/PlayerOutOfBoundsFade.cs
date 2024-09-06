@@ -45,7 +45,7 @@ namespace RealityToolkit.Player.Bounds
             cameraFade.SetFade(severity);
         }
 
-        private void PlayerService_PlayerBackInBounds()
+        private void PlayerService_PlayerBackInBounds(bool didAutoReset)
         {
             cameraFade.SetFade(0f);
         }
