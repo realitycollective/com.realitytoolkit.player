@@ -11,7 +11,7 @@ The player module contains services, utilities and prefabs around the user/playe
 
 ## Installation
 
-Make sure to always use the same source for all toolkit modules. Avoid using different installation sources within the same project. We provide the following ways to install Reality Toolkit modules:
+Make sure to always use the same source for all toolkit modules and avoid using different installation sources within the same project. We provide the following ways to install Reality Toolkit modules:
 
 ### Method 1: OpenUPM CLI
 
