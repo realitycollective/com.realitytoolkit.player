@@ -28,7 +28,7 @@
     "url": "https://github.com/realitycollective"
   },
   "dependencies": {
-    "com.realitytoolkit.core": "1.0.0-pre.70",
+    "com.realitytoolkit.core": "1.0.0-pre.72",
     "com.unity.xr.legacyinputhelpers": "2.1.7"
   },
   "assets": [
