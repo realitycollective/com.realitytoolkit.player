@@ -21,7 +21,7 @@ namespace RealityToolkit.Player.UX
         private float _fullFadeDuration = 1f;
 
         [SerializeField, Tooltip("The material used to fade. This must be a transparency enabled material.")]
-        private Material _fadeMaterial;
+        private Material _fadeMaterial = null;
 
         [SerializeField, Tooltip("If set, the camera will fade in on start.")]
         private bool _fadeOnStart = true;
@@ -30,18 +30,21 @@ namespace RealityToolkit.Player.UX
         private GameObject _fadeCube;
         private bool _isFading;
         private Coroutine _fadeCoroutine;
+        private int _fadePropertyId;
 
         /// <summary>
         /// See <see cref="MonoBehaviour"/>.
         /// </summary>
         private void Start()
         {
+            _fadePropertyId = Shader.PropertyToID("_Alpha");
             _fadeCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
             _fadeCube.EnsureComponentDestroyed<BoxCollider>();
             _fadeCube.transform.SetParent(transform, false);
 
             _fadeRenderer = _fadeCube.GetComponent<MeshRenderer>();
             _fadeRenderer.material = _fadeMaterial;
+            _fadeRenderer.material.color = _fadeColor;
             _fadeRenderer.receiveShadows = false;
             _fadeRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             _fadeRenderer.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.Off;
@@ -79,8 +82,13 @@ namespace RealityToolkit.Player.UX
         /// </summary>
         public async Task FadeInAsync()
         {
-            var color = _fadeRenderer.material.color;
-            var startAlpha = color.a;
+            if (_fadeCoroutine != null)
+            {
+                StopCoroutine(_fadeCoroutine);
+                _fadeCoroutine = null;
+            }
+
+            var startAlpha = _fadeRenderer.material.GetFloat(_fadePropertyId);
             var duration = Mathf.Abs(startAlpha) * _fullFadeDuration;
 
             _fadeCoroutine = StartCoroutine(Fade(startAlpha, 0f, duration));
@@ -96,8 +104,13 @@ namespace RealityToolkit.Player.UX
         /// </summary>
         public async Task FadeOutAsync()
         {
-            var color = _fadeRenderer.material.color;
-            var startAlpha = color.a;
+            if (_fadeCoroutine != null)
+            {
+                StopCoroutine(_fadeCoroutine);
+                _fadeCoroutine = null;
+            }
+
+            var startAlpha = _fadeRenderer.material.GetFloat(_fadePropertyId);
             var duration = Mathf.Abs(startAlpha - 1f) * _fullFadeDuration;
 
             _fadeCoroutine = StartCoroutine(Fade(startAlpha, 1f, duration));
@@ -115,14 +128,11 @@ namespace RealityToolkit.Player.UX
         public void SetFade(float alpha)
         {
             alpha = Mathf.Clamp01(alpha);
-
-            var color = _fadeColor;
-            color.a = alpha;
-            _isFading = color.a > 0;
+            _isFading = alpha > 0;
 
             var material = _fadeRenderer.material;
-            material.color = color;
-            _fadeRenderer.material = material;
+            material.SetFloat(_fadePropertyId, alpha);
+
             _fadeRenderer.enabled = _isFading;
         }
 
@@ -138,6 +148,7 @@ namespace RealityToolkit.Player.UX
             }
 
             SetFade(endAlpha);
+            _fadeCoroutine = null;
         }
     }
 }
