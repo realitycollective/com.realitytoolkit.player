@@ -3,85 +3,109 @@
 
 using RealityCollective.Utilities.Extensions;
 using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace RealityToolkit.Player.UX
 {
     /// <summary>
-    /// Fades the camera from and to <see cref="fadeColor"/>.
+    /// Fades the camera from and to <see cref="_fadeColor"/>.
     /// </summary>
     [RequireComponent(typeof(Camera))]
     public class CameraFade : MonoBehaviour
     {
         [SerializeField, Tooltip("The color to fade from and to.")]
-        private Color fadeColor = Color.black;
+        private Color _fadeColor = Color.black;
 
         [SerializeField, Tooltip("Duration in seconds to fully fade in / out.")]
-        private float fullFadeDuration = 1f;
+        private float _fullFadeDuration = 1f;
 
         [SerializeField, Tooltip("The material used to fade. This must be a transparency enabled material.")]
-        private Material fadeMaterial;
+        private Material _fadeMaterial;
 
         [SerializeField, Tooltip("If set, the camera will fade in on start.")]
-        private bool fadeOnStart = true;
+        private bool _fadeOnStart = true;
 
-        private MeshRenderer fadeRenderer;
-        private MeshFilter fadeMesh;
-        private bool isFading;
+        private MeshRenderer _fadeRenderer;
+        private GameObject _fadeCube;
+        private bool _isFading;
+        private Coroutine _fadeCoroutine;
 
+        /// <summary>
+        /// See <see cref="MonoBehaviour"/>.
+        /// </summary>
         private void Start()
         {
-            fadeMesh = gameObject.AddComponent<MeshFilter>();
-            fadeMesh.mesh = CreateMesh();
+            _fadeCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            _fadeCube.EnsureComponentDestroyed<BoxCollider>();
+            _fadeCube.transform.SetParent(transform, false);
 
-            fadeRenderer = gameObject.AddComponent<MeshRenderer>();
-            fadeRenderer.material = fadeMaterial;
-            fadeRenderer.receiveShadows = false;
-            fadeRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-            fadeRenderer.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.Off;
-            fadeRenderer.reflectionProbeUsage = UnityEngine.Rendering.ReflectionProbeUsage.Off;
+            _fadeRenderer = _fadeCube.GetComponent<MeshRenderer>();
+            _fadeRenderer.material = _fadeMaterial;
+            _fadeRenderer.receiveShadows = false;
+            _fadeRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            _fadeRenderer.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.Off;
+            _fadeRenderer.reflectionProbeUsage = UnityEngine.Rendering.ReflectionProbeUsage.Off;
 
-            if (fadeOnStart)
+            if (_fadeOnStart)
             {
-                FadeIn();
+                SetFade(1f);
+                _ = FadeInAsync();
+                return;
             }
+
+            SetFade(0f);
         }
 
+        /// <summary>
+        /// See <see cref="MonoBehaviour"/>.
+        /// </summary>
         private void OnDestroy()
         {
-            if (fadeRenderer.IsNotNull())
+            if (_fadeCoroutine != null)
             {
-                fadeRenderer.Destroy();
+                StopCoroutine(_fadeCoroutine);
+                _fadeCoroutine = null;
             }
 
-            if (fadeMesh.IsNotNull())
+            if (_fadeCube.IsNotNull())
             {
-                fadeMesh.Destroy();
+                _fadeCube.Destroy();
             }
         }
 
         /// <summary>
         /// Manually fades in the camera.
         /// </summary>
-        public void FadeIn()
+        public async Task FadeInAsync()
         {
-            var color = fadeRenderer.material.color;
+            var color = _fadeRenderer.material.color;
             var startAlpha = color.a;
-            var duration = Mathf.Abs(startAlpha) * fullFadeDuration;
+            var duration = Mathf.Abs(startAlpha) * _fullFadeDuration;
 
-            StartCoroutine(Fade(startAlpha, 0f, duration));
+            _fadeCoroutine = StartCoroutine(Fade(startAlpha, 0f, duration));
+
+            while (_fadeCoroutine != null)
+            {
+                await Task.Yield();
+            }
         }
 
         /// <summary>
         /// Manually fades out the camera.
         /// </summary>
-        public void FadeOut()
+        public async Task FadeOutAsync()
         {
-            var color = fadeRenderer.material.color;
+            var color = _fadeRenderer.material.color;
             var startAlpha = color.a;
-            var duration = Mathf.Abs(startAlpha - 1f) * fullFadeDuration;
+            var duration = Mathf.Abs(startAlpha - 1f) * _fullFadeDuration;
 
-            StartCoroutine(Fade(startAlpha, 1f, duration));
+            _fadeCoroutine = StartCoroutine(Fade(startAlpha, 1f, duration));
+
+            while (_fadeCoroutine != null)
+            {
+                await Task.Yield();
+            }
         }
 
         /// <summary>
@@ -92,64 +116,14 @@ namespace RealityToolkit.Player.UX
         {
             alpha = Mathf.Clamp01(alpha);
 
-            var color = fadeColor;
+            var color = _fadeColor;
             color.a = alpha;
-            isFading = color.a > 0;
+            _isFading = color.a > 0;
 
-            var material = fadeRenderer.material;
+            var material = _fadeRenderer.material;
             material.color = color;
-            fadeRenderer.material = material;
-            fadeRenderer.enabled = isFading;
-        }
-
-        private Mesh CreateMesh()
-        {
-            var mesh = new Mesh();
-
-            Vector3[] vertices = new Vector3[4];
-
-            float width = 2f;
-            float height = 2f;
-            float depth = 1f;
-
-            vertices[0] = new Vector3(-width, -height, depth);
-            vertices[1] = new Vector3(width, -height, depth);
-            vertices[2] = new Vector3(-width, height, depth);
-            vertices[3] = new Vector3(width, height, depth);
-
-            mesh.vertices = vertices;
-
-            int[] tri = new int[6];
-
-            tri[0] = 0;
-            tri[1] = 2;
-            tri[2] = 1;
-
-            tri[3] = 2;
-            tri[4] = 3;
-            tri[5] = 1;
-
-            mesh.triangles = tri;
-
-            Vector3[] normals = new Vector3[4];
-
-            normals[0] = -Vector3.forward;
-            normals[1] = -Vector3.forward;
-            normals[2] = -Vector3.forward;
-            normals[3] = -Vector3.forward;
-
-            mesh.normals = normals;
-
-            Vector2[] uv = new Vector2[4];
-
-            uv[0] = new Vector2(0, 0);
-            uv[1] = new Vector2(1, 0);
-            uv[2] = new Vector2(0, 1);
-            uv[3] = new Vector2(1, 1);
-
-            mesh.uv = uv;
-
-            return mesh;
+            _fadeRenderer.material = material;
+            _fadeRenderer.enabled = _isFading;
         }
 
         private IEnumerator Fade(float startAlpha, float endAlpha, float duration)
