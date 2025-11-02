@@ -18,9 +18,9 @@ namespace RealityToolkit.Player.UX
         private Color _fadeColor = Color.black;
 
         [SerializeField, Tooltip("Duration in seconds to fully fade in / out.")]
-        private float _fullFadeDuration = 1f;
+        private float _fadeDuration = 1f;
 
-        [SerializeField, Tooltip("The material used to fade. This must be a transparency enabled material.")]
+        [SerializeField, Tooltip("The material used to fade. The material must be using the specialized camera fade shader.")]
         private Material _fadeMaterial = null;
 
         [SerializeField, Tooltip("If set, the camera will fade in on start.")]
@@ -31,6 +31,56 @@ namespace RealityToolkit.Player.UX
         private bool _isFading;
         private Coroutine _fadeCoroutine;
         private int _fadePropertyId;
+
+        /// <summary>
+        /// The color to fade from and to.
+        /// </summary>
+        public Color FadeColor
+        {
+            get => _fadeColor;
+            set
+            {
+                _fadeColor = value;
+                if (_fadeRenderer.IsNotNull())
+                {
+                    _fadeRenderer.material.color = _fadeColor;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Duration in seconds to fully fade in / out.
+        /// </summary>
+        /// <remarks>
+        /// Depending on the current fade state, the resulting fade duration will be adjusted.
+        /// So if the camera is halfway faded out and a fade in is requested, the duration will be half of this value.
+        /// Changing this value while a fade is in progress will not affect the current fade operation.
+        /// </remarks>
+        public float FadeDuration
+        {
+            get => _fadeDuration;
+            set => _fadeDuration = value;
+        }
+
+        /// <summary>
+        /// The material used to fade.
+        /// </summary>
+        /// <remarks>
+        /// The material must be using the specialized camera fade shader.
+        /// </remarks>
+        public Material FadeMaterial
+        {
+            get => _fadeMaterial;
+            set
+            {
+                _fadeMaterial = value;
+                if (_fadeRenderer.IsNotNull())
+                {
+                    _fadeRenderer.material = _fadeMaterial;
+                    _fadeRenderer.material.color = _fadeColor;
+                }
+            }
+        }
 
         /// <summary>
         /// See <see cref="MonoBehaviour"/>.
@@ -89,7 +139,7 @@ namespace RealityToolkit.Player.UX
             }
 
             var startAlpha = _fadeRenderer.material.GetFloat(_fadePropertyId);
-            var duration = Mathf.Abs(startAlpha) * _fullFadeDuration;
+            var duration = Mathf.Abs(startAlpha) * _fadeDuration;
 
             _fadeCoroutine = StartCoroutine(Fade(startAlpha, 0f, duration));
 
@@ -111,7 +161,7 @@ namespace RealityToolkit.Player.UX
             }
 
             var startAlpha = _fadeRenderer.material.GetFloat(_fadePropertyId);
-            var duration = Mathf.Abs(startAlpha - 1f) * _fullFadeDuration;
+            var duration = Mathf.Abs(startAlpha - 1f) * _fadeDuration;
 
             _fadeCoroutine = StartCoroutine(Fade(startAlpha, 1f, duration));
 
