@@ -89,6 +89,7 @@ namespace RealityToolkit.Player.UX
         {
             _fadePropertyId = Shader.PropertyToID("_Alpha");
             _fadeCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            _fadeCube.name = nameof(CameraFade);
             _fadeCube.EnsureComponentDestroyed<BoxCollider>();
             _fadeCube.transform.SetParent(transform, false);
 
